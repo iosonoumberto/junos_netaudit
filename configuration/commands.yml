@@ -6,6 +6,10 @@
   display_name: "show ospf neighbor"
   supp_plat: ["pe", "cgn", "opm", "sh"]
   2re: all
+- name: "ospf_iface"
+  display_name: "show ospf interface"
+  supp_plat: ["pe", "cgn", "opm", "sh"]
+  2re: all
 - name: "ldp_sess"
   display_name: "show ldp session"
   supp_plat: ["pe", "cgn", "opm"]

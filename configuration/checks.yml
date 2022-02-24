@@ -14,3 +14,8 @@
   test: "threshold"
   fail: "high"
   tfield: "mem"
+- desc: "OSPF interfaces have at least one neighbor"
+  cmd: "ospf_iface"
+  test: "threshold"
+  fail: "low"
+  tfield: "ncount"

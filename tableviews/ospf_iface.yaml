@@ -1,0 +1,12 @@
+ospf_iface:
+ rpc: get-ospf-neighbor-information
+ args:
+   interface-name: "[ge|xe]*"
+ item: ospf-interface
+ key: interface-name
+ view: OspfIfaceView
+
+OspfIfaceView:
+ fields:
+  iface: interface-name
+  ncount: neighbor-count

@@ -42,13 +42,20 @@ def threshold(scan, check):
     models = yaml.load(fs, Loader=yaml.FullLoader)
     fs.close()
 
+    fs=open('configuration/global_thresholds.yml','r')
+    gthresholds = yaml.load(fs, Loader=yaml.FullLoader)
+    fs.close()
+
     failed=[]
     failed_detail={}
     results = os.listdir(scan)
     for result in results:
         fr=open(scan+"/"+result,'r')
         res_dict=json.load(fr)
-        threshold=models[res_dict['model']][check['tfield']+'_thr']
+        if str(check['tfield']+'_thr') in models[res_dict['model']]:
+            threshold=models[res_dict['model']][check['tfield']+'_thr']
+        else:
+            threshold=gthresholds[check['tfield']]
         flag=1
         for tested in res_dict[check['cmd']]:
             if check['fail']=="lower":

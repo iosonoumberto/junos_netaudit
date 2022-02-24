@@ -3,7 +3,7 @@ ospf_neigh:
  item: ospf-neighbor
  key: neighbor-address
  view: OspfIfaceView
- 
+
 OspfIfaceView:
  fields:
   addr: neighbor-address
