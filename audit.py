@@ -9,6 +9,7 @@ import argparse
 import sys
 import yaml
 import json
+import os
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-r", "--role", action="store", type=str, default='all',help="device role")
@@ -35,6 +36,16 @@ fs=open('configuration/models.yml','r')
 models = yaml.load(fs, Loader=yaml.FullLoader)
 fs.close()
 
+fs=open('configuration/historic.yml','r')
+historic = yaml.load(fs, Loader=yaml.FullLoader)
+fs.close()
+
+if historic is None:
+    historic={}
+
+foldername= args.role + "_" + time.ctime().replace(' ','_').replace(':','_')
+os.mkdir(foldername)
+
 for router in devices:
     res_dict={}
     zzz_cand=max(int(models[router['model']]['zzz']), int(roles[router['role']]['zzz']))
@@ -55,7 +66,12 @@ for router in devices:
             time.sleep(router['zzz'])
         dev.close()
         json_out = json.dumps(res_dict, indent = 4)
-        fout_name=router['name']+"_"+time.ctime().replace(' ','_')+".json"
-        fo=open(fout_name,'w')
+        fout_name=router['name']+"_"+time.ctime().replace(' ','_').replace(':','_')+".json"
+        fo=open(foldername+"/"+fout_name,'w')
         fo.write(json_out)
         fo.close()
+        if router['name'] not in historic:
+            historic[router['name']]=[]
+            historic[router['name']].append(foldername+"/"+fout_name)
+        else:
+            historic[router['name']].append(foldername+"/"+fout_name)
