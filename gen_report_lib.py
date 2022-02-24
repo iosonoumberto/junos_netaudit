@@ -4,7 +4,7 @@ import json
 def string_equal(scan, check):
     failed=[]
     failed_detail={}
-    results = os.listdir(args.scan)
+    results = os.listdir(scan)
     print(results)
     for result in results:
         fr=open(scan+"/"+result,'r')
