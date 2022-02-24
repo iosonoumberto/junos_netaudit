@@ -19,3 +19,4 @@ fs.close()
 
 for check in checks:
     text = eval('gen_report_lib.'+check['test']+'(args.scan, check)')
+    print(text)
