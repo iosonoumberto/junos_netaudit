@@ -1,0 +1,12 @@
+re_1re:
+ rpc: get-route-engine-information
+ item: route-engine
+ key: status
+ view: RoutingEngineView
+ 
+RoutingEngineView:
+ fields:
+  status : status
+  model : model
+  sn : serial-number
+  mem: memory-buffer-utilization

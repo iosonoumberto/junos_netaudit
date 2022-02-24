@@ -1,0 +1,10 @@
+ldp_sess:
+ rpc: get-ldp-session-information
+ item: ldp-session
+ key: ldp-neighbor-address
+ view: LdpSessionView
+ 
+LdpSessionView:
+ fields:
+  addr: ldp-neighbor-address
+  state: ldp-session-state

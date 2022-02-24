@@ -1,0 +1,8 @@
+- name: SHMX10K8
+  ip: 172.30.178.235
+  role: sh
+  model: mx10008
+- name: PE20483
+  ip: 172.30.180.100
+  role: pe
+  model: mx204

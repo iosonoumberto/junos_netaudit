@@ -1,0 +1,24 @@
+- name: "chassis_inv"
+  display_name: "show chassis hardware"
+  supp_plat: ["pe", "bng", "cgn", "opm", "sh"]
+  2re: all
+- name: "ospf_neigh"
+  display_name: "show ospf neighbor"
+  supp_plat: ["pe", "cgn", "opm", "sh"]
+  2re: all
+- name: "ldp_sess"
+  display_name: "show ldp session"
+  supp_plat: ["pe", "cgn", "opm"]
+  2re: all
+- name: "mpls_iface"
+  display_name: "show mpls interface"
+  supp_plat: ["sh", "cgn", "opm"]
+  2re: all
+- name: "re_2re"
+  display_name: "show chassis routing-engine (2RE)"
+  supp_plat: ["sh", "cgn", "opm", "pe"]
+  2re: True
+- name: "re_1re"
+  display_name: "show chassis routing-engine (1RE)"
+  supp_plat: ["sh", "cgn", "opm", "pe"]
+  2re: False

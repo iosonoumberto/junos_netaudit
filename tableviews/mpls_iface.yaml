@@ -1,0 +1,10 @@
+mpls_iface:
+ rpc: get-mpls-interface-information
+ item: mpls-interface
+ key: interface-name
+ view: MplsIfaceView
+ 
+MplsIfaceView:
+ fields:
+  name: interface-name
+  state: mpls-interface-state
