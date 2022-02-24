@@ -4,3 +4,8 @@
   test: "string_equal"
   val: "Full"
   tfield: "state"
+- desc : "MPLS interfaces not UP"
+  cmd: "mpls_iface"
+  test: "string_equal"
+  val: "Up"
+  tfield: "state"
