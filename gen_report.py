@@ -18,4 +18,4 @@ checks = yaml.load(fs, Loader=yaml.FullLoader)
 fs.close()
 
 for check in checks:
-    text = eval('gen_report_lib'+check['test']+'(args.scan, check)')
+    text = eval('gen_report_lib.'+check['test']+'(args.scan, check)')
