@@ -11,7 +11,7 @@ def string_equal(scan, check):
         res_dict=json.load(fr)
         flag=1
         for tested in res_dict[check['cmd']]:
-            if res_dict[check['cmd']][tested][check['kfield']]!=check['val']:
+            if res_dict[check['cmd']][tested][check['tfield']]!=check['val']:
                 if flag:
                     failed.append(res_dict['hostname'])
                     failed_detail[res_dict['hostname']]=[]
