@@ -1,8 +1,12 @@
-- name: SHMX10K8
-  ip: 172.30.178.235
-  role: sh
+- name: MX1_TORINO
+  ip: 10.49.113.80
+  role: opm
   model: mx10008
-- name: PE20483
-  ip: 172.30.180.100
-  role: pe
+- name: MX2_MILANO
+  ip: 10.49.119.173
+  role: opm
   model: mx204
+- name: MX3_GENOVA
+  ip: 10.49.119.240
+  role: opm
+  model: mx960
