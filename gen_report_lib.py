@@ -12,7 +12,9 @@ def print_failures(desc, failed, failed_detail):
         text+="\n"
         text+="Details:\n"
         for e in failed_detail:
+            print(e)
             for k in failed_detail[e]:
+                print(k)
                 text+="\t" + k + " - " + failed_detail[e][k] + "\n"
             text+="----\n"
     text+="\n"
