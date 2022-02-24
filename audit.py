@@ -46,6 +46,7 @@ for router in devices:
         print("DEVICE: " + router['name'])
         dev = Device(host=router['ip'], user=settings['username'], password=settings['password'])
         dev.open()
+        res_dict['release']=dev.facts['junos_info']['re0']['text']
         router['2re']=dev.facts['2RE']
         for command in commands:
             if router['role'] in command['supp_plat'] and (command['2re']=='all' or router['2re']==command['2re']):
