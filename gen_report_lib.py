@@ -6,9 +6,7 @@ def print_failures(desc, failed, failed_detail):
     if len(failed)==0:
         text+="Nothing failed\n"
     else:
-        text+="The following items failed :\n"
-        for e in failed:
-            text+="\t" + e + "\n"
+        text+="The following items failed : " + str(failed) + "\n"
         text+="\n"
         text+="Details:\n"
         for e in failed_detail:
