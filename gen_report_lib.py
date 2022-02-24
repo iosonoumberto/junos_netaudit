@@ -43,7 +43,7 @@ def threshold(scan, check):
     fs.close()
 
     failed=[]
-    failed_detail=[]
+    failed_detail={}
     results = os.listdir(scan)
     for result in results:
         fr=open(scan+"/"+result,'r')
