@@ -102,6 +102,6 @@ for router in devices:
         else:
             historic[router['name']].append(foldername+"/"+fout_name)
 
-  #print historic file
-  hf=open('configuration/historic.yml',"w")
-  yaml.dump(historic, hf)
+#print historic file
+hf=open('configuration/historic.yml','w')
+yaml.dump(historic, hf)
