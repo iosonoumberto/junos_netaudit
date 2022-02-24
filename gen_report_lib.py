@@ -60,6 +60,6 @@ def threshold(scan, check):
                     failed.append(res_dict['hostname'])
                     failed_detail[res_dict['hostname'] + ' thr: ' + str(threshold)]=[]
                     flag=0
-                failed_detail[res_dict['hostname']].append(res_dict[check['cmd']][tested])
+                failed_detail[res_dict['hostname'] + ' thr: ' + str(threshold)].append(res_dict[check['cmd']][tested])
     text=print_failures(check['desc'], failed, failed_detail)
     return text
