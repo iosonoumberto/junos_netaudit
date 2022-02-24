@@ -10,6 +10,9 @@ import sys
 import yaml
 import json
 
+#function to execute an arbitrary command
+#tableview definition file must be named consistently with commands configuration file
+#inside tableview definition file, object must have the same name as the filename
 def exec_command (cmd, dev, res_dict):
     ftv = open('tableviews/'+cmd+'.yaml', 'r')
     yml = ftv.read()
