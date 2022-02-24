@@ -9,3 +9,8 @@
   test: "string_equal"
   val: "Up"
   tfield: "state"
+- desc: "Routing Engine memory buffer below threshold"
+  cmd: "re_1re"
+  test: "threshold"
+  fail: "high"
+  tfield: "mem"

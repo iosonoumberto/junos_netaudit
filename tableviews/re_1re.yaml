@@ -1,9 +1,9 @@
 re_1re:
  rpc: get-route-engine-information
  item: route-engine
- key: status
+ key: slot
  view: RoutingEngineView
- 
+
 RoutingEngineView:
  fields:
   status : status
