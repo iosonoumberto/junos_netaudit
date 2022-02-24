@@ -11,6 +11,7 @@ def print_failures(desc, failed, failed_detail):
             text+="\t" + e + "\n"
         text+="\n"
         text+="Details:\n"
+        print(failed_detail)
         for e in failed_detail:
             print(e)
             for k in failed_detail[e]:
@@ -24,7 +25,6 @@ def string_equal(scan, check):
     failed=[]
     failed_detail={}
     results = os.listdir(scan)
-    print(results)
     for result in results:
         fr=open(scan+"/"+result,'r')
         res_dict=json.load(fr)
