@@ -48,7 +48,7 @@ def threshold(scan, check):
     for result in results:
         fr=open(scan+"/"+result,'r')
         res_dict=json.load(fr)
-        threshold=models[res_dict['model'][check['tfield']+'_thr']]
+        threshold=models[res_dict['model']][check['tfield']+'_thr']
         flag=1
         for tested in res_dict[check['cmd']]:
             if check['fail']=="lower":
