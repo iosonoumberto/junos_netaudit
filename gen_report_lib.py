@@ -1,7 +1,7 @@
 import os
 import json
 
-def print_failures(desc, failed, failed_details):
+def print_failures(desc, failed, failed_detail):
     text="TEST REPORT RESULT FOR " + desc + "\n\n"
     if len(failed)==0:
         text+="Nothing failed\n"
