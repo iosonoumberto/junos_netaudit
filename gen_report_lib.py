@@ -57,7 +57,7 @@ def threshold(scan, check):
                 good = int(res_dict[check['cmd']][tested][check['tfield']])>=threshold
             if not good:
                 if flag:
-                    failed.append(res_dict['hostname'])
+                    failed.append(res_dict['hostname']+ ' thr: '+ threshold)
                     failed_detail[res_dict['hostname']]=[]
                     flag=0
                 failed_detail[res_dict['hostname']].append(res_dict[check['cmd']][tested])
