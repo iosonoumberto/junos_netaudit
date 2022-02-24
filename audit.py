@@ -71,8 +71,9 @@ for router in devices:
         dev = Device(host=router['ip'], user=settings['username'], password=settings['password'])
         dev.open()
 
-        #save release data
+        #save release and hostname
         res_dict['release']=dev.facts['junos_info']['re0']['text']
+        res_dict['hostname']=dev.facts['hostname']
 
         #find out whther device is single or dual re
         router['2re']=dev.facts['2RE']

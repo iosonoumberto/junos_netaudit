@@ -1,0 +1,6 @@
+---
+- desc : "OSPF states not Full"
+  cmd: "ospf_neigh"
+  test: "string_equal"
+  val: "Full"
+  tfield: "state"
