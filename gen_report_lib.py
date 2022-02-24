@@ -1,7 +1,7 @@
 import os
 import json
 
-def string_equal(scan, results, check):
+def string_equal(scan, check):
     failed=[]
     failed_detail={}
     results = os.listdir(args.scan)
