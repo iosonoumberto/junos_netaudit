@@ -1,5 +1,5 @@
 ospf_iface:
- rpc: get-ospf-neighbor-information
+ rpc: get-ospf-interface-information
  args:
    interface-name: "[ge|xe]*"
  item: ospf-interface
