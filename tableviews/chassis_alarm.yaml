@@ -1,0 +1,10 @@
+chassis_alarm:
+ rpc: get-alarm-information
+ item: alarm-detail
+ key: alarm-short-description
+ view: ChAlView
+
+ChAlView:
+ fields:
+  desc: alarm-description
+  class: alarm-class

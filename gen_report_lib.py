@@ -157,3 +157,17 @@ def basic_stats(scan, check):
     stats["avg"]=tot/totdev
     text=print_basic_stats(check['desc'],check['unit'], stats)
     return text
+
+def empty(scan, check):
+    results = os.listdir(scan)
+    failed=[]
+    failed_detail={}
+    for result in results:
+        fr=open(scan+"/"+result,'r')
+        res_dict=json.load(fr)
+        fr.close()
+        if len(res_dict[check['cmd']])!=0:
+            failed.append(res_dict['hostname'])
+            failed_detail[res_dict['hostname']]=[]
+            failed_detail[res_dict['hostname']].append(res_dict[check['cmd']])
+    print_failures(check['desc'], failed, failed_detail)
