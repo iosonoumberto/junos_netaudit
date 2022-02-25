@@ -34,3 +34,8 @@
 - desc: "Chassis alarms existence"
   cmd: "chassis_alarm"
   test: "empty"
+- desc: "Storage filesystem free space"
+  cmd: "system_storage"
+  test: "threshold"
+  fail: "lower"
+  tfield: "usedperc"

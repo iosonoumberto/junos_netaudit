@@ -75,6 +75,8 @@ def threshold(scan, check):
     gthresholds = yaml.load(fs, Loader=yaml.FullLoader)
     fs.close()
 
+    if "interest" not in check:
+        check['interest']=[]
     failed=[]
     failed_detail={}
     results = os.listdir(scan)
@@ -88,6 +90,8 @@ def threshold(scan, check):
             threshold=gthresholds[check['tfield']]
         flag=1
         for tested in res_dict[check['cmd']]:
+            if (tested in check['interest']) or (len(check['interest'])==0):
+                continue
             if check['fail']=="lower":
                 good = int(res_dict[check['cmd']][tested][check['tfield']])>=threshold
             else:
