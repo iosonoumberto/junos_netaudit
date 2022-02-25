@@ -147,6 +147,8 @@ def basic_stats(scan, check):
     sorted_reverse_stats = sorted(vals.items(), key=operator.itemgetter(1), reverse=True)
     print(sorted_stats)
     print(sorted_reverse_stats)
+    stats["maxv"]={}
+    stats["minv"]={}
     stats["maxv"]["val"]=sorted_reverse_stats[0][1]
     stats["maxv"]["host"]=sorted_reverse_stats[0][0]
     stats["minv"]["val"]=sorted_stats[0][1]
