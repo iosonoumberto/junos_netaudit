@@ -24,7 +24,7 @@ def print_distribution(desc, dfield, distr):
     text+="distribution based on field : " + dfield + "\n"
     for dev in distr:
         tot=0
-        text+="  " + e + "\n"
+        text+="  " + dev + "\n"
         for x in distr[dev]:
             tot+=distr[dev][x]
         for e in distr[dev]:
