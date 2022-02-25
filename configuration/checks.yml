@@ -27,7 +27,7 @@
   cmd: "bfd_session"
   test: "total"
 - desc: "Basic stats for Active system memory"
-  cmd: "system_meory"
+  cmd: "system_memory"
   test: "basic_stats"
   sfield: "act"
   unit: "%"
