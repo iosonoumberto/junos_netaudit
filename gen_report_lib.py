@@ -141,7 +141,7 @@ def basic_stats(scan, check):
         fr=open(scan+"/"+result,'r')
         res_dict=json.load(fr)
         fr.close()
-        vals[res_dict['hostname']]=float(res_dict[check['cmd']][list(res_dict[check[]'cmd']].keys())[0]][check['sfield']].strip("%"))
+        vals[res_dict['hostname']]=float(res_dict[check['cmd']][list(res_dict[check['cmd']].keys())[0]][check['sfield']].strip("%"))
     sorted_stats = sorted(vals.items(), key=operator.itemgetter(1))
     sorted_reverse_stats = sorted(vals.items(), key=operator.itemgetter(1), reverse=True)
     stats["maxv"]["val"]=sorted_reverse_stats[list(sorted_reverse_stats.keys())[0]]
