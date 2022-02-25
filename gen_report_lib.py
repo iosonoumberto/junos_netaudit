@@ -170,4 +170,5 @@ def empty(scan, check):
             failed.append(res_dict['hostname'])
             failed_detail[res_dict['hostname']]=[]
             failed_detail[res_dict['hostname']].append(res_dict[check['cmd']])
-    print_failures(check['desc'], failed, failed_detail)
+    text=print_failures(check['desc'], failed, failed_detail)
+    return text
