@@ -99,5 +99,5 @@ def distribution(scan, check):
                 distr[host][e[dfield]]=1
             else:
                 distr[host][e[dfield]]+=1
-    text=print_distribution(check['desc'], , dfield, distr)
+    text=print_distribution(check['desc'], dfield, distr)
     return text
