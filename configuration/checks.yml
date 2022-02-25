@@ -39,3 +39,4 @@
   test: "threshold"
   fail: "lower"
   tfield: "usedperc"
+  interest: ['/dev/gpt/junos']
