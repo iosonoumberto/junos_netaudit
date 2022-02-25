@@ -28,7 +28,7 @@ def print_distribution(desc, dfield, distr):
         for x in distr[dev]:
             tot+=distr[dev][x]
         for e in distr[dev]:
-            text+="  " + e + " : " + str(distr[dev][e]) + " , " + str(float(distr[dev][e]/tot)) + "%\n"
+            text+="  " + e + " : " + str(distr[dev][e]) + " , " + str(float(distr[dev][e]/tot*100)) + "%\n"
         text+="\t----\n"
     return text
 
