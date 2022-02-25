@@ -25,3 +25,4 @@
   dfield: "state"
 - desc: "Number of Bfd Sessions"
   cmd: "bfd_session"
+  test: "total"
