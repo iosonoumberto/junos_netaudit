@@ -7,5 +7,5 @@ system_storage:
 SysStorView:
  fields:
   name: filesystem-name
-  used_stor: { used-percent : int }
+  usedperc: { used-percent : int }
   avblocks: available-blocks
