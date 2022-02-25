@@ -90,14 +90,14 @@ def distribution(scan, check):
     for result in results:
         fr=open(scan+"/"+result,'r')
         res_dict=json.load(fr)
-        host=result['hostname']
+        host=res_dict['hostname']
         distr[host]={}
         distr_cmd=check['cmd']
         dfield=check['dfield']
         for e in res_dict[distr_cmd]:
-            if e[dfield] not in distr:
-                distr[host][e[dfield]]=1
+            if res_dict[distr_cmd][e][dfield] not in distr:
+                distr[host][res_dict[distr_cmd][e][dfield]]=1
             else:
-                distr[host][e[dfield]]+=1
+                distr[host][res_dict[distr_cmd][e][dfield]]+=1
     text=print_distribution(check['desc'], dfield, distr)
     return text
