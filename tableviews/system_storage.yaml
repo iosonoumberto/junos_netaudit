@@ -6,5 +6,5 @@ system_storage:
 
 SysStorView:
  fields:
-  act: system-memory-active-percent[:-1]
-  inact: system-memory-inactive-percent[:-1]
+  act: system-memory-active-percent
+  inact: system-memory-inactive-percent

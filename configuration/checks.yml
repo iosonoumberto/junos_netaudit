@@ -26,3 +26,8 @@
 - desc: "Number of Bfd Sessions"
   cmd: "bfd_session"
   test: "total"
+- desc: "Basic stats for Active system memory"
+  cmd: "system_meory"
+  test: "basic_stats"
+  sfield: "act"
+  unit: "%"

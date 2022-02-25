@@ -39,6 +39,13 @@ def print_dict(desc, dict):
         text+="\t----\n"
     return text
 
+def print_basic_stats(desc,unit, stats):
+    text="TEST REPORT RESULT FOR " + desc + "\n\n"
+    text+="MAX value -> device " + stats['maxv']['host'] + " : " + float(stats['maxv']['val']) + unit + "\n"
+    text+="MIN value -> device " + stats['minv']['host'] + " : " + float(stats['minv']['val']) + unit + "\n"
+    text+="AVG value -> " + float(stats['avg']) + unit + "\n"
+    return text
+
 def string_equal(scan, check):
     failed=[]
     failed_detail={}
@@ -46,6 +53,7 @@ def string_equal(scan, check):
     for result in results:
         fr=open(scan+"/"+result,'r')
         res_dict=json.load(fr)
+        fr.close()
         flag=1
         for tested in res_dict[check['cmd']]:
             if res_dict[check['cmd']][tested][check['tfield']]!=check['val']:
@@ -72,6 +80,7 @@ def threshold(scan, check):
     for result in results:
         fr=open(scan+"/"+result,'r')
         res_dict=json.load(fr)
+        fr.close()
         if str(check['tfield']+'_thr') in models[res_dict['model']]:
             threshold=models[res_dict['model']][check['tfield']+'_thr']
         else:
@@ -97,6 +106,7 @@ def distribution(scan, check):
     for result in results:
         fr=open(scan+"/"+result,'r')
         res_dict=json.load(fr)
+        fr.close()
         host=res_dict['hostname']
         distr[host]={}
         distr_cmd=check['cmd']
@@ -115,8 +125,32 @@ def total(scan, check):
     for result in results:
         fr=open(scan+"/"+result,'r')
         res_dict=json.load(fr)
+        fr.close()
         host=res_dict['hostname']
         tot=len(res_dict[check['cmd']])
         tot_dict[host]=tot
     text=print_dict(check['desc'], tot_dict)
+    return text
+
+def basic_stats(scan, check):
+    results = os.listdir(scan)
+    vals={}
+    stats={}
+    totdev=float(len(results))
+    for result in results:
+        fr=open(scan+"/"+result,'r')
+        res_dict=json.load(fr)
+        fr.close()
+        vals[res_dict['hostname']]=float(res_dict[check['cmd']][list(res_dict['cmd'].keys())[0]][check['sfield']].strip("%"))
+    sorted_stats = sorted(vals.items(), key=operator.itemgetter(1))
+    sorted_reverse_stats = sorted(vals.items(), key=operator.itemgetter(1), reverse=True)
+    stats["maxv"]["val"]=sorted_reverse_stats[list(sorted_reverse_stats.keys())[0]]
+    stats["maxv"]["host"]=list(sorted_reverse_stats.keys())[0]
+    stats["minv"]["val"]=sorted_stats[list(sorted_stats.keys())[0]]
+    stats["minv"]["host"]=list(sorted_stats.keys())[0]
+    tot=0.0
+    for x in vals:
+        tot+=float(vals[x])
+    stats["avgv"]=tot/totdev
+    text=print_basic_stats(check['desc'],check['unit'], stats)
     return text

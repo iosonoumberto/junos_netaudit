@@ -3,7 +3,7 @@ ldp_sess:
  item: ldp-session
  key: ldp-neighbor-address
  view: LdpSessionView
- 
+
 LdpSessionView:
  fields:
   addr: ldp-neighbor-address

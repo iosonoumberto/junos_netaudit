@@ -75,6 +75,7 @@ for router in devices:
         res_dict['release']=dev.facts['junos_info']['re0']['text']
         res_dict['hostname']=dev.facts['hostname']
         res_dict['model']=router['model']
+        res_dict['role']=router['role']
 
         #find out whther device is single or dual re
         router['2re']=dev.facts['2RE']
