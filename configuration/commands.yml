@@ -34,7 +34,7 @@
   display_name: "show bfd sessions"
   supp_plat: ["sh", "cgn", "opm", "pe"]
   2re: all
-- name: "system_storage"
-  display_name: "show system storage"
+- name: "system_memory"
+  display_name: "show system memory"
   supp_plat: ["sh", "cgn", "opm", "pe"]
   2re: all
