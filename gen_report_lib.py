@@ -32,6 +32,13 @@ def print_distribution(desc, dfield, distr):
         text+="\t----\n"
     return text
 
+def print_dict(desc, dict):
+    text="TEST REPORT RESULT FOR " + desc + "\n\n"
+    for x in dict:
+        text+="  - " + x + + " : " + str(dict[x]) + "\n"
+        text+="\t----\n"
+    return text
+
 def string_equal(scan, check):
     failed=[]
     failed_detail={}
@@ -100,4 +107,16 @@ def distribution(scan, check):
             else:
                 distr[host][res_dict[distr_cmd][e][dfield]]+=1
     text=print_distribution(check['desc'], dfield, distr)
+    return text
+
+def total(scan, check):
+    results = os.listdir(scan)
+    tot_dict={}
+    for result in results:
+        fr=open(scan+"/"+result,'r')
+        res_dict=json.load(fr)
+        host=res_dict['hostname']
+        tot=len(res_dict[check['cmd']])
+        tot_dict[host]=tot
+    text=print_dict(check['desc'], tot_dict)
     return text

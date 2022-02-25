@@ -1,0 +1,11 @@
+bfd_session:
+ rpc: get-bfd-session-information
+ item: bfd-session
+ key: session-neighbor
+ view: BfdSessionView
+
+BfdSessionView:
+ fields:
+  neigh: session-neighbor
+  state: session-state
+  detect: session-detection-time

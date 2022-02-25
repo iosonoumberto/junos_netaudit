@@ -23,3 +23,5 @@
   cmd: "bgp_summary"
   test: "distribution"
   dfield: "state"
+- desc: "Number of Bfd Sessions"
+  cmd: "bfd_session"
