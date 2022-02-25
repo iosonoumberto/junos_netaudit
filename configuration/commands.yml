@@ -30,3 +30,7 @@
   display_name: "show bgp summary"
   supp_plat: ["sh", "cgn", "opm", "pe"]
   2re: all
+- name: "bfd_session"
+  display_name: "show bfd sessions"
+  supp_plat: ["sh", "cgn", "opm", "pe"]
+  2re: all
