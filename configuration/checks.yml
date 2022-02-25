@@ -19,3 +19,7 @@
   test: "threshold"
   fail: "low"
   tfield: "ncount"
+- desc: "BGP states distribution"
+  cmd: "bgp_summary"
+  test: "distribution"
+  dfield: "state"

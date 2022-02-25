@@ -26,3 +26,7 @@
   display_name: "show chassis routing-engine (1RE)"
   supp_plat: ["sh", "cgn", "opm", "pe"]
   2re: False
+- name: "bgp_summary"
+  display_name: "show bgp summary"
+  supp_plat: ["sh", "cgn", "opm", "pe"]
+  2re: all

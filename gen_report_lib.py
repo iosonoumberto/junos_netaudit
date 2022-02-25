@@ -19,6 +19,17 @@ def print_failures(desc, failed, failed_detail):
     text+="\n"
     return text
 
+def print_distribution(desc, dfield, distr):
+    text="TEST REPORT RESULT FOR " + desc + "\n\n"
+    text+="distribution based on field : " + dfield + "\n"
+    tot=0
+    for x in distr:
+        tot+=distr[x]
+    for e in distr:
+        text+=("  " + e + " : " + distr[e] + " , " + str(float(distr[e]/tot)) + "%\n")
+    text+="\n"
+    return text
+
 def string_equal(scan, check):
     failed=[]
     failed_detail={}
@@ -69,4 +80,20 @@ def threshold(scan, check):
                     flag=0
                 failed_detail[res_dict['hostname'] + ' thr: ' + str(threshold)].append(res_dict[check['cmd']][tested])
     text=print_failures(check['desc'], failed, failed_detail)
+    return text
+
+def distribution(scan, check):
+    results = os.listdir(scan)
+    for result in results:
+        fr=open(scan+"/"+result,'r')
+        res_dict=json.load(fr)
+        distr={}
+        distr_cmd=check['cmd']
+        dfield=check['dfield']
+        for e in res_dict[distr_cmd]:
+            if e[dfield] not in distr:
+                distr[e[dfield]]=1
+            else:
+                distr[e[dfield]]+=1
+    text=print_distribution(check['desc'], , dfield, distr)
     return text
