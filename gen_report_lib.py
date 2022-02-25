@@ -1,6 +1,7 @@
 import os
 import json
 import yaml
+import operator
 
 def print_failures(desc, failed, failed_detail):
     text="TEST REPORT RESULT FOR " + desc + "\n\n"
