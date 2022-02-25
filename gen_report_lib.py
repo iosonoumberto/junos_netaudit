@@ -145,6 +145,8 @@ def basic_stats(scan, check):
         vals[res_dict['hostname']]=float(res_dict[check['cmd']][list(res_dict[check['cmd']].keys())[0]][check['sfield']].strip("%"))
     sorted_stats = sorted(vals.items(), key=operator.itemgetter(1))
     sorted_reverse_stats = sorted(vals.items(), key=operator.itemgetter(1), reverse=True)
+    print(sorted_stats)
+    print(sorted_reverse_stats)
     stats["maxv"]["val"]=sorted_reverse_stats[list(sorted_reverse_stats.keys())[0]]
     stats["maxv"]["host"]=list(sorted_reverse_stats.keys())[0]
     stats["minv"]["val"]=sorted_stats[list(sorted_stats.keys())[0]]
