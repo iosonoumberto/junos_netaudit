@@ -2,7 +2,7 @@ bgp_summary:
  rpc: get-bgp-summary-information
  item: bgp-peer
  key: peer-address
- view: BGPSumm
+ view: BGPSummView
 
 BGPSummView:
  fields:
