@@ -76,7 +76,7 @@ def threshold(scan, check):
     fs.close()
 
     if "interest" not in check:
-        check['interest']=[]
+        check['interest']=['all']
     failed=[]
     failed_detail={}
     results = os.listdir(scan)
@@ -90,7 +90,7 @@ def threshold(scan, check):
             threshold=gthresholds[check['tfield']]
         flag=1
         for tested in res_dict[check['cmd']]:
-            if (tested in check['interest']) or (len(check['interest'])==0):
+            if (tested in check['interest']) or ('all' in check['interest']):
                 continue
             if check['fail']=="lower":
                 good = int(res_dict[check['cmd']][tested][check['tfield']])>=threshold
