@@ -95,7 +95,7 @@ def distribution(scan, check):
         distr_cmd=check['cmd']
         dfield=check['dfield']
         for e in res_dict[distr_cmd]:
-            if res_dict[distr_cmd][e][dfield] not in distr[e]:
+            if res_dict[distr_cmd][e][dfield] not in distr[host]:
                 distr[host][res_dict[distr_cmd][e][dfield]]=1
             else:
                 distr[host][res_dict[distr_cmd][e][dfield]]+=1
