@@ -42,9 +42,9 @@ def print_dict(desc, dict):
 
 def print_basic_stats(desc,unit, stats):
     text="TEST REPORT RESULT FOR " + desc + "\n\n"
-    text+="MAX value -> device " + stats['maxv']['host'] + " : " + float(stats['maxv']['val']) + unit + "\n"
-    text+="MIN value -> device " + stats['minv']['host'] + " : " + float(stats['minv']['val']) + unit + "\n"
-    text+="AVG value -> " + float(stats['avg']) + unit + "\n"
+    text+="MAX value -> device " + stats['maxv']['host'] + " : " + str(stats['maxv']['val']) + unit + "\n"
+    text+="MIN value -> device " + stats['minv']['host'] + " : " + str(stats['minv']['val']) + unit + "\n"
+    text+="AVG value -> " + str(stats['avg']) + unit + "\n"
     return text
 
 def string_equal(scan, check):
