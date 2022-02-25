@@ -42,3 +42,7 @@
   display_name: "show chassis alarms"
   supp_plat: ["sh", "cgn", "opm", "pe"]
   2re: all
+- name: "system_storage"
+  display_name: "show system storage"
+  supp_plat: ["sh", "cgn", "opm", "pe"]
+  2re: all

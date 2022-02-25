@@ -1,0 +1,11 @@
+system_storage:
+ rpc: get-system-storage
+ item: filesystem
+ key: filesystem-name
+ view: SysStorView
+
+SysStorView:
+ fields:
+  name: filesystem-name
+  used: { used-percent : int }
+  avblocks: available-blocks
