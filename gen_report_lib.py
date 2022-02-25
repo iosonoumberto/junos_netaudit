@@ -35,7 +35,7 @@ def print_distribution(desc, dfield, distr):
 def print_dict(desc, dict):
     text="TEST REPORT RESULT FOR " + desc + "\n\n"
     for x in dict:
-        text+="  - " + x + + " : " + str(dict[x]) + "\n"
+        text+="  - " + x + " : " + str(dict[x]) + "\n"
         text+="\t----\n"
     return text
 
