@@ -1,0 +1,10 @@
+system_storage:
+ rpc: get-system-memory-information
+ item: system-memory-summary-information
+ key: system-memory-total-percent
+ view: SysStorView
+
+SysStorView:
+ fields:
+  act: system-memory-active-percent[:-1]
+  inact: system-memory-inactive-percent[:-1]
