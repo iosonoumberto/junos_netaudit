@@ -100,7 +100,7 @@ def string_equal(scan, check):
                         flag=0
                         failed_detail[res_dict['hostname']].append(res_dict[check['cmd']][tested])
         except Exception as e:
-            print("ERROR: string_equal - " + check['desc'] + " - " + tested + " logic failed.")
+            print("ERROR: string_equal - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed.")
             print("\t" + str(e))
     text=print_failures(check['desc'], failed, failed_detail, nodata, dev_skipped)
     return text
@@ -141,20 +141,24 @@ def threshold(scan, check):
         else:
             threshold=gthresholds[check['tfield']]
         flag=1
-        for tested in res_dict[check['cmd']]:
-            if 'interest' in check:
-                if tested not in check['interest']:
-                    continue
-            if check['fail']=="lower":
-                good = int(res_dict[check['cmd']][tested][check['tfield']])>=threshold
-            else:
-                good = int(res_dict[check['cmd']][tested][check['tfield']])<=threshold
-            if not good:
-                if flag:
-                    failed.append(res_dict['hostname'])
-                    failed_detail[res_dict['hostname'] + ' thr: ' + str(threshold)]=[]
-                    flag=0
-                failed_detail[res_dict['hostname'] + ' thr: ' + str(threshold)].append(res_dict[check['cmd']][tested])
+        try:
+            for tested in res_dict[check['cmd']]:
+                if 'interest' in check:
+                    if tested not in check['interest']:
+                        continue
+                        if check['fail']=="lower":
+                            good = int(res_dict[check['cmd']][tested][check['tfield']])>=threshold
+                        else:
+                            good = int(res_dict[check['cmd']][tested][check['tfield']])<=threshold
+                            if not good:
+                                if flag:
+                                    failed.append(res_dict['hostname'])
+                                    failed_detail[res_dict['hostname'] + ' thr: ' + str(threshold)]=[]
+                                    flag=0
+                                    failed_detail[res_dict['hostname'] + ' thr: ' + str(threshold)].append(res_dict[check['cmd']][tested])
+        except Exception as e:
+            print("ERROR: string_equal - " + check['desc'] + " - " + tested + " logic failed.")
+            print("\t" + str(e))
     text=print_failures(check['desc'], failed, failed_detail, nodata, dev_skipped)
     return text
 
@@ -180,11 +184,15 @@ def distribution(scan, check):
         distr[host]={}
         distr_cmd=check['cmd']
         dfield=check['dfield']
-        for e in res_dict[distr_cmd]:
-            if res_dict[distr_cmd][e][dfield] not in distr[host]:
-                distr[host][res_dict[distr_cmd][e][dfield]]=1
-            else:
-                distr[host][res_dict[distr_cmd][e][dfield]]+=1
+        try:
+            for e in res_dict[distr_cmd]:
+                if res_dict[distr_cmd][e][dfield] not in distr[host]:
+                    distr[host][res_dict[distr_cmd][e][dfield]]=1
+                else:
+                    distr[host][res_dict[distr_cmd][e][dfield]]+=1
+        except Exception as e:
+            print("ERROR: string_equal - " + check['desc'] + " - " + d + " logic failed.")
+            print("\t" + str(e))
     text=print_distribution(check['desc'], dfield, distr, nodata, dev_skipped)
     return text
 
