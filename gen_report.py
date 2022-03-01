@@ -20,7 +20,13 @@ try:
 except:
     print("ERROR: cannot open checks file. Exiting.")
     sys.exit()
-    
+
+fo=open(args.scan + '/report.txt','w')
+fo.write("### REPORT FILE FOR SCAN " + args.scan + " ###")
+
 for check in checks:
     text = eval('gen_report_lib.'+check['test']+'(args.scan, check)')
-    print(text)
+    #print(text)
+    fo.write(text)
+
+fo.close()

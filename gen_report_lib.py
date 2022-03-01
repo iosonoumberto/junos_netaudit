@@ -4,7 +4,7 @@ import yaml
 import operator
 
 def print_failures(desc, warn, failed, failed_detail, nodata, dev_skipped):
-    text="TEST REPORT RESULT FOR " + desc + "\n\n"
+    text=">>> TEST REPORT RESULT FOR " + desc + "\n\n"
     if warn:
         text+=" ! warning: it was not possible to process all the data !\n\n"
     if len(failed)==0:
@@ -29,7 +29,7 @@ def print_failures(desc, warn, failed, failed_detail, nodata, dev_skipped):
     return text
 
 def print_distribution(desc, warn, dfield, distr, nodata, dev_skipped):
-    text="TEST REPORT RESULT FOR " + desc + "\n\n"
+    text=">>> TEST REPORT RESULT FOR " + desc + "\n\n"
     if warn:
         text+=" ! warning: it was not possible to process all the data !\n\n"
     text+="distribution based on field : " + dfield + "\n"
@@ -50,7 +50,7 @@ def print_distribution(desc, warn, dfield, distr, nodata, dev_skipped):
     return text
 
 def print_dict(desc, warn, dict, nodata, dev_skipped):
-    text="TEST REPORT RESULT FOR " + desc + "\n\n"
+    text=">>> TEST REPORT RESULT FOR " + desc + "\n\n"
     if warn:
         text+=" ! warning: it was not possible to process all the data !\n\n"
     for x in dict:
@@ -65,7 +65,7 @@ def print_dict(desc, warn, dict, nodata, dev_skipped):
     return text
 
 def print_basic_stats(desc, warn, unit, stats, nodata, dev_skipped):
-    text="TEST REPORT RESULT FOR " + desc + "\n\n"
+    text=">>> TEST REPORT RESULT FOR " + desc + "\n\n"
     if warn:
         text+=" ! warning: it was not possible to process all the data !\n\n"
     text+="MAX value -> device " + stats['maxv']['host'] + " : " + str(stats['maxv']['val']) + unit + "\n"
