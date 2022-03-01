@@ -3,8 +3,10 @@ import json
 import yaml
 import operator
 
-def print_failures(desc, failed, failed_detail, nodata, dev_skipped):
+def print_failures(desc, warn, failed, failed_detail, nodata, dev_skipped):
     text="TEST REPORT RESULT FOR " + desc + "\n\n"
+    if warn:
+        text+=" ! warning: it was not possible to process all the data !\n"
     if len(failed)==0:
         text+="Nothing failed\n"
     else:
@@ -77,6 +79,7 @@ def string_equal(scan, check):
     nodata=[]
     dev_skipped=[]
     results = os.listdir(scan)
+    warn=0
     for result in results:
         try:
             fr=open(scan+"/"+result,'r')
@@ -86,6 +89,7 @@ def string_equal(scan, check):
             print("ERROR: could not load device json output " + result + "\n")
             print("ERROR: skipping device.\n")
             dev_skipped.append(result)
+            warn=1
             continue
         flag=1
         if not res_dict[check['cmd']]:
@@ -100,9 +104,10 @@ def string_equal(scan, check):
                         flag=0
                         failed_detail[res_dict['hostname']].append(res_dict[check['cmd']][tested])
             except Exception as e:
-                print("ERROR: string_equal - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed.")
+                print("WARNING: string_equal - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed.")
                 print("\t" + str(e))
-    text=print_failures(check['desc'], failed, failed_detail, nodata, dev_skipped)
+                warn=1
+    text=print_failures(check['desc'], warn, failed, failed_detail, nodata, dev_skipped)
     return text
 
 def threshold(scan, check):
