@@ -3,7 +3,7 @@ import json
 import yaml
 import operator
 
-def print_failures(desc, failed, failed_detail):
+def print_failures(desc, failed, failed_detail, nodata, dev_skipped):
     text="TEST REPORT RESULT FOR " + desc + "\n\n"
     if len(failed)==0:
         text+="Nothing failed\n"
@@ -21,9 +21,12 @@ def print_failures(desc, failed, failed_detail):
     if len(nodata) > 0:
         text+="\n"
         text+="The following devices had no data: " + str(nodata) + "\n"
+    if len(dev_skipped) > 0:
+        text+="\n"
+        text+="The following devices were skipped: " + str(nodata) + "\n"
     return text
 
-def print_distribution(desc, dfield, distr):
+def print_distribution(desc, dfield, distr, nodata, dev_skipped):
     text="TEST REPORT RESULT FOR " + desc + "\n\n"
     text+="distribution based on field : " + dfield + "\n"
     for dev in distr:
@@ -37,9 +40,12 @@ def print_distribution(desc, dfield, distr):
     if len(nodata) > 0:
         text+="\n"
         text+="The following devices had no data: " + str(nodata) + "\n"
+    if len(dev_skipped) > 0:
+        text+="\n"
+        text+="The following devices were skipped: " + str(nodata) + "\n"
     return text
 
-def print_dict(desc, dict):
+def print_dict(desc, dict, nodata, dev_skipped):
     text="TEST REPORT RESULT FOR " + desc + "\n\n"
     for x in dict:
         text+="  - " + x + " : " + str(dict[x]) + "\n"
@@ -47,9 +53,12 @@ def print_dict(desc, dict):
     if len(nodata) > 0:
         text+="\n"
         text+="The following devices had no data: " + str(nodata) + "\n"
+    if len(dev_skipped) > 0:
+        text+="\n"
+        text+="The following devices were skipped: " + str(nodata) + "\n"
     return text
 
-def print_basic_stats(desc, unit, stats, nodata):
+def print_basic_stats(desc, unit, stats, nodata, dev_skipped):
     text="TEST REPORT RESULT FOR " + desc + "\n\n"
     text+="MAX value -> device " + stats['maxv']['host'] + " : " + str(stats['maxv']['val']) + unit + "\n"
     text+="MIN value -> device " + stats['minv']['host'] + " : " + str(stats['minv']['val']) + unit + "\n"
@@ -57,17 +66,27 @@ def print_basic_stats(desc, unit, stats, nodata):
     if len(nodata) > 0:
         text+="\n"
         text+="The following devices had no data: " + str(nodata) + "\n"
+    if len(dev_skipped) > 0:
+        text+="\n"
+        text+="The following devices were skipped: " + str(nodata) + "\n"
     return text
 
 def string_equal(scan, check):
     failed=[]
     failed_detail={}
     nodata=[]
+    dev_skipped=[]
     results = os.listdir(scan)
     for result in results:
-        fr=open(scan+"/"+result,'r')
-        res_dict=json.load(fr)
-        fr.close()
+        try:
+            fr=open(scan+"/"+result,'r')
+            res_dict=json.load(fr)
+            fr.close()
+        except:
+            print("ERROR: could not load device json output " + result + "\n")
+            print("ERROR: skipping device.\n")
+            dev_skipped.append(result)
+            continue
         flag=1
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['hostname'])
@@ -79,26 +98,37 @@ def string_equal(scan, check):
                     failed_detail[res_dict['hostname']]=[]
                     flag=0
                 failed_detail[res_dict['hostname']].append(res_dict[check['cmd']][tested])
-    text=print_failures(check['desc'], failed, failed_detail, nodata)
+    text=print_failures(check['desc'], failed, failed_detail, nodata, dev_skipped)
     return text
 
 def threshold(scan, check):
-    fs=open('configuration/models.yml','r')
-    models = yaml.load(fs, Loader=yaml.FullLoader)
-    fs.close()
+    try:
+        fs=open('configuration/models.yml','r')
+        models = yaml.load(fs, Loader=yaml.FullLoader)
+        fs.close()
 
-    fs=open('configuration/global_thresholds.yml','r')
-    gthresholds = yaml.load(fs, Loader=yaml.FullLoader)
-    fs.close()
-
+        fs=open('configuration/global_thresholds.yml','r')
+        gthresholds = yaml.load(fs, Loader=yaml.FullLoader)
+        fs.close()
+    except:
+        print("ERROR: could not open one of thresholds files when running a threshold type test.\n")
+        print("ERROR: check " + check['desc'] + " will be aborted and we will move to next check.\n")
+        return
     failed=[]
     failed_detail={}
     nodata=[]
+    dev_skipped=[]
     results = os.listdir(scan)
     for result in results:
-        fr=open(scan+"/"+result,'r')
-        res_dict=json.load(fr)
-        fr.close()
+        try:
+            fr=open(scan+"/"+result,'r')
+            res_dict=json.load(fr)
+            fr.close()
+        except:
+            print("ERROR: could not load device json output " + result + "\n")
+            print("ERROR: skipping device.\n")
+            dev_skipped.append(result)
+            continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['hostname'])
             continue
@@ -121,17 +151,24 @@ def threshold(scan, check):
                     failed_detail[res_dict['hostname'] + ' thr: ' + str(threshold)]=[]
                     flag=0
                 failed_detail[res_dict['hostname'] + ' thr: ' + str(threshold)].append(res_dict[check['cmd']][tested])
-    text=print_failures(check['desc'], failed, failed_detail, nodata)
+    text=print_failures(check['desc'], failed, failed_detail, nodata, dev_skipped)
     return text
 
 def distribution(scan, check):
     results = os.listdir(scan)
     distr={}
     nodata=[]
+    dev_skipped=[]
     for result in results:
-        fr=open(scan+"/"+result,'r')
-        res_dict=json.load(fr)
-        fr.close()
+        try:
+            fr=open(scan+"/"+result,'r')
+            res_dict=json.load(fr)
+            fr.close()
+        except:
+            print("ERROR: could not load device json output " + result + "\n")
+            print("ERROR: skipping device.\n")
+            dev_skipped.append(result)
+            continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['hostname'])
             continue
@@ -144,24 +181,31 @@ def distribution(scan, check):
                 distr[host][res_dict[distr_cmd][e][dfield]]=1
             else:
                 distr[host][res_dict[distr_cmd][e][dfield]]+=1
-    text=print_distribution(check['desc'], dfield, distr, nodata)
+    text=print_distribution(check['desc'], dfield, distr, nodata, dev_skipped)
     return text
 
 def total(scan, check):
     results = os.listdir(scan)
     tot_dict={}
     nodata=[]
+    dev_skipped=[]
     for result in results:
-        fr=open(scan+"/"+result,'r')
-        res_dict=json.load(fr)
-        fr.close()
+        try:
+            fr=open(scan+"/"+result,'r')
+            res_dict=json.load(fr)
+            fr.close()
+        except:
+            print("ERROR: could not load device json output " + result + "\n")
+            print("ERROR: skipping device.\n")
+            dev_skipped.append(result)
+            continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['hostname'])
             continue
         host=res_dict['hostname']
         tot=len(res_dict[check['cmd']])
         tot_dict[host]=tot
-    text=print_dict(check['desc'], tot_dict, nodata)
+    text=print_dict(check['desc'], tot_dict, nodata, dev_skipped)
     return text
 
 def basic_stats(scan, check):
@@ -170,10 +214,17 @@ def basic_stats(scan, check):
     stats={}
     totdev=float(len(results))
     nodata=[]
+    dev_skipped=[]
     for result in results:
-        fr=open(scan+"/"+result,'r')
-        res_dict=json.load(fr)
-        fr.close()
+        try:
+            fr=open(scan+"/"+result,'r')
+            res_dict=json.load(fr)
+            fr.close()
+        except:
+            print("ERROR: could not load device json output " + result + "\n")
+            print("ERROR: skipping device.\n")
+            dev_skipped.append(result)
+            continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['hostname'])
             continue
@@ -190,7 +241,7 @@ def basic_stats(scan, check):
     for x in vals:
         tot+=float(vals[x])
     stats["avg"]=tot/totdev
-    text=print_basic_stats(check['desc'],check['unit'], stats, nodata)
+    text=print_basic_stats(check['desc'],check['unit'], stats, nodata, dev_skipped)
     return text
 
 def empty(scan, check):
@@ -198,10 +249,17 @@ def empty(scan, check):
     failed=[]
     failed_detail={}
     nodata=[]
+    dev_skipped=[]
     for result in results:
-        fr=open(scan+"/"+result,'r')
-        res_dict=json.load(fr)
-        fr.close()
+        try:
+            fr=open(scan+"/"+result,'r')
+            res_dict=json.load(fr)
+            fr.close()
+        except:
+            print("ERROR: could not load device json output " + result + "\n")
+            print("ERROR: skipping device.\n")
+            dev_skipped.append(result)
+            continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['hostname'])
             continue
@@ -209,5 +267,5 @@ def empty(scan, check):
             failed.append(res_dict['hostname'])
             failed_detail[res_dict['hostname']]=[]
             failed_detail[res_dict['hostname']].append(res_dict[check['cmd']])
-    text=print_failures(check['desc'], failed, failed_detail, nodata)
+    text=print_failures(check['desc'], failed, failed_detail, nodata, dev_skipped)
     return text

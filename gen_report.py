@@ -13,10 +13,14 @@ parser.add_argument("-s", "--scan", action="store", type=str, default='all',help
 args = parser.parse_args()
 
 #load configuration files
-fs=open('configuration/checks.yml','r')
-checks = yaml.load(fs, Loader=yaml.FullLoader)
-fs.close()
-
+try:
+    fs=open('configuration/checks.yml','r')
+    checks = yaml.load(fs, Loader=yaml.FullLoader)
+    fs.close()
+except:
+    print("ERROR: cannot open checks file. Exiting.")
+    sys.exit()
+    
 for check in checks:
     text = eval('gen_report_lib.'+check['test']+'(args.scan, check)')
     print(text)
