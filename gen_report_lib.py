@@ -84,8 +84,8 @@ def string_equal(scan, check):
     failed_detail={}
     nodata=[]
     dev_skipped=[]
-    results = os.listdir(scan)
     warn=0
+    results = os.listdir(scan)
     for result in results:
         try:
             fr=open(scan+"/"+result,'r')
@@ -150,18 +150,25 @@ def threshold(scan, check):
             nodata.append(res_dict['hostname'])
             continue
         if str(check['tfield']+'_thr') in models[res_dict['model']]:
-            threshold=models[res_dict['model']][check['tfield']+'_thr']
+            threshold=float(models[res_dict['model']][check['tfield']+'_thr'])
         else:
-            threshold=gthresholds[check['tfield']]
+            threshold=float(gthresholds[check['tfield']])
         flag=1
         for tested in res_dict[check['cmd']]:
             if 'interest' in check:
                 if tested not in check['interest']:
                     continue
+            try:
+                test_float=float(res_dict[check['cmd']][tested][check['tfield']])
+            except Exception as e:
+                print("WARNING: threshold - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed.")
+                print("\t" + str(e))
+                warn=1
+                continue
             if check['fail']=="lower":
-                good = int(res_dict[check['cmd']][tested][check['tfield']])>=threshold
+                good = float(res_dict[check['cmd']][tested][check['tfield']])>=threshold
             else:
-                good = int(res_dict[check['cmd']][tested][check['tfield']])<=threshold
+                good = float(res_dict[check['cmd']][tested][check['tfield']])<=threshold
             if not good:
                 if flag:
                     failed.append(res_dict['hostname'])
