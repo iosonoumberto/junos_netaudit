@@ -117,6 +117,12 @@ def string_equal(scan, check):
     return text
 
 def threshold(scan, check):
+    failed=[]
+    failed_detail={}
+    nodata=[]
+    dev_skipped=[]
+    warn=0
+    results = os.listdir(scan)
     try:
         fs=open('configuration/models.yml','r')
         models = yaml.load(fs, Loader=yaml.FullLoader)
@@ -129,12 +135,6 @@ def threshold(scan, check):
         print("ERROR: could not open one of thresholds files when running a threshold type test.\n")
         print("ERROR: check " + check['desc'] + " will be aborted and we will move to next check.\n")
         return
-    failed=[]
-    failed_detail={}
-    nodata=[]
-    dev_skipped=[]
-    warn=0
-    results = os.listdir(scan)
     for result in results:
         try:
             fr=open(scan+"/"+result,'r')
@@ -179,11 +179,11 @@ def threshold(scan, check):
     return text
 
 def distribution(scan, check):
-    results = os.listdir(scan)
     distr={}
     nodata=[]
     dev_skipped=[]
     warn=0
+    results = os.listdir(scan)
     for result in results:
         try:
             fr=open(scan+"/"+result,'r')
@@ -202,11 +202,17 @@ def distribution(scan, check):
         distr[host]={}
         distr_cmd=check['cmd']
         dfield=check['dfield']
-        for e in res_dict[distr_cmd]:
-            if res_dict[distr_cmd][e][dfield] not in distr[host]:
-                distr[host][res_dict[distr_cmd][e][dfield]]=1
-            else:
-                distr[host][res_dict[distr_cmd][e][dfield]]+=1
+        for tested in res_dict[distr_cmd]:
+            try:
+                if res_dict[distr_cmd][tested][dfield] not in distr[host]:
+                    distr[host][res_dict[distr_cmd][tested][dfield]]=1
+                else:
+                    distr[host][res_dict[distr_cmd][tested][dfield]]+=1
+            except Exception as e:
+                print("WARNING: distribution - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed.")
+                print("\t" + str(e))
+                warn=1
+                continue
     text=print_distribution(check['desc'], warn, dfield, distr, nodata, dev_skipped)
     return text
 
