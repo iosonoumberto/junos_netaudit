@@ -100,8 +100,8 @@ def string_equal(scan, check):
                         flag=0
                         failed_detail[res_dict['hostname']].append(res_dict[check['cmd']][tested])
         except Exception as e:
-            print("ERROR: string_equal logic failed.\n")
-            print(str(e) + "\n")
+            print("ERROR: string_equal " + check['desc'] + " logic failed.\n")
+            print(e + "\n")
     text=print_failures(check['desc'], failed, failed_detail, nodata, dev_skipped)
     return text
 
