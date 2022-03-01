@@ -28,8 +28,10 @@ def print_failures(desc, warn, failed, failed_detail, nodata, dev_skipped):
         text+="The following devices were skipped: " + str(nodata) + "\n"
     return text
 
-def print_distribution(desc, dfield, distr, nodata, dev_skipped):
+def print_distribution(desc, warn, dfield, distr, nodata, dev_skipped):
     text="TEST REPORT RESULT FOR " + desc + "\n\n"
+    if warn:
+        text+=" ! warning: it was not possible to process all the data !\n"
     text+="distribution based on field : " + dfield + "\n"
     for dev in distr:
         tot=0
@@ -47,8 +49,10 @@ def print_distribution(desc, dfield, distr, nodata, dev_skipped):
         text+="The following devices were skipped: " + str(nodata) + "\n"
     return text
 
-def print_dict(desc, dict, nodata, dev_skipped):
+def print_dict(desc, warn, dict, nodata, dev_skipped):
     text="TEST REPORT RESULT FOR " + desc + "\n\n"
+    if warn:
+        text+=" ! warning: it was not possible to process all the data !\n"
     for x in dict:
         text+="  - " + x + " : " + str(dict[x]) + "\n"
         text+="\t----\n"
@@ -60,8 +64,10 @@ def print_dict(desc, dict, nodata, dev_skipped):
         text+="The following devices were skipped: " + str(nodata) + "\n"
     return text
 
-def print_basic_stats(desc, unit, stats, nodata, dev_skipped):
+def print_basic_stats(desc, warn, unit, stats, nodata, dev_skipped):
     text="TEST REPORT RESULT FOR " + desc + "\n\n"
+    if warn:
+        text+=" ! warning: it was not possible to process all the data !\n"
     text+="MAX value -> device " + stats['maxv']['host'] + " : " + str(stats['maxv']['val']) + unit + "\n"
     text+="MIN value -> device " + stats['minv']['host'] + " : " + str(stats['minv']['val']) + unit + "\n"
     text+="AVG value -> " + str(stats['avg']) + unit + "\n"
@@ -127,6 +133,7 @@ def threshold(scan, check):
     failed_detail={}
     nodata=[]
     dev_skipped=[]
+    warn=0
     results = os.listdir(scan)
     for result in results:
         try:
@@ -137,6 +144,7 @@ def threshold(scan, check):
             print("ERROR: could not load device json output " + result + "\n")
             print("ERROR: skipping device.\n")
             dev_skipped.append(result)
+            warn=1
             continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['hostname'])
@@ -164,7 +172,7 @@ def threshold(scan, check):
         except Exception as e:
             print("ERROR: string_equal - " + check['desc'] + " - " + tested + " logic failed.")
             print("\t" + str(e))
-    text=print_failures(check['desc'], failed, failed_detail, nodata, dev_skipped)
+    text=print_failures(check['desc'], warn, failed, failed_detail, nodata, dev_skipped)
     return text
 
 def distribution(scan, check):
@@ -172,6 +180,7 @@ def distribution(scan, check):
     distr={}
     nodata=[]
     dev_skipped=[]
+    warn=0
     for result in results:
         try:
             fr=open(scan+"/"+result,'r')
@@ -181,6 +190,7 @@ def distribution(scan, check):
             print("ERROR: could not load device json output " + result + "\n")
             print("ERROR: skipping device.\n")
             dev_skipped.append(result)
+            warn=1
             continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['hostname'])
@@ -198,7 +208,7 @@ def distribution(scan, check):
         except Exception as e:
             print("ERROR: string_equal - " + check['desc'] + " - " + d + " logic failed.")
             print("\t" + str(e))
-    text=print_distribution(check['desc'], dfield, distr, nodata, dev_skipped)
+    text=print_distribution(check['desc'], warn, dfield, distr, nodata, dev_skipped)
     return text
 
 def total(scan, check):
@@ -206,6 +216,7 @@ def total(scan, check):
     tot_dict={}
     nodata=[]
     dev_skipped=[]
+    warn=0
     for result in results:
         try:
             fr=open(scan+"/"+result,'r')
@@ -215,6 +226,7 @@ def total(scan, check):
             print("ERROR: could not load device json output " + result + "\n")
             print("ERROR: skipping device.\n")
             dev_skipped.append(result)
+            warn=1
             continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['hostname'])
@@ -222,7 +234,7 @@ def total(scan, check):
         host=res_dict['hostname']
         tot=len(res_dict[check['cmd']])
         tot_dict[host]=tot
-    text=print_dict(check['desc'], tot_dict, nodata, dev_skipped)
+    text=print_dict(check['desc'], warn, tot_dict, nodata, dev_skipped)
     return text
 
 def basic_stats(scan, check):
@@ -232,6 +244,7 @@ def basic_stats(scan, check):
     totdev=float(len(results))
     nodata=[]
     dev_skipped=[]
+    warn=0
     for result in results:
         try:
             fr=open(scan+"/"+result,'r')
@@ -241,6 +254,7 @@ def basic_stats(scan, check):
             print("ERROR: could not load device json output " + result + "\n")
             print("ERROR: skipping device.\n")
             dev_skipped.append(result)
+            warn=1
             continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['hostname'])
@@ -258,7 +272,7 @@ def basic_stats(scan, check):
     for x in vals:
         tot+=float(vals[x])
     stats["avg"]=tot/totdev
-    text=print_basic_stats(check['desc'],check['unit'], stats, nodata, dev_skipped)
+    text=print_basic_stats(check['desc'], warn, check['unit'], stats, nodata, dev_skipped)
     return text
 
 def empty(scan, check):
@@ -267,6 +281,7 @@ def empty(scan, check):
     failed_detail={}
     nodata=[]
     dev_skipped=[]
+    warn=0
     for result in results:
         try:
             fr=open(scan+"/"+result,'r')
@@ -276,6 +291,7 @@ def empty(scan, check):
             print("ERROR: could not load device json output " + result + "\n")
             print("ERROR: skipping device.\n")
             dev_skipped.append(result)
+            warn=1
             continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['hostname'])
@@ -284,5 +300,5 @@ def empty(scan, check):
             failed.append(res_dict['hostname'])
             failed_detail[res_dict['hostname']]=[]
             failed_detail[res_dict['hostname']].append(res_dict[check['cmd']])
-    text=print_failures(check['desc'], failed, failed_detail, nodata, dev_skipped)
+    text=print_failures(check['desc'], warn, failed, failed_detail, nodata, dev_skipped)
     return text
