@@ -91,17 +91,17 @@ def string_equal(scan, check):
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['hostname'])
             continue
-        try:
-            for tested in res_dict[check['cmd']]:
+        for tested in res_dict[check['cmd']]:
+            try:
                 if res_dict[check['cmd']][tested][check['tfield']]!=check['val']:
                     if flag:
                         failed.append(res_dict['hostname'])
                         failed_detail[res_dict['hostname']]=[]
                         flag=0
                         failed_detail[res_dict['hostname']].append(res_dict[check['cmd']][tested])
-        except Exception as e:
-            print("ERROR: string_equal - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed.")
-            print("\t" + str(e))
+            except Exception as e:
+                print("ERROR: string_equal - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed.")
+                print("\t" + str(e))
     text=print_failures(check['desc'], failed, failed_detail, nodata, dev_skipped)
     return text
 
