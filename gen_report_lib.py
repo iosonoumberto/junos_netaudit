@@ -86,6 +86,7 @@ def string_equal(scan, check):
     dev_skipped=[]
     warn=0
     results = os.listdir(scan)
+    results.pop(results.index('report.txt'))
     for result in results:
         try:
             fr=open(scan+"/"+result,'r')
@@ -123,6 +124,7 @@ def threshold(scan, check):
     dev_skipped=[]
     warn=0
     results = os.listdir(scan)
+    results.pop(results.index('report.txt'))
     try:
         fs=open('configuration/models.yml','r')
         models = yaml.load(fs, Loader=yaml.FullLoader)
@@ -184,6 +186,7 @@ def distribution(scan, check):
     dev_skipped=[]
     warn=0
     results = os.listdir(scan)
+    results.pop(results.index('report.txt'))
     for result in results:
         try:
             fr=open(scan+"/"+result,'r')
@@ -217,11 +220,12 @@ def distribution(scan, check):
     return text
 
 def total(scan, check):
-    results = os.listdir(scan)
     tot_dict={}
     nodata=[]
     dev_skipped=[]
     warn=0
+    results = os.listdir(scan)
+    results.pop(results.index('report.txt'))
     for result in results:
         try:
             fr=open(scan+"/"+result,'r')
@@ -243,13 +247,14 @@ def total(scan, check):
     return text
 
 def basic_stats(scan, check):
-    results = os.listdir(scan)
     vals={}
     stats={}
     totdev=float(len(results))
     nodata=[]
     dev_skipped=[]
     warn=0
+    results = os.listdir(scan)
+    results.pop(results.index('report.txt'))
     for result in results:
         try:
             fr=open(scan+"/"+result,'r')
@@ -281,12 +286,13 @@ def basic_stats(scan, check):
     return text
 
 def empty(scan, check):
-    results = os.listdir(scan)
     failed=[]
     failed_detail={}
     nodata=[]
     dev_skipped=[]
     warn=0
+    results = os.listdir(scan)
+    results.pop(results.index('report.txt'))
     for result in results:
         try:
             fr=open(scan+"/"+result,'r')
