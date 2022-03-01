@@ -6,7 +6,7 @@ import operator
 def print_failures(desc, warn, failed, failed_detail, nodata, dev_skipped):
     text="TEST REPORT RESULT FOR " + desc + "\n\n"
     if warn:
-        text+=" ! warning: it was not possible to process all the data !\n"
+        text+=" ! warning: it was not possible to process all the data !\n\n"
     if len(failed)==0:
         text+="Nothing failed\n"
     else:
@@ -31,7 +31,7 @@ def print_failures(desc, warn, failed, failed_detail, nodata, dev_skipped):
 def print_distribution(desc, warn, dfield, distr, nodata, dev_skipped):
     text="TEST REPORT RESULT FOR " + desc + "\n\n"
     if warn:
-        text+=" ! warning: it was not possible to process all the data !\n"
+        text+=" ! warning: it was not possible to process all the data !\n\n"
     text+="distribution based on field : " + dfield + "\n"
     for dev in distr:
         tot=0
@@ -52,7 +52,7 @@ def print_distribution(desc, warn, dfield, distr, nodata, dev_skipped):
 def print_dict(desc, warn, dict, nodata, dev_skipped):
     text="TEST REPORT RESULT FOR " + desc + "\n\n"
     if warn:
-        text+=" ! warning: it was not possible to process all the data !\n"
+        text+=" ! warning: it was not possible to process all the data !\n\n"
     for x in dict:
         text+="  - " + x + " : " + str(dict[x]) + "\n"
         text+="\t----\n"
@@ -67,7 +67,7 @@ def print_dict(desc, warn, dict, nodata, dev_skipped):
 def print_basic_stats(desc, warn, unit, stats, nodata, dev_skipped):
     text="TEST REPORT RESULT FOR " + desc + "\n\n"
     if warn:
-        text+=" ! warning: it was not possible to process all the data !\n"
+        text+=" ! warning: it was not possible to process all the data !\n\n"
     text+="MAX value -> device " + stats['maxv']['host'] + " : " + str(stats['maxv']['val']) + unit + "\n"
     text+="MIN value -> device " + stats['minv']['host'] + " : " + str(stats['minv']['val']) + unit + "\n"
     text+="AVG value -> " + str(stats['avg']) + unit + "\n"
@@ -154,24 +154,20 @@ def threshold(scan, check):
         else:
             threshold=gthresholds[check['tfield']]
         flag=1
-        try:
-            for tested in res_dict[check['cmd']]:
-                if 'interest' in check:
-                    if tested not in check['interest']:
-                        continue
-                        if check['fail']=="lower":
-                            good = int(res_dict[check['cmd']][tested][check['tfield']])>=threshold
-                        else:
-                            good = int(res_dict[check['cmd']][tested][check['tfield']])<=threshold
-                            if not good:
-                                if flag:
-                                    failed.append(res_dict['hostname'])
-                                    failed_detail[res_dict['hostname'] + ' thr: ' + str(threshold)]=[]
-                                    flag=0
-                                    failed_detail[res_dict['hostname'] + ' thr: ' + str(threshold)].append(res_dict[check['cmd']][tested])
-        except Exception as e:
-            print("ERROR: string_equal - " + check['desc'] + " - " + tested + " logic failed.")
-            print("\t" + str(e))
+        for tested in res_dict[check['cmd']]:
+            if 'interest' in check:
+                if tested not in check['interest']:
+                    continue
+                if check['fail']=="lower":
+                    good = int(res_dict[check['cmd']][tested][check['tfield']])>=threshold
+                else:
+                    good = int(res_dict[check['cmd']][tested][check['tfield']])<=threshold
+                    if not good:
+                        if flag:
+                            failed.append(res_dict['hostname'])
+                            failed_detail[res_dict['hostname'] + ' thr: ' + str(threshold)]=[]
+                            flag=0
+                            failed_detail[res_dict['hostname'] + ' thr: ' + str(threshold)].append(res_dict[check['cmd']][tested])
     text=print_failures(check['desc'], warn, failed, failed_detail, nodata, dev_skipped)
     return text
 
@@ -199,15 +195,11 @@ def distribution(scan, check):
         distr[host]={}
         distr_cmd=check['cmd']
         dfield=check['dfield']
-        try:
-            for e in res_dict[distr_cmd]:
-                if res_dict[distr_cmd][e][dfield] not in distr[host]:
-                    distr[host][res_dict[distr_cmd][e][dfield]]=1
-                else:
-                    distr[host][res_dict[distr_cmd][e][dfield]]+=1
-        except Exception as e:
-            print("ERROR: string_equal - " + check['desc'] + " - " + d + " logic failed.")
-            print("\t" + str(e))
+        for e in res_dict[distr_cmd]:
+            if res_dict[distr_cmd][e][dfield] not in distr[host]:
+                distr[host][res_dict[distr_cmd][e][dfield]]=1
+            else:
+                distr[host][res_dict[distr_cmd][e][dfield]]+=1
     text=print_distribution(check['desc'], warn, dfield, distr, nodata, dev_skipped)
     return text
 
