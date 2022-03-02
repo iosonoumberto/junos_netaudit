@@ -50,15 +50,15 @@ def validate_checks(checks):
             print("VALIDATION ERROR: check " + check['desc'] + " : cmd " + check['cmd'] + "not found in commands yaml file")
             valid=0
             continue
-        if check['type'] == "string_equal" or check['type'] == "device_distribution" or check['type'] == "global_distribution" or check['type'] == "basic_stats":
-            if ('tfield' not in check) and (check['type'] == "global_distribution"):
+        if check['test'] == "string_equal" or check['test'] == "device_distribution" or check['test'] == "global_distribution" or check['test'] == "basic_stats":
+            if ('tfield' not in check) and (check['test'] == "global_distribution"):
                 continue
             ftv=open('tableviews/'+check['cmd']+'.yaml', 'r')
             d=yaml.load(ftv, Loader=yaml.FullLoader)
             if check['tfield'] not in d[d[check['cmd']]['view']]['fields'].keys():
                 print("VALIDATION ERROR: check " + check['desc'] + " : test field " + check['tfield'] + "not found in RPC view")
                 valid=0
-        if check['type'] == "threshold":
+        if check['test'] == "threshold":
             fs=open('configuration/devrole_thresholds.yml','r')
             drthresholds = yaml.load(fs, Loader=yaml.FullLoader)
             fs.close()
