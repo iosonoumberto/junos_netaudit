@@ -6,7 +6,7 @@ import operator
 def print_failures(desc, warn, failed, failed_detail, nodata, dev_skipped, warn_text):
     text=">>> TEST REPORT RESULT FOR " + desc + "\n\n"
     if warn:
-        text+=" ! warning: it was not possible to process all the data !\n\n"
+        text+="!!! warning: it was not possible to process all the data !!!\n\n"
         text+=warn_text + "\n"
     if len(failed)==0:
         text+="Nothing failed\n"
@@ -32,7 +32,7 @@ def print_failures(desc, warn, failed, failed_detail, nodata, dev_skipped, warn_
 def print_distribution(desc, warn, dfield, distr, nodata, dev_skipped):
     text=">>> TEST REPORT RESULT FOR " + desc + "\n\n"
     if warn:
-        text+=" ! warning: it was not possible to process all the data !\n\n"
+        text+="!!! warning: it was not possible to process all the data !!!\n\n"
     text+="distribution based on field : " + dfield + "\n"
     for dev in distr:
         tot=0
@@ -53,7 +53,7 @@ def print_distribution(desc, warn, dfield, distr, nodata, dev_skipped):
 def print_dict(desc, warn, dict, nodata, dev_skipped):
     text=">>> TEST REPORT RESULT FOR " + desc + "\n\n"
     if warn:
-        text+=" ! warning: it was not possible to process all the data !\n\n"
+        text+="!!! warning: it was not possible to process all the data !!!\n\n"
     for x in dict:
         text+="  - " + x + " : " + str(dict[x]) + "\n"
         text+="\t----\n"
@@ -68,7 +68,7 @@ def print_dict(desc, warn, dict, nodata, dev_skipped):
 def print_basic_stats(desc, warn, unit, stats, nodata, dev_skipped):
     text=">>> TEST REPORT RESULT FOR " + desc + "\n\n"
     if warn:
-        text+=" ! warning: it was not possible to process all the data !\n\n"
+        text+="!!! warning: it was not possible to process all the data !!!\n\n"
     text+="MAX value -> device " + stats['maxv']['host'] + " : " + str(stats['maxv']['val']) + unit + "\n"
     text+="MIN value -> device " + stats['minv']['host'] + " : " + str(stats['minv']['val']) + unit + "\n"
     text+="AVG value -> " + str(stats['avg']) + unit + "\n"
