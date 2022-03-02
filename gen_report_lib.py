@@ -151,7 +151,7 @@ def threshold(scan, check):
             fr.close()
         except:
             warn_text+="ERROR: could not load device json output " + result + "\n"
-            warn_text+=("ERROR: skipping device.\n"
+            warn_text+="ERROR: skipping device.\n"
             dev_skipped.append(result)
             warn=1
             continue
