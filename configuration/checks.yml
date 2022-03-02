@@ -40,3 +40,7 @@
   fail: "lower"
   tfield: "usedperc"
   interest: ['/dev/gpt/junos']
+- desc: "Release distribution"
+  cmd: "id_card"
+  test: "distribution"
+  dfield: "release"

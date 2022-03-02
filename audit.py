@@ -72,7 +72,8 @@ for router in devices:
         dev.open()
 
         #save release, model and hostname
-        res_dict['release']=dev.facts['junos_info']['re0']['text']
+        res_dict['id_card']={}
+        res_dict['id_card']['release']=dev.facts['junos_info']['re0']['text']
         res_dict['hostname']=dev.facts['hostname']
         res_dict['model']=router['model']
         res_dict['role']=router['role']
