@@ -58,7 +58,6 @@ def print_dict(desc, warn, dict, nodata, dev_skipped, warn_text):
         text+=warn_text + "\n"
     for x in dict:
         text+="  - " + x + " : " + str(dict[x]) + "\n"
-        text+="\t----\n"
     if len(nodata) > 0:
         text+="\n"
         text+="The following devices had no data: " + str(nodata) + "\n"
