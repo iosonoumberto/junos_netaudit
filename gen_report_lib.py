@@ -47,7 +47,7 @@ def validate_checks(checks):
 
     for check in checks:
         if check['cmd']=='facts' and check['tfield'] not in facts:
-            print("VALIDATION ERROR: check " + check['desc'] + " : test field " + check['tfield'] + "not a valid fact")
+            print("VALIDATION ERROR: check " + check['desc'] + " : test field " + check['tfield'] + " not a valid fact")
             valid=0
             continue
         if check['cmd']=='facts' and check['tfield'] in facts:
