@@ -7,7 +7,7 @@ def print_failures(desc, warn, failed, failed_detail, nodata, dev_skipped, warn_
     text=">>> TEST REPORT RESULT FOR " + desc + "\n\n"
     if warn:
         text+=" ! warning: it was not possible to process all the data !\n\n"
-        text+=warn_text
+        text+=warn_text + "\n"
     if len(failed)==0:
         text+="Nothing failed\n"
     else:
@@ -116,7 +116,7 @@ def string_equal(scan, check):
                 warn_text+="WARNING: string_equal - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed.\n"
                 warn_text+="\t" + str(e) + "\n"
                 warn=1
-    print(warn_text)
+    print(warn_text[:-1])
     text=print_failures(check['desc'], warn, failed, failed_detail, nodata, dev_skipped, warn_text)
     return text
 
