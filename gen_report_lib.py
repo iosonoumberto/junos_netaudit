@@ -126,6 +126,7 @@ def threshold(scan, check):
     nodata=[]
     dev_skipped=[]
     warn=0
+    warn_text=""
     results = os.listdir(scan)
     results.pop(results.index('report.txt'))
     try:
@@ -180,7 +181,7 @@ def threshold(scan, check):
                     failed_detail[res_dict['hostname'] + ' thr: ' + str(threshold)]=[]
                     flag=0
                 failed_detail[res_dict['hostname'] + ' thr: ' + str(threshold)].append(res_dict[check['cmd']][tested])
-    text=print_failures(check['desc'], warn, failed, failed_detail, nodata, dev_skipped)
+    text=print_failures(check['desc'], warn, failed, failed_detail, nodata, dev_skipped, warn_text)
     return text
 
 def distribution(scan, check):
@@ -294,6 +295,7 @@ def empty(scan, check):
     nodata=[]
     dev_skipped=[]
     warn=0
+    warn_text=""
     results = os.listdir(scan)
     results.pop(results.index('report.txt'))
     for result in results:
@@ -314,5 +316,5 @@ def empty(scan, check):
             failed.append(res_dict['hostname'])
             failed_detail[res_dict['hostname']]=[]
             failed_detail[res_dict['hostname']].append(res_dict[check['cmd']])
-    text=print_failures(check['desc'], warn, failed, failed_detail, nodata, dev_skipped)
+    text=print_failures(check['desc'], warn, failed, failed_detail, nodata, dev_skipped, warn_text)
     return text
