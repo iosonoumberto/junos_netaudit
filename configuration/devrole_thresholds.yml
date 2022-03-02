@@ -1,0 +1,6 @@
+mem:
+  mx10008_opm: 50
+  mx104_opm: 3
+  mx204_opm: 12
+  mx480_opm: 3
+  mx960_opm: 3

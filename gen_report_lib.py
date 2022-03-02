@@ -3,6 +3,8 @@ import json
 import yaml
 import operator
 
+from jnpr.junos.factory.factory_loader import FactoryLoader
+
 ### VALIDATE FUNCTIONS
 
 def validate_devicesjson(scan):
@@ -30,6 +32,50 @@ def validate_devicesjson(scan):
         if 'hostname' not in res_dict:
             print("VALIDATION ERROR: file " + result + " missing hostname information")
             valid=0
+    return valid
+
+def validate_checks(checks):
+    valid=1
+
+    fs=open('configuration/commands.yml','r')
+    commands = yaml.load(fs, Loader=yaml.FullLoader)
+    fs.close()
+
+    cmd_list=[]
+    for cmd in commands:
+        cmd_list.append(cmd['name'])
+
+    for check in checks:
+        if check['cmd'] not in cmd_list:
+            print("VALIDATION ERROR: check " + check['desc'] + " : cmd " + check['cmd'] + "not found in commands yaml file")
+            valid=0
+            continue
+        if check['type'] == "string_equal" or check['type'] == "device_distribution" or check['type'] == "global_distribution" or check['type'] == "basic_stats":
+            if ('tfield' not in check) and (check['type'] == "global_distribution"):
+                continue
+            ftv=open('tableviews/'+check['cmd']+'.yaml', 'r')
+            d=yaml.load(ftv, Loader=yaml.FullLoader)
+            if check['tfield'] not in d[d[check['cmd']]['view']]['fields'].keys():
+                print("VALIDATION ERROR: check " + check['desc'] + " : test field " + check['tfield'] + "not found in RPC view"))
+                valid=0
+        if check['type'] == "threshold":
+            fs=open('configuration/devrole_thresholds.yml','r')
+            drthresholds = yaml.load(fs, Loader=yaml.FullLoader)
+            fs.close()
+
+            fs=open('configuration/global_thresholds.yml','r')
+            gthresholds = yaml.load(fs, Loader=yaml.FullLoader)
+            fs.close()
+
+            if check['tfield'] not in gthresholds and check['tfield'] not in drthresholds:
+                print("VALIDATION ERROR: check " + check['desc'] + " : test field " + check['tfield'] + "not defined in any threshold file")
+                valid=0
+            ftv=open('tableviews/'+check['cmd']+'.yaml', 'r')
+            d=yaml.load(ftv, Loader=yaml.FullLoader)
+            if check['tfield'] not in d[d[check['cmd']]['view']]['fields'].keys():
+                print("VALIDATION ERROR: check " + check['desc'] + " : test field " + check['tfield'] + "not found in RPC view"))
+                valid=0
+
     return valid
 
 ### CHECK FUNCTIONS
@@ -85,8 +131,8 @@ def threshold(scan, check):
     results = os.listdir(scan)
     results.pop(results.index('report.txt'))
     try:
-        fs=open('configuration/models.yml','r')
-        models = yaml.load(fs, Loader=yaml.FullLoader)
+        fs=open('configuration/devrole_thresholds.yml','r')
+        drthresholds = yaml.load(fs, Loader=yaml.FullLoader)
         fs.close()
 
         fs=open('configuration/global_thresholds.yml','r')
@@ -110,8 +156,9 @@ def threshold(scan, check):
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['hostname'])
             continue
-        if str(check['tfield']+'_thr') in models[res_dict['model']]:
-            threshold=float(models[res_dict['model']][check['tfield']+'_thr'])
+        if str(check['tfield']) in drthresholds:
+            if res_dict['model'] + "_" + res_dict['role'] in drthresholds[check['tfield']]:
+                threshold=float(drthresholds[res_dict['model'] + "_" + res_dict['role']][check['tfield']])
         else:
             threshold=float(gthresholds[check['tfield']])
         flag=1
@@ -166,13 +213,13 @@ def device_distribution(scan, check):
         host=res_dict['hostname']
         distr[host]={}
         distr_cmd=check['cmd']
-        dfield=check['dfield']
+        tfield=check['tfield']
         for tested in res_dict[distr_cmd]:
             try:
-                if res_dict[distr_cmd][tested][dfield] not in distr[host]:
-                    distr[host][res_dict[distr_cmd][tested][dfield]]=1
+                if res_dict[distr_cmd][tested][tfield] not in distr[host]:
+                    distr[host][res_dict[distr_cmd][tested][tfield]]=1
                 else:
-                    distr[host][res_dict[distr_cmd][tested][dfield]]+=1
+                    distr[host][res_dict[distr_cmd][tested][tfield]]+=1
             except Exception as e:
                 warn_text+="WARNING: distribution - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed."
                 warn_text+="\t" + str(e) + "\n"
@@ -180,7 +227,7 @@ def device_distribution(scan, check):
                 continue
     if bool(len(warn_text)):
         print(warn_text[:-1])
-    text=print_distribution(check['desc'], warn, dfield, distr, nodata, dev_skipped, warn_text)
+    text=print_distribution(check['desc'], warn, tfield, distr, nodata, dev_skipped, warn_text)
     return text
 
 def total(scan, check):
@@ -237,7 +284,7 @@ def basic_stats(scan, check):
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['hostname'])
             continue
-        vals[res_dict['hostname']]=float(res_dict[check['cmd']][list(res_dict[check['cmd']].keys())[0]][check['sfield']].strip("%"))
+        vals[res_dict['hostname']]=float(res_dict[check['cmd']][list(res_dict[check['cmd']].keys())[0]][check['tfield']].strip("%"))
     sorted_stats = sorted(vals.items(), key=operator.itemgetter(1))
     sorted_reverse_stats = sorted(vals.items(), key=operator.itemgetter(1), reverse=True)
     stats["maxv"]={}
@@ -323,13 +370,13 @@ def global_distribution(scan, check):
                 warn=1
                 continue
             continue
-        dfield=check['dfield']
+        tfield=check['tfield']
         for tested in res_dict[distr_cmd]:
             try:
-                if res_dict[distr_cmd][tested][dfield] not in distr:
-                    distr[res_dict[distr_cmd][tested][dfield]]=1
+                if res_dict[distr_cmd][tested][tfield] not in distr:
+                    distr[res_dict[distr_cmd][tested][tfield]]=1
                 else:
-                    distr[res_dict[distr_cmd][tested][dfield]]+=1
+                    distr[res_dict[distr_cmd][tested][tfield]]+=1
             except Exception as e:
                 warn_text+="WARNING: distribution - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed."
                 warn_text+="\t" + str(e) + "\n"
@@ -368,12 +415,12 @@ def print_failures(desc, warn, failed, failed_detail, nodata, dev_skipped, warn_
         text+="The following devices were skipped: " + str(nodata) + "\n"
     return text
 
-def print_distribution(desc, warn, dfield, distr, nodata, dev_skipped, warn_text):
+def print_distribution(desc, warn, tfield, distr, nodata, dev_skipped, warn_text):
     text=">>> CHECK RESULT FOR " + desc + "\n\n"
     if warn:
         text+="!!! warning: it was not possible to process all the data !!!\n\n"
         text+=warn_text + "\n"
-    text+="distribution based on field : " + dfield + "\n"
+    text+="distribution based on field : " + tfield + "\n"
     for dev in distr:
         tot=0
         text+="  " + dev + "\n"

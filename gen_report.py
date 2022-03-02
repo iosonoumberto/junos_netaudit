@@ -28,6 +28,13 @@ if not valid:
     sys.exit()
 print("VALIDATE: devices json files look ok")
 
+print("VALIDATE: checks file...")
+valid=gen_report_lib.validate_checks(checks)
+if not valid:
+    print("VALIDATION ERROR: exiting")
+    sys.exit()
+print("VALIDATE: devices json files look ok")
+
 fo=open(args.scan + '/report.txt','w')
 fo.write("### REPORT FILE FOR SCAN " + args.scan + " ###\n\n")
 
