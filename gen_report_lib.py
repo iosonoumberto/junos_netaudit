@@ -81,6 +81,8 @@ def validate_checks(checks):
                 print("VALIDATION ERROR: check " + check['desc'] + " : test field " + check['tfield'] + "not found in RPC view")
                 valid=0
             continue
+        print("VALIDATION ERROR: check " + check['desc'] + " : test type " + check['test'] + "not a valid test type")
+        valid=0
 
     return valid
 
