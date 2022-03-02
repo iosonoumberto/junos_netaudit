@@ -36,6 +36,7 @@ def validate_devicesjson(scan):
 
 def validate_checks(checks):
     valid=1
+    facts=['release','model','hostname','role']
     fs=open('configuration/commands.yml','r')
     commands = yaml.load(fs, Loader=yaml.FullLoader)
     fs.close()
@@ -45,7 +46,13 @@ def validate_checks(checks):
         cmd_list.append(cmd['name'])
 
     for check in checks:
-        if check['cmd'] not in cmd_list and check['cmd']!='facts' :
+        if check['cmd']=='facts' and check['tfield'] not in facts:
+            print("VALIDATION ERROR: check " + check['desc'] + " : test field " + check['tfield'] + "not a valid fact")
+            valid=0
+            continue
+        if check['cmd']=='facts' and check['tfield'] in facts:
+            continue
+        if check['cmd'] not in cmd_list:
             print("VALIDATION ERROR: check " + check['desc'] + " : cmd " + check['cmd'] + " not found in commands yaml file")
             valid=0
             continue
