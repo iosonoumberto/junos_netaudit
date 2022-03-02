@@ -362,9 +362,9 @@ def global_distribution(scan, check):
         if type(res_dict[distr_cmd]) is str:
             try:
                 if res_dict[distr_cmd] not in distr:
-                    distr[distr_cmd]=1
+                    distr[res_dict[distr_cmd]]=1
                 else:
-                    distr[distr_cmd]+=1
+                    distr[res_dict[distr_cmd]]+=1
             except Exception as e:
                 warn_text+="WARNING: distribution - " + check['desc'] + " - " + res_dict['hostname'] + " - " + distr_cmd + " logic failed."
                 warn_text+="\t" + str(e) + "\n"
