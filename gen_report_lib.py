@@ -45,8 +45,8 @@ def validate_checks(checks):
         cmd_list.append(cmd['name'])
 
     for check in checks:
-        if check['cmd'] not in cmd_list or check['cmd']=='facts' :
-            print("VALIDATION ERROR: check " + check['desc'] + " : cmd " + check['cmd'] + "not found in commands yaml file")
+        if check['cmd'] not in cmd_list and check['cmd']!='facts' :
+            print("VALIDATION ERROR: check " + check['desc'] + " : cmd " + check['cmd'] + " not found in commands yaml file")
             valid=0
             continue
         if check['test'] == "string_equal" or check['test'] == "device_distribution" or check['test'] == "global_distribution" or check['test'] == "basic_stats":
