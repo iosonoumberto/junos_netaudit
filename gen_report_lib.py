@@ -18,6 +18,8 @@ def validate_devicesjson(scan):
             print("ERROR: skipping device.")
             valid=0
             continue
+        if type(res_dict) is not dict:
+            return 0
         if 'model' not in res_dict:
             print("VALIDATION ERROR: file " + result + " missing model information")
             valid=0
@@ -27,6 +29,7 @@ def validate_devicesjson(scan):
         if 'hostname' not in res_dict:
             print("VALIDATION ERROR: file " + result + " missing hostname information")
             valid=0
+    return valid
 
 ### CHECK FUNCTIONS
 

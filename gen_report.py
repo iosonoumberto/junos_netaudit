@@ -26,6 +26,7 @@ valid=gen_report_lib.validate_devicesjson(args.scan)
 if not valid:
     print("VALIDATION ERROR: exiting")
     sys.exit()
+print("VALIDATE: devices json files look ok")
 
 fo=open(args.scan + '/report.txt','w')
 fo.write("### REPORT FILE FOR SCAN " + args.scan + " ###\n\n")
