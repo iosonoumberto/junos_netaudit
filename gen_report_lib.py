@@ -113,7 +113,7 @@ def string_equal(scan, check):
                         flag=0
                         failed_detail[res_dict['hostname']].append(res_dict[check['cmd']][tested])
             except Exception as e:
-                warn_text+="WARNING: string_equal - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed.")
+                warn_text+="WARNING: string_equal - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed.\n"
                 warn_text+="\t" + str(e) + "\n"
                 warn=1
     print(warn_text)
