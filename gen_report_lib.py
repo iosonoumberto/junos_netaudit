@@ -7,6 +7,7 @@ import operator
 
 def validate_devicesjson(scan):
     results = os.listdir(scan)
+    results.pop(results.index('report.txt'))
     valid=1
     for result in results:
         try:
