@@ -36,7 +36,6 @@ def validate_devicesjson(scan):
 
 def validate_checks(checks):
     valid=1
-
     fs=open('configuration/commands.yml','r')
     commands = yaml.load(fs, Loader=yaml.FullLoader)
     fs.close()
@@ -46,13 +45,11 @@ def validate_checks(checks):
         cmd_list.append(cmd['name'])
 
     for check in checks:
-        if check['cmd'] not in cmd_list:
+        if check['cmd'] not in cmd_list or check['cmd']=='facts' :
             print("VALIDATION ERROR: check " + check['desc'] + " : cmd " + check['cmd'] + "not found in commands yaml file")
             valid=0
             continue
         if check['test'] == "string_equal" or check['test'] == "device_distribution" or check['test'] == "global_distribution" or check['test'] == "basic_stats":
-            if ('tfield' not in check) and (check['test'] == "global_distribution"):
-                continue
             ftv=open('tableviews/'+check['cmd']+'.yaml', 'r')
             d=yaml.load(ftv, Loader=yaml.FullLoader)
             if check['tfield'] not in d[d[check['cmd']]['view']]['fields'].keys():
@@ -102,18 +99,18 @@ def string_equal(scan, check):
             continue
         flag=1
         if not res_dict[check['cmd']]:
-            nodata.append(res_dict['hostname'])
+            nodata.append(res_dict['facts']['info']['hostname'])
             continue
         for tested in res_dict[check['cmd']]:
             try:
                 if res_dict[check['cmd']][tested][check['tfield']]!=check['val']:
                     if flag:
-                        failed.append(res_dict['hostname'])
-                        failed_detail[res_dict['hostname']]=[]
+                        failed.append(res_dict['facts']['info']['hostname'])
+                        failed_detail[res_dict['facts']['info']['hostname']]=[]
                         flag=0
-                        failed_detail[res_dict['hostname']].append(res_dict[check['cmd']][tested])
+                        failed_detail[res_dict['facts']['info']['hostname']].append(res_dict[check['cmd']][tested])
             except Exception as e:
-                warn_text+="WARNING: string_equal - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed.\n"
+                warn_text+="WARNING: string_equal - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " - " + tested + " logic failed.\n"
                 warn_text+="\t" + str(e) + "\n"
                 warn=1
     if bool(len(warn_text)):
@@ -154,11 +151,11 @@ def threshold(scan, check):
             warn=1
             continue
         if not res_dict[check['cmd']]:
-            nodata.append(res_dict['hostname'])
+            nodata.append(res_dict['facts']['info']['hostname'])
             continue
         if str(check['tfield']) in drthresholds:
-            if res_dict['model'] + "_" + res_dict['role'] in drthresholds[check['tfield']]:
-                threshold=float(drthresholds[res_dict['model'] + "_" + res_dict['role']][check['tfield']])
+            if res_dict['facts']['info']['model'] + "_" + res_dict['facts']['info']['role'] in drthresholds[check['tfield']]:
+                threshold=float(drthresholds[res_dict['facts']['info']['model'] + "_" + res_dict['facts']['info']['role']][check['tfield']])
         else:
             threshold=float(gthresholds[check['tfield']])
         flag=1
@@ -169,7 +166,7 @@ def threshold(scan, check):
             try:
                 test_float=float(res_dict[check['cmd']][tested][check['tfield']])
             except Exception as e:
-                warn_text+="WARNING: threshold - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed.\n"
+                warn_text+="WARNING: threshold - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " - " + tested + " logic failed.\n"
                 warn_text+="\t" + str(e) + "\n"
                 warn=1
                 continue
@@ -179,10 +176,10 @@ def threshold(scan, check):
                 good = float(res_dict[check['cmd']][tested][check['tfield']])<=threshold
             if not good:
                 if flag:
-                    failed.append(res_dict['hostname'])
-                    failed_detail[res_dict['hostname'] + ' thr: ' + str(threshold)]=[]
+                    failed.append(res_dict['facts']['info']['hostname'])
+                    failed_detail[res_dict['facts']['info']['hostname'] + ' thr: ' + str(threshold)]=[]
                     flag=0
-                failed_detail[res_dict['hostname'] + ' thr: ' + str(threshold)].append(res_dict[check['cmd']][tested])
+                failed_detail[res_dict['facts']['info']['hostname'] + ' thr: ' + str(threshold)].append(res_dict[check['cmd']][tested])
     if bool(len(warn_text)):
         print(warn_text[:-1])
     text=print_failures(check['desc'], warn, failed, failed_detail, nodata, dev_skipped, warn_text)
@@ -208,9 +205,9 @@ def device_distribution(scan, check):
             warn=1
             continue
         if not res_dict[check['cmd']]:
-            nodata.append(res_dict['hostname'])
+            nodata.append(res_dict['facts']['info']['hostname'])
             continue
-        host=res_dict['hostname']
+        host=res_dict['facts']['info']['hostname']
         distr[host]={}
         distr_cmd=check['cmd']
         tfield=check['tfield']
@@ -221,7 +218,7 @@ def device_distribution(scan, check):
                 else:
                     distr[host][res_dict[distr_cmd][tested][tfield]]+=1
             except Exception as e:
-                warn_text+="WARNING: distribution - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed."
+                warn_text+="WARNING: distribution - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " - " + tested + " logic failed."
                 warn_text+="\t" + str(e) + "\n"
                 warn=1
                 continue
@@ -250,9 +247,9 @@ def total(scan, check):
             warn=1
             continue
         if not res_dict[check['cmd']]:
-            nodata.append(res_dict['hostname'])
+            nodata.append(res_dict['facts']['info']['hostname'])
             continue
-        host=res_dict['hostname']
+        host=res_dict['facts']['info']['hostname']
         tot=len(res_dict[check['cmd']])
         tot_dict[host]=tot
     if bool(len(warn_text)):
@@ -282,9 +279,9 @@ def basic_stats(scan, check):
             warn=1
             continue
         if not res_dict[check['cmd']]:
-            nodata.append(res_dict['hostname'])
+            nodata.append(res_dict['facts']['info']['hostname'])
             continue
-        vals[res_dict['hostname']]=float(res_dict[check['cmd']][list(res_dict[check['cmd']].keys())[0]][check['tfield']].strip("%"))
+        vals[res_dict['facts']['info']['hostname']]=float(res_dict[check['cmd']][list(res_dict[check['cmd']].keys())[0]][check['tfield']].strip("%"))
     sorted_stats = sorted(vals.items(), key=operator.itemgetter(1))
     sorted_reverse_stats = sorted(vals.items(), key=operator.itemgetter(1), reverse=True)
     stats["maxv"]={}
@@ -323,12 +320,12 @@ def empty(scan, check):
             warn=1
             continue
         if not res_dict[check['cmd']]:
-            nodata.append(res_dict['hostname'])
+            nodata.append(res_dict['facts']['info']['hostname'])
             continue
         if len(res_dict[check['cmd']])!=0:
-            failed.append(res_dict['hostname'])
-            failed_detail[res_dict['hostname']]=[]
-            failed_detail[res_dict['hostname']].append(res_dict[check['cmd']])
+            failed.append(res_dict['facts']['info']['hostname'])
+            failed_detail[res_dict['facts']['info']['hostname']]=[]
+            failed_detail[res_dict['facts']['info']['hostname']].append(res_dict[check['cmd']])
     if bool(len(warn_text)):
         print(warn_text[:-1])
     text=print_failures(check['desc'], warn, failed, failed_detail, nodata, dev_skipped, warn_text)
@@ -358,18 +355,6 @@ def global_distribution(scan, check):
             nodata.append(res_dict['hostname'])
             continue
         distr_cmd=check['cmd']
-        if type(res_dict[distr_cmd]) is str:
-            try:
-                if res_dict[distr_cmd] not in distr:
-                    distr[res_dict[distr_cmd]]=1
-                else:
-                    distr[res_dict[distr_cmd]]+=1
-            except Exception as e:
-                warn_text+="WARNING: distribution - " + check['desc'] + " - " + res_dict['hostname'] + " - " + distr_cmd + " logic failed."
-                warn_text+="\t" + str(e) + "\n"
-                warn=1
-                continue
-            continue
         tfield=check['tfield']
         for tested in res_dict[distr_cmd]:
             try:
@@ -378,7 +363,7 @@ def global_distribution(scan, check):
                 else:
                     distr[res_dict[distr_cmd][tested][tfield]]+=1
             except Exception as e:
-                warn_text+="WARNING: distribution - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed."
+                warn_text+="WARNING: distribution - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " - " + tested + " logic failed."
                 warn_text+="\t" + str(e) + "\n"
                 warn=1
                 continue

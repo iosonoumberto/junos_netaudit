@@ -72,10 +72,12 @@ for router in devices:
         dev.open()
 
         #save release, model and hostname
-        res_dict['release']=dev.facts['junos_info']['re0']['text']
-        res_dict['hostname']=dev.facts['hostname']
-        res_dict['model']=router['model']
-        res_dict['role']=router['role']
+        res_dict['facts']={}
+        res_dict['facts']['info']
+        res_dict['facts']['info']['release']=dev.facts['junos_info']['re0']['text']
+        res_dict['facts']['info']['hostname']=dev.facts['hostname']
+        res_dict['facts']['info']['model']=router['model']
+        res_dict['facts']['info']['role']=router['role']
 
         #find out whther device is single or dual re
         router['2re']=dev.facts['2RE']

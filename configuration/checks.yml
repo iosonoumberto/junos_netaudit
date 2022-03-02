@@ -41,8 +41,9 @@
   tfield: "usedperc"
   interest: ['/dev/gpt/junos']
 - desc: "Release distribution"
-  cmd: "release"
+  cmd: "facts"
   test: "global_distribution"
+  tfield: "release"
 - desc: "BGP global states distribution"
   cmd: "bgp_summary"
   test: "global_distribution"
