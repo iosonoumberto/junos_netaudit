@@ -28,5 +28,6 @@ for check in checks:
     text = eval('gen_report_lib.'+check['test']+'(args.scan, check)')
     #print(text)
     fo.write(text)
+    fo.write("\n")
 
 fo.close()
