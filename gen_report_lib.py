@@ -386,5 +386,5 @@ def global_distribution(scan, check):
                 continue
     if bool(len(warn_text)):
         print(warn_text[:-1])
-    text=print_distribution(check['desc'], warn, dfield, distr, nodata, dev_skipped, warn_text)
+    text=print_dict(check['desc'], warn, distr, nodata, dev_skipped, warn_text)
     return text
