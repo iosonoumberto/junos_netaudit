@@ -72,6 +72,9 @@ def validate_checks(checks):
             gthresholds = yaml.load(fs, Loader=yaml.FullLoader)
             fs.close()
 
+            if check['fail'] not in ['higher','lower']:
+                print("VALIDATION ERROR: check " + check['desc'] + " : threshold type " + check['fail'] + "not a valid failure criteria")
+                valid=0
             if check['tfield'] not in gthresholds and check['tfield'] not in drthresholds:
                 print("VALIDATION ERROR: check " + check['desc'] + " : test field " + check['tfield'] + "not defined in any threshold file")
                 valid=0
