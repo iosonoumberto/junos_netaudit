@@ -56,14 +56,14 @@ def validate_checks(checks):
             print("VALIDATION ERROR: check " + check['desc'] + " : cmd " + check['cmd'] + " not found in commands yaml file")
             valid=0
             continue
-        if check['test'] == "string_equal" or check['test'] == "device_distribution" or check['test'] == "global_distribution" or check['test'] == "basic_stats":
+        if check['test'] in ["string_equal","device_distribution","global_distribution","basic_stats"]:
             ftv=open('tableviews/'+check['cmd']+'.yaml', 'r')
             d=yaml.load(ftv, Loader=yaml.FullLoader)
             if check['tfield'] not in d[d[check['cmd']]['view']]['fields'].keys():
-                print("VALIDATION ERROR: check " + check['desc'] + " : test field " + check['tfield'] + "not found in RPC view")
+                print("VALIDATION ERROR: check " + check['desc'] + " : test field " + check['tfield'] + " not found in RPC view")
                 valid=0
             continue
-        if check['test'] == "threshold":
+        if check['test'] in ["threshold"]:
             fs=open('configuration/devrole_thresholds.yml','r')
             drthresholds = yaml.load(fs, Loader=yaml.FullLoader)
             fs.close()
@@ -73,18 +73,20 @@ def validate_checks(checks):
             fs.close()
 
             if check['fail'] not in ['higher','lower']:
-                print("VALIDATION ERROR: check " + check['desc'] + " : threshold type " + check['fail'] + "not a valid failure criteria")
+                print("VALIDATION ERROR: check " + check['desc'] + " : threshold type " + check['fail'] + " not a valid failure criteria")
                 valid=0
             if check['tfield'] not in gthresholds and check['tfield'] not in drthresholds:
-                print("VALIDATION ERROR: check " + check['desc'] + " : test field " + check['tfield'] + "not defined in any threshold file")
+                print("VALIDATION ERROR: check " + check['desc'] + " : test field " + check['tfield'] + " not defined in any threshold file")
                 valid=0
             ftv=open('tableviews/'+check['cmd']+'.yaml', 'r')
             d=yaml.load(ftv, Loader=yaml.FullLoader)
             if check['tfield'] not in d[d[check['cmd']]['view']]['fields'].keys():
-                print("VALIDATION ERROR: check " + check['desc'] + " : test field " + check['tfield'] + "not found in RPC view")
+                print("VALIDATION ERROR: check " + check['desc'] + " : test field " + check['tfield'] + " not found in RPC view")
                 valid=0
             continue
-        print("VALIDATION ERROR: check " + check['desc'] + " : test type " + check['test'] + "not a valid test type")
+        if check['test'] in ["total","empty"]:
+            continue
+        print("VALIDATION ERROR: check " + check['desc'] + " : test type " + check['test'] + " not a valid test type")
         valid=0
 
     return valid
