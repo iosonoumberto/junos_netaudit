@@ -56,7 +56,7 @@ def validate_checks(checks):
             ftv=open('tableviews/'+check['cmd']+'.yaml', 'r')
             d=yaml.load(ftv, Loader=yaml.FullLoader)
             if check['tfield'] not in d[d[check['cmd']]['view']]['fields'].keys():
-                print("VALIDATION ERROR: check " + check['desc'] + " : test field " + check['tfield'] + "not found in RPC view"))
+                print("VALIDATION ERROR: check " + check['desc'] + " : test field " + check['tfield'] + "not found in RPC view")
                 valid=0
         if check['type'] == "threshold":
             fs=open('configuration/devrole_thresholds.yml','r')
@@ -73,7 +73,7 @@ def validate_checks(checks):
             ftv=open('tableviews/'+check['cmd']+'.yaml', 'r')
             d=yaml.load(ftv, Loader=yaml.FullLoader)
             if check['tfield'] not in d[d[check['cmd']]['view']]['fields'].keys():
-                print("VALIDATION ERROR: check " + check['desc'] + " : test field " + check['tfield'] + "not found in RPC view"))
+                print("VALIDATION ERROR: check " + check['desc'] + " : test field " + check['tfield'] + "not found in RPC view")
                 valid=0
 
     return valid
