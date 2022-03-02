@@ -190,7 +190,7 @@ def threshold(scan, check):
     text=print_failures(check['desc'], warn, failed, failed_detail, nodata, dev_skipped, warn_text)
     return text
 
-def distribution(scan, check):
+def device_distribution(scan, check):
     distr={}
     nodata=[]
     dev_skipped=[]
