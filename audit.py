@@ -73,7 +73,7 @@ for router in devices:
 
         #save release, model and hostname
         res_dict['facts']={}
-        res_dict['facts']['info']
+        res_dict['facts']['info']={}
         res_dict['facts']['info']['release']=dev.facts['junos_info']['re0']['text']
         res_dict['facts']['info']['hostname']=dev.facts['hostname']
         res_dict['facts']['info']['model']=router['model']
