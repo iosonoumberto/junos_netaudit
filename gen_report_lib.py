@@ -342,6 +342,7 @@ def global_distribution(scan, check):
     dev_skipped=[]
     warn=0
     warn_text=""
+    distr={}
     results = os.listdir(scan)
     results.pop(results.index('report.txt'))
     for result in results:
@@ -358,7 +359,6 @@ def global_distribution(scan, check):
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['hostname'])
             continue
-        distr={}
         distr_cmd=check['cmd']
         if type(res_dict[distr_cmd]) is str:
             try:
