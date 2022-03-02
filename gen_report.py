@@ -22,7 +22,7 @@ except:
     sys.exit()
 
 fo=open(args.scan + '/report.txt','w')
-fo.write("### REPORT FILE FOR SCAN " + args.scan + " ###")
+fo.write("### REPORT FILE FOR SCAN " + args.scan + " ###\n\n")
 
 for check in checks:
     text = eval('gen_report_lib.'+check['test']+'(args.scan, check)')
