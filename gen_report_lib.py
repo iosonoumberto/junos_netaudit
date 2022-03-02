@@ -3,84 +3,32 @@ import json
 import yaml
 import operator
 
-def print_failures(desc, warn, failed, failed_detail, nodata, dev_skipped, warn_text):
-    text=">>> CHECK RESULT FOR " + desc + "\n\n"
-    if warn:
-        text+="!!! warning: it was not possible to process all the data !!!\n\n"
-        text+=warn_text + "\n"
-    if len(failed)==0:
-        text+="Nothing failed\n"
-    else:
-        text+="The following items failed : " + str(failed) + "\n"
-        text+="\n"
-        text+="Details:\n"
-        for e in failed_detail:
-            text+="  " + e + "\n"
-            for l in failed_detail[e]:
-                for k in l:
-                    text+="\t" + str(k) + " - " + str(l[k]) + "\n"
-                text+="\t----\n"
-    text+="\n"
-    if len(nodata) > 0:
-        text+="\n"
-        text+="The following devices had no data: " + str(nodata) + "\n"
-    if len(dev_skipped) > 0:
-        text+="\n"
-        text+="The following devices were skipped: " + str(nodata) + "\n"
-    return text
+### VALIDATE FUNCTIONS
 
-def print_distribution(desc, warn, dfield, distr, nodata, dev_skipped, warn_text):
-    text=">>> CHECK RESULT FOR " + desc + "\n\n"
-    if warn:
-        text+="!!! warning: it was not possible to process all the data !!!\n\n"
-        text+=warn_text + "\n"
-    text+="distribution based on field : " + dfield + "\n"
-    for dev in distr:
-        tot=0
-        text+="  " + dev + "\n"
-        for x in distr[dev]:
-            tot+=distr[dev][x]
-        for e in distr[dev]:
-            text+="  " + e + " : " + str(distr[dev][e]) + " , " + str(float(distr[dev][e]/tot*100)) + "%\n"
-        text+="\t----\n"
-    if len(nodata) > 0:
-        text+="\n"
-        text+="The following devices had no data: " + str(nodata) + "\n"
-    if len(dev_skipped) > 0:
-        text+="\n"
-        text+="The following devices were skipped: " + str(nodata) + "\n"
-    return text
+def validate_devicesjson(scan):
+    results = os.listdir(scan)
+    valid=1
+    for result in result:
+        try:
+            fr=open(scan+"/"+result,'r')
+            res_dict=json.load(fr)
+            fr.close()
+        except:
+            print("ERROR: could not load device json output " + result)
+            print("ERROR: skipping device.")
+            valid=0
+            continue
+        if 'model' not in res_dict:
+            print("VALIDATION ERROR: file " + result + " missing model information")
+            valid=0
+        if 'role' not in res_dict:
+            print("VALIDATION ERROR: file " + result + " missing role information")
+            valid=0
+        if 'hostname' not in res_dict:
+            print("VALIDATION ERROR: file " + result + " missing hostname information")
+            valid=0
 
-def print_dict(desc, warn, dict, nodata, dev_skipped, warn_text):
-    text=">>> CHECK RESULT FOR " + desc + "\n\n"
-    if warn:
-        text+="!!! warning: it was not possible to process all the data !!!\n\n"
-        text+=warn_text + "\n"
-    for x in dict:
-        text+="  - " + x + " : " + str(dict[x]) + "\n"
-    if len(nodata) > 0:
-        text+="\n"
-        text+="The following devices had no data: " + str(nodata) + "\n"
-    if len(dev_skipped) > 0:
-        text+="\n"
-        text+="The following devices were skipped: " + str(nodata) + "\n"
-    return text
-
-def print_basic_stats(desc, warn, unit, stats, nodata, dev_skipped, warn_text):
-    text=">>> CHECK RESULT FOR " + desc + "\n\n"
-    if warn:
-        text+="!!! warning: it was not possible to process all the data !!!\n\n"
-        text+=warn_text + "\n"
-    text+="MAX value -> device " + stats['maxv']['host'] + " : " + str(stats['maxv']['val']) + unit + "\n"
-    text+="MIN value -> device " + stats['minv']['host'] + " : " + str(stats['minv']['val']) + unit + "\n"
-    text+="AVG value -> " + str(stats['avg']) + unit + "\n"
-    if len(nodata) > 0:
-        text+="\n"
-        text+="The following devices had no data: " + str(nodata) + "\n"
-    if len(dev_skipped) > 0:
-        text+="\n"
-        text+="The following devices were skipped: " + str(nodata) + "\n"
-    return text
+### CHECK FUNCTIONS
 
 def string_equal(scan, check):
     failed=[]
@@ -386,4 +334,85 @@ def global_distribution(scan, check):
     if bool(len(warn_text)):
         print(warn_text[:-1])
     text=print_dict(check['desc'], warn, distr, nodata, dev_skipped, warn_text)
+    return text
+
+### PRINT FUNCTIONS
+
+def print_failures(desc, warn, failed, failed_detail, nodata, dev_skipped, warn_text):
+    text=">>> CHECK RESULT FOR " + desc + "\n\n"
+    if warn:
+        text+="!!! warning: it was not possible to process all the data !!!\n\n"
+        text+=warn_text + "\n"
+    if len(failed)==0:
+        text+="Nothing failed\n"
+    else:
+        text+="The following items failed : " + str(failed) + "\n"
+        text+="\n"
+        text+="Details:\n"
+        for e in failed_detail:
+            text+="  " + e + "\n"
+            for l in failed_detail[e]:
+                for k in l:
+                    text+="\t" + str(k) + " - " + str(l[k]) + "\n"
+                text+="\t----\n"
+    text+="\n"
+    if len(nodata) > 0:
+        text+="\n"
+        text+="The following devices had no data: " + str(nodata) + "\n"
+    if len(dev_skipped) > 0:
+        text+="\n"
+        text+="The following devices were skipped: " + str(nodata) + "\n"
+    return text
+
+def print_distribution(desc, warn, dfield, distr, nodata, dev_skipped, warn_text):
+    text=">>> CHECK RESULT FOR " + desc + "\n\n"
+    if warn:
+        text+="!!! warning: it was not possible to process all the data !!!\n\n"
+        text+=warn_text + "\n"
+    text+="distribution based on field : " + dfield + "\n"
+    for dev in distr:
+        tot=0
+        text+="  " + dev + "\n"
+        for x in distr[dev]:
+            tot+=distr[dev][x]
+        for e in distr[dev]:
+            text+="  " + e + " : " + str(distr[dev][e]) + " , " + str(float(distr[dev][e]/tot*100)) + "%\n"
+        text+="\t----\n"
+    if len(nodata) > 0:
+        text+="\n"
+        text+="The following devices had no data: " + str(nodata) + "\n"
+    if len(dev_skipped) > 0:
+        text+="\n"
+        text+="The following devices were skipped: " + str(nodata) + "\n"
+    return text
+
+def print_dict(desc, warn, dict, nodata, dev_skipped, warn_text):
+    text=">>> CHECK RESULT FOR " + desc + "\n\n"
+    if warn:
+        text+="!!! warning: it was not possible to process all the data !!!\n\n"
+        text+=warn_text + "\n"
+    for x in dict:
+        text+="  - " + x + " : " + str(dict[x]) + "\n"
+    if len(nodata) > 0:
+        text+="\n"
+        text+="The following devices had no data: " + str(nodata) + "\n"
+    if len(dev_skipped) > 0:
+        text+="\n"
+        text+="The following devices were skipped: " + str(nodata) + "\n"
+    return text
+
+def print_basic_stats(desc, warn, unit, stats, nodata, dev_skipped, warn_text):
+    text=">>> CHECK RESULT FOR " + desc + "\n\n"
+    if warn:
+        text+="!!! warning: it was not possible to process all the data !!!\n\n"
+        text+=warn_text + "\n"
+    text+="MAX value -> device " + stats['maxv']['host'] + " : " + str(stats['maxv']['val']) + unit + "\n"
+    text+="MIN value -> device " + stats['minv']['host'] + " : " + str(stats['minv']['val']) + unit + "\n"
+    text+="AVG value -> " + str(stats['avg']) + unit + "\n"
+    if len(nodata) > 0:
+        text+="\n"
+        text+="The following devices had no data: " + str(nodata) + "\n"
+    if len(dev_skipped) > 0:
+        text+="\n"
+        text+="The following devices were skipped: " + str(nodata) + "\n"
     return text

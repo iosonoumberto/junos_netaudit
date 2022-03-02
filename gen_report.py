@@ -21,6 +21,12 @@ except:
     print("ERROR: cannot open checks file. Exiting.")
     sys.exit()
 
+print("VALIDATE: devices json files...")
+valid=gen_report_lib.validate_devicesjson(args.scan)
+if not valid:
+    print("VALIDATION ERROR: exiting")
+    sys.exit()
+
 fo=open(args.scan + '/report.txt','w')
 fo.write("### REPORT FILE FOR SCAN " + args.scan + " ###\n\n")
 
