@@ -119,7 +119,8 @@ def string_equal(scan, check):
                 warn_text+="WARNING: string_equal - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed.\n"
                 warn_text+="\t" + str(e) + "\n"
                 warn=1
-    print(warn_text[:-1])
+    if not bool(len(warn_text)):
+        print(warn_text[:-1])
     text=print_failures(check['desc'], warn, failed, failed_detail, nodata, dev_skipped, warn_text)
     return text
 
@@ -170,7 +171,7 @@ def threshold(scan, check):
             try:
                 test_float=float(res_dict[check['cmd']][tested][check['tfield']])
             except Exception as e:
-                warn_text+="WARNING: threshold - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed."
+                warn_text+="WARNING: threshold - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed.\n"
                 warn_text+="\t" + str(e) + "\n"
                 warn=1
                 continue
@@ -184,7 +185,8 @@ def threshold(scan, check):
                     failed_detail[res_dict['hostname'] + ' thr: ' + str(threshold)]=[]
                     flag=0
                 failed_detail[res_dict['hostname'] + ' thr: ' + str(threshold)].append(res_dict[check['cmd']][tested])
-    print(warn_text[:-1])
+    if not bool(len(warn_text)):
+        print(warn_text[:-1])
     text=print_failures(check['desc'], warn, failed, failed_detail, nodata, dev_skipped, warn_text)
     return text
 
@@ -225,6 +227,8 @@ def distribution(scan, check):
                 warn_text+="\t" + str(e) + "\n"
                 warn=1
                 continue
+    if not bool(len(warn_text)):
+        print(warn_text[:-1])
     text=print_distribution(check['desc'], warn, dfield, distr, nodata, dev_skipped, warn_text)
     return text
 
@@ -253,7 +257,8 @@ def total(scan, check):
         host=res_dict['hostname']
         tot=len(res_dict[check['cmd']])
         tot_dict[host]=tot
-    print(warn_text[:-1])
+    if not bool(len(warn_text)):
+        print(warn_text[:-1])
     text=print_dict(check['desc'], warn, tot_dict, nodata, dev_skipped, warn_text)
     return text
 
@@ -294,7 +299,8 @@ def basic_stats(scan, check):
     for x in vals:
         tot+=float(vals[x])
     stats["avg"]=tot/totdev
-    print(warn_text[:-1])
+    if not bool(len(warn_text)):
+        print(warn_text[:-1])
     text=print_basic_stats(check['desc'], warn, check['unit'], stats, nodata, dev_skipped, warn_text)
     return text
 
@@ -325,6 +331,7 @@ def empty(scan, check):
             failed.append(res_dict['hostname'])
             failed_detail[res_dict['hostname']]=[]
             failed_detail[res_dict['hostname']].append(res_dict[check['cmd']])
-    print(warn_text[:-1])
+    if not bool(len(warn_text)):
+        print(warn_text[:-1])
     text=print_failures(check['desc'], warn, failed, failed_detail, nodata, dev_skipped, warn_text)
     return text
