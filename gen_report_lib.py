@@ -23,13 +23,13 @@ def validate_devicesjson(scan):
             continue
         if type(res_dict) is not dict:
             return 0
-        if 'model' not in res_dict:
+        if 'model' not in res_dict['facts']['info']:
             print("VALIDATION ERROR: file " + result + " missing model information")
             valid=0
-        if 'role' not in res_dict:
+        if 'role' not in res_dict['facts']['info']:
             print("VALIDATION ERROR: file " + result + " missing role information")
             valid=0
-        if 'hostname' not in res_dict:
+        if 'hostname' not in res_dict['facts']['info']:
             print("VALIDATION ERROR: file " + result + " missing hostname information")
             valid=0
     return valid
