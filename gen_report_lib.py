@@ -249,12 +249,12 @@ def total(scan, check):
 def basic_stats(scan, check):
     vals={}
     stats={}
-    totdev=float(len(results))
     nodata=[]
     dev_skipped=[]
     warn=0
     results = os.listdir(scan)
     results.pop(results.index('report.txt'))
+    totdev=float(len(results))
     for result in results:
         try:
             fr=open(scan+"/"+result,'r')
