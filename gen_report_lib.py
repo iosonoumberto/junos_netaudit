@@ -162,7 +162,7 @@ def threshold(scan, check):
             continue
         if str(check['tfield']) in drthresholds:
             if res_dict['facts']['info']['model'] + "_" + res_dict['facts']['info']['role'] in drthresholds[check['tfield']]:
-                threshold=float(drthresholds[check['tfield']][res_dict['facts']['info']['model'] + "_" + res_dict['facts']['info']['role']][check['tfield']])
+                threshold=float(drthresholds[check['tfield']][res_dict['facts']['info']['model'] + "_" + res_dict['facts']['info']['role']])
         else:
             threshold=float(gthresholds[check['tfield']])
         flag=1
