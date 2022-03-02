@@ -8,7 +8,7 @@ import operator
 def validate_devicesjson(scan):
     results = os.listdir(scan)
     valid=1
-    for result in result:
+    for result in results:
         try:
             fr=open(scan+"/"+result,'r')
             res_dict=json.load(fr)
