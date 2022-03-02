@@ -29,10 +29,11 @@ def print_failures(desc, warn, failed, failed_detail, nodata, dev_skipped, warn_
         text+="The following devices were skipped: " + str(nodata) + "\n"
     return text
 
-def print_distribution(desc, warn, dfield, distr, nodata, dev_skipped):
+def print_distribution(desc, warn, dfield, distr, nodata, dev_skipped, warn_text):
     text=">>> CHECK RESULT FOR " + desc + "\n\n"
     if warn:
         text+="!!! warning: it was not possible to process all the data !!!\n\n"
+        text+=warn_text + "\n"
     text+="distribution based on field : " + dfield + "\n"
     for dev in distr:
         tot=0
@@ -50,10 +51,11 @@ def print_distribution(desc, warn, dfield, distr, nodata, dev_skipped):
         text+="The following devices were skipped: " + str(nodata) + "\n"
     return text
 
-def print_dict(desc, warn, dict, nodata, dev_skipped):
+def print_dict(desc, warn, dict, nodata, dev_skipped, warn_text):
     text=">>> CHECK RESULT FOR " + desc + "\n\n"
     if warn:
         text+="!!! warning: it was not possible to process all the data !!!\n\n"
+        text+=warn_text + "\n"
     for x in dict:
         text+="  - " + x + " : " + str(dict[x]) + "\n"
         text+="\t----\n"
@@ -65,10 +67,11 @@ def print_dict(desc, warn, dict, nodata, dev_skipped):
         text+="The following devices were skipped: " + str(nodata) + "\n"
     return text
 
-def print_basic_stats(desc, warn, unit, stats, nodata, dev_skipped):
+def print_basic_stats(desc, warn, unit, stats, nodata, dev_skipped, warn_text):
     text=">>> CHECK RESULT FOR " + desc + "\n\n"
     if warn:
         text+="!!! warning: it was not possible to process all the data !!!\n\n"
+        text+=warn_text + "\n"
     text+="MAX value -> device " + stats['maxv']['host'] + " : " + str(stats['maxv']['val']) + unit + "\n"
     text+="MIN value -> device " + stats['minv']['host'] + " : " + str(stats['minv']['val']) + unit + "\n"
     text+="AVG value -> " + str(stats['avg']) + unit + "\n"
@@ -138,8 +141,8 @@ def threshold(scan, check):
         gthresholds = yaml.load(fs, Loader=yaml.FullLoader)
         fs.close()
     except:
-        print("ERROR: could not open one of thresholds files when running a threshold type test.\n")
-        print("ERROR: check " + check['desc'] + " will be aborted and we will move to next check.\n")
+        warn_text+="ERROR: could not open one of thresholds files when running a threshold type test.\n"
+        warn_text+="ERROR: check " + check['desc'] + " will be aborted and we will move to next check.\n"
         return
     for result in results:
         try:
@@ -147,8 +150,8 @@ def threshold(scan, check):
             res_dict=json.load(fr)
             fr.close()
         except:
-            print("ERROR: could not load device json output " + result + "\n")
-            print("ERROR: skipping device.\n")
+            warn_text+="ERROR: could not load device json output " + result + "\n"
+            warn_text+=("ERROR: skipping device.\n"
             dev_skipped.append(result)
             warn=1
             continue
@@ -167,8 +170,8 @@ def threshold(scan, check):
             try:
                 test_float=float(res_dict[check['cmd']][tested][check['tfield']])
             except Exception as e:
-                print("WARNING: threshold - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed.")
-                print("\t" + str(e))
+                warn_text+="WARNING: threshold - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed."
+                warn_text+="\t" + str(e) + "\n"
                 warn=1
                 continue
             if check['fail']=="lower":
@@ -181,6 +184,7 @@ def threshold(scan, check):
                     failed_detail[res_dict['hostname'] + ' thr: ' + str(threshold)]=[]
                     flag=0
                 failed_detail[res_dict['hostname'] + ' thr: ' + str(threshold)].append(res_dict[check['cmd']][tested])
+    print(warn_text[:-1])
     text=print_failures(check['desc'], warn, failed, failed_detail, nodata, dev_skipped, warn_text)
     return text
 
@@ -189,6 +193,7 @@ def distribution(scan, check):
     nodata=[]
     dev_skipped=[]
     warn=0
+    warn_text=""
     results = os.listdir(scan)
     results.pop(results.index('report.txt'))
     for result in results:
@@ -197,8 +202,8 @@ def distribution(scan, check):
             res_dict=json.load(fr)
             fr.close()
         except:
-            print("ERROR: could not load device json output " + result + "\n")
-            print("ERROR: skipping device.\n")
+            warn_text+="ERROR: could not load device json output " + result + "\n"
+            warn_text+="ERROR: skipping device.\n"
             dev_skipped.append(result)
             warn=1
             continue
@@ -216,11 +221,11 @@ def distribution(scan, check):
                 else:
                     distr[host][res_dict[distr_cmd][tested][dfield]]+=1
             except Exception as e:
-                print("WARNING: distribution - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed.")
-                print("\t" + str(e))
+                warn_text+="WARNING: distribution - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed."
+                warn_text+="\t" + str(e) + "\n"
                 warn=1
                 continue
-    text=print_distribution(check['desc'], warn, dfield, distr, nodata, dev_skipped)
+    text=print_distribution(check['desc'], warn, dfield, distr, nodata, dev_skipped, warn_text)
     return text
 
 def total(scan, check):
@@ -228,6 +233,7 @@ def total(scan, check):
     nodata=[]
     dev_skipped=[]
     warn=0
+    warn_text=""
     results = os.listdir(scan)
     results.pop(results.index('report.txt'))
     for result in results:
@@ -236,8 +242,8 @@ def total(scan, check):
             res_dict=json.load(fr)
             fr.close()
         except:
-            print("ERROR: could not load device json output " + result + "\n")
-            print("ERROR: skipping device.\n")
+            warn_text+="ERROR: could not load device json output " + result + "\n"
+            warn_text+="ERROR: skipping device.\n"
             dev_skipped.append(result)
             warn=1
             continue
@@ -247,7 +253,8 @@ def total(scan, check):
         host=res_dict['hostname']
         tot=len(res_dict[check['cmd']])
         tot_dict[host]=tot
-    text=print_dict(check['desc'], warn, tot_dict, nodata, dev_skipped)
+    print(warn_text[:-1])
+    text=print_dict(check['desc'], warn, tot_dict, nodata, dev_skipped, warn_text)
     return text
 
 def basic_stats(scan, check):
@@ -256,6 +263,7 @@ def basic_stats(scan, check):
     nodata=[]
     dev_skipped=[]
     warn=0
+    warn_text=""
     results = os.listdir(scan)
     results.pop(results.index('report.txt'))
     totdev=float(len(results))
@@ -265,8 +273,8 @@ def basic_stats(scan, check):
             res_dict=json.load(fr)
             fr.close()
         except:
-            print("ERROR: could not load device json output " + result + "\n")
-            print("ERROR: skipping device.\n")
+            warn_text+="ERROR: could not load device json output " + result + "\n"
+            warn_text+="ERROR: skipping device.\n"
             dev_skipped.append(result)
             warn=1
             continue
@@ -286,7 +294,8 @@ def basic_stats(scan, check):
     for x in vals:
         tot+=float(vals[x])
     stats["avg"]=tot/totdev
-    text=print_basic_stats(check['desc'], warn, check['unit'], stats, nodata, dev_skipped)
+    print(warn_text[:-1])
+    text=print_basic_stats(check['desc'], warn, check['unit'], stats, nodata, dev_skipped, warn_text)
     return text
 
 def empty(scan, check):
@@ -304,8 +313,8 @@ def empty(scan, check):
             res_dict=json.load(fr)
             fr.close()
         except:
-            print("ERROR: could not load device json output " + result + "\n")
-            print("ERROR: skipping device.\n")
+            warn_text+="ERROR: could not load device json output " + result + "\n"
+            warn_text+="ERROR: skipping device.\n"
             dev_skipped.append(result)
             warn=1
             continue
@@ -316,5 +325,6 @@ def empty(scan, check):
             failed.append(res_dict['hostname'])
             failed_detail[res_dict['hostname']]=[]
             failed_detail[res_dict['hostname']].append(res_dict[check['cmd']])
+    print(warn_text[:-1])
     text=print_failures(check['desc'], warn, failed, failed_detail, nodata, dev_skipped, warn_text)
     return text
