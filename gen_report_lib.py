@@ -367,7 +367,7 @@ def global_distribution(scan, check):
                 else:
                     distr[distr_cmd]+=1
             except Exception as e:
-                warn_text+="WARNING: distribution - " + check['desc'] + " - " + res_dict['hostname'] + " - " distr_cmd + " logic failed."
+                warn_text+="WARNING: distribution - " + check['desc'] + " - " + res_dict['hostname'] + " - " + distr_cmd + " logic failed."
                 warn_text+="\t" + str(e) + "\n"
                 warn=1
                 continue
