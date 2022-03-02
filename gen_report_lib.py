@@ -335,3 +335,56 @@ def empty(scan, check):
         print(warn_text[:-1])
     text=print_failures(check['desc'], warn, failed, failed_detail, nodata, dev_skipped, warn_text)
     return text
+
+def global_distribution(scan, check):
+    distr={}
+    nodata=[]
+    dev_skipped=[]
+    warn=0
+    warn_text=""
+    results = os.listdir(scan)
+    results.pop(results.index('report.txt'))
+    for result in results:
+        try:
+            fr=open(scan+"/"+result,'r')
+            res_dict=json.load(fr)
+            fr.close()
+        except:
+            warn_text+="ERROR: could not load device json output " + result + "\n"
+            warn_text+="ERROR: skipping device.\n"
+            dev_skipped.append(result)
+            warn=1
+            continue
+        if not res_dict[check['cmd']]:
+            nodata.append(res_dict['hostname'])
+            continue
+        distr={}
+        distr_cmd=check['cmd']
+        if type(res_dict[distr_cmd]) is str:
+            try:
+                if res_dict[distr_cmd] not in distr:
+                    distr[distr_cmd]=1
+                else:
+                    distr[distr_cmd]+=1
+            except Exception as e:
+                warn_text+="WARNING: distribution - " + check['desc'] + " - " + res_dict['hostname'] + " - " distr_cmd + " logic failed."
+                warn_text+="\t" + str(e) + "\n"
+                warn=1
+                continue
+            continue
+        dfield=check['dfield']
+        for tested in res_dict[distr_cmd]:
+            try:
+                if res_dict[distr_cmd][tested][dfield] not in distr:
+                    distr[res_dict[distr_cmd][tested][dfield]]=1
+                else:
+                    distr[res_dict[distr_cmd][tested][dfield]]+=1
+            except Exception as e:
+                warn_text+="WARNING: distribution - " + check['desc'] + " - " + res_dict['hostname'] + " - " + tested + " logic failed."
+                warn_text+="\t" + str(e) + "\n"
+                warn=1
+                continue
+    if bool(len(warn_text)):
+        print(warn_text[:-1])
+    text=print_distribution(check['desc'], warn, dfield, distr, nodata, dev_skipped, warn_text)
+    return text
