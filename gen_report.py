@@ -9,6 +9,7 @@ import gen_report_lib
 #command line interfaces argument parser
 parser = argparse.ArgumentParser()
 parser.add_argument("-s", "--scan", action="store", type=str, default='all',help="specify a scan to work on")
+parser.add_argument('-v', "--validate", action='store_true', help="only validate files")
 
 args = parser.parse_args()
 
@@ -37,6 +38,9 @@ if not valid:
     print("VALIDATION ERROR: exiting")
     sys.exit()
 print("VALIDATE: check file looks ok")
+
+if args.validate:
+    sys.exit()
 
 for check in checks:
     text = eval('gen_report_lib.'+check['test']+'(args.scan, check)')
