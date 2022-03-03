@@ -42,10 +42,13 @@ if not valid:
     sys.exit()
 print("VALIDATE: devices json files look ok")
 
+print("PROCESSING: start")
 for check in checks:
+    print("PROCESSING: check " + check['desc'])
     text = eval('gen_report_lib.'+check['test']+'(args.scan, check)')
     #print(text)
     fo.write(text)
     fo.write("\n")
 
 fo.close()
+print("PROCESSING: end")
