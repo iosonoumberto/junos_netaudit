@@ -1,0 +1,12 @@
+---
+chassis_fpc:
+  rpc: get-fpc-information
+  key: slot
+  item: fpc
+  view: FpcView
+
+FpcView:
+  fields:
+    slot: slot
+    state: state
+    temp: temperature
