@@ -34,6 +34,10 @@ fs=open('configuration/commands.yml','r')
 commands = yaml.load(fs, Loader=yaml.FullLoader)
 fs.close()
 
+fs=open('configuration/nonstd_commands.yml','r')
+nonstd_commands = yaml.load(fs, Loader=yaml.FullLoader)
+fs.close()
+
 fs=open('configuration/models.yml','r')
 models = yaml.load(fs, Loader=yaml.FullLoader)
 fs.close()
@@ -90,6 +94,13 @@ for router in devices:
                 audit_lib.exec_command(command['name'], dev, res_dict)
             time.sleep(router['zzz'])
 
+        #loop over non standard commands
+        for command in nonstd_commands:
+            #check if command has to be executed
+            if router['role'] in command['supp_plat'] and (command['2re']=='all' or router['2re']==command['2re']):
+                print("\trunning -> "+command['display_name'])
+                eval('audit_lib.' + command['function'] + '(dev, res_dict, command)')
+            time.sleep(router['zzz'])
         #close connection to device
         dev.close()
 
