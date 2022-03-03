@@ -101,6 +101,7 @@ for router in devices:
                 print("\trunning -> "+command['display_name'])
                 eval('audit_lib.' + command['function'] + '(dev, res_dict, command)')
             time.sleep(router['zzz'])
+
         #close connection to device
         dev.close()
 
