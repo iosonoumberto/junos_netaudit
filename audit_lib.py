@@ -28,10 +28,8 @@ def nonstd_single_node(dev, res_dict, command, args=''):
         args=command['args']
     rpc=command['rpc']
     cmd=command['cmd']
-    field=command['xmlfield']
-    xml=eval('dev.rpc.' + rpc.replace('-','_') + '(' + args + ')')
-    data=xml.find(field).text
     res_dict[cmd]={}
     res_dict[cmd]['data']={}
-    res_dict[cmd]['data'][command['varname']]=data
+    for field in command['map']:
+        res_dict[cmd]['data'][field]=eval('dev.rpc.' + rpc.replace('-','_') + '(' + args + ')').find(command['map'][field]).text
     return 1
