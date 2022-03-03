@@ -46,3 +46,7 @@
   display_name: "show system storage"
   supp_plat: ["sh", "cgn", "opm", "pe"]
   2re: all
+- name: "chassis_fpc"
+  display_name: "show chassis fpc"
+  supp_plat: ["sh", "cgn", "opm", "pe"]
+  2re: all
