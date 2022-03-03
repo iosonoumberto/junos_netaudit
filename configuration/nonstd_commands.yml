@@ -8,7 +8,7 @@
     status : fab-reach-status
   2re: 'all'
 - cmd: 'system_uptime'
-  display_name: 'show system uptie'
+  display_name: 'show system uptime'
   rpc: 'get-system-uptime-information'
   supp_plat: ['opm']
   function: 'nonstd_single_node'
