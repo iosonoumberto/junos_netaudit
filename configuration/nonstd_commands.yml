@@ -1,6 +1,6 @@
 - cmd: 'get-fm-fabric-reachability-information'
   display_name: 'show chassis fabric reachability'
-  supp_plat: ['opm]'
+  supp_plat: ['opm']
   function: 'nonstd_single_node'
   field: 'fab-reach-status'
   2re: 'all'
