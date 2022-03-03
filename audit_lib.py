@@ -26,11 +26,12 @@ def exec_command (cmd, dev, res_dict):
 def nonstd_single_node(dev, res_dict, command, args=''):
     if 'args' in command:
         args=command['args']
-    rpc=command['cmd']
-    field=command['field']
+    rpc=command['rpc']
+    cmd=command['cmd']
+    field=command['xmlfield']
     xml=eval('dev.rpc.' + rpc.replace('-','_') + '(' + args + ')')
     data=xml.find(field).text
-    res_dict[rpc]={}
-    res_dict[rpc]['data']={}
-    res_dict[rpc]['data'][field]=data
+    res_dict[cmd]={}
+    res_dict[cmd]['data']={}
+    res_dict[cmd]['data'][command['varname']]=data
     return 1
