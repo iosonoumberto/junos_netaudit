@@ -333,10 +333,12 @@ def basic_stats(scan, check):
         for x in vals:
             tot+=float(vals[x])
         stats["avg"]=tot/totdev
+        stats["tot"]=totdev
     except Exception as e:
         warn_text+="WARNING: basic stats - " + check['desc'] + "could not compute avg value\n"
         warn_text+="\t" + str(e) + "\n"
         stats["avg"]="NA"
+        stats["tot"]="NA"
         warn=1
     if bool(len(warn_text)):
         print(warn_text[:-1])
@@ -489,6 +491,7 @@ def print_basic_stats(desc, warn, unit, stats, nodata, dev_skipped, warn_text):
     text+="MAX value -> device " + stats['maxv']['host'] + " : " + str(stats['maxv']['val']) + unit + "\n"
     text+="MIN value -> device " + stats['minv']['host'] + " : " + str(stats['minv']['val']) + unit + "\n"
     text+="AVG value -> " + str(stats['avg']) + unit + "\n"
+    text+="\t computed over " + str(stats["tot"]) + " devices\n"
     if len(nodata) > 0:
         text+="\n"
         text+="The following devices had no data: " + str(nodata) + "\n"
