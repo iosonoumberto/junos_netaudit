@@ -283,7 +283,7 @@ def basic_stats(scan, check):
     warn_text=""
     results = os.listdir(scan)
     results.pop(results.index('report.txt'))
-    totdev=0
+    tot_dev=0
     for result in results:
         try:
             fr=open(scan+"/"+result,'r')
