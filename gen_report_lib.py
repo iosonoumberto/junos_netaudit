@@ -283,7 +283,7 @@ def basic_stats(scan, check):
     warn_text=""
     results = os.listdir(scan)
     results.pop(results.index('report.txt'))
-    tot_dev=0
+    totdev=0
     for result in results:
         try:
             fr=open(scan+"/"+result,'r')
@@ -301,7 +301,7 @@ def basic_stats(scan, check):
             continue
         try:
             vals[res_dict['facts']['info']['hostname']]=float(res_dict[check['cmd']][list(res_dict[check['cmd']].keys())[0]][check['tfield']].strip("%"))
-            tot_dev+=1
+            totdev+=1
         except Exception as e:
             warn_text+="WARNING: basic stats - " + check['desc'] + " - could not extract stats value : " + str(res_dict[check['cmd']][list(res_dict[check['cmd']].keys())[0]][check['tfield']].strip("%")) + " , device : " + res_dict['facts']['info']['hostname'] + "\n"
             warn_text+="\t" + str(e) + "\n"
