@@ -256,9 +256,10 @@ def total(scan, check):
             fr=open(scan+"/"+result,'r')
             res_dict=json.load(fr)
             fr.close()
-        except:
+        except Exception as e:
             warn_text+="ERROR: could not load device json output " + result + "\n"
             warn_text+="ERROR: skipping device.\n"
+            warn_text+="\t" + str(e) + "\n"
             dev_skipped.append(result)
             warn=1
             continue
@@ -288,9 +289,10 @@ def basic_stats(scan, check):
             fr=open(scan+"/"+result,'r')
             res_dict=json.load(fr)
             fr.close()
-        except:
+        except Exception as e:
             warn_text+="ERROR: could not load device json output " + result + "\n"
             warn_text+="ERROR: skipping device.\n"
+            warn_text+="\t" + str(e) + "\n"
             dev_skipped.append(result)
             warn=1
             continue
@@ -302,32 +304,40 @@ def basic_stats(scan, check):
             tot_dev+=1
         except Exception as e:
             warn_text+="WARNING: basic stats - " + check['desc'] + " - could not extract stats value : " + str(res_dict[check['cmd']][list(res_dict[check['cmd']].keys())[0]][check['tfield']].strip("%")) + " , device : " + res_dict['facts']['info']['hostname'] + "\n"
+            warn_text+="\t" + str(e) + "\n"
+            warn=1
     stats["maxv"]={}
     stats["minv"]={}
     try:
         sorted_reverse_stats = sorted(vals.items(), key=operator.itemgetter(1), reverse=True)
         stats["maxv"]["val"]=sorted_reverse_stats[0][1]
         stats["maxv"]["host"]=sorted_reverse_stats[0][0]
-    except:
+    except Exception as e:
         warn_text+="WARNING: basic stats - " + check['desc'] + "could not compute max value\n"
+        warn_text+="\t" + str(e) + "\n"
         stats["maxv"]["val"]="NA"
         stats["maxv"]["host"]="NA"
+        warn=1
     try:
         sorted_stats = sorted(vals.items(), key=operator.itemgetter(1))
         stats["minv"]["val"]=sorted_stats[0][1]
         stats["minv"]["host"]=sorted_stats[0][0]
-    except:
+    except Exception as e:
         warn_text+="WARNING: basic stats - " + check['desc'] + "could not compute max value\n"
+        warn_text+="\t" + str(e) + "\n"
         stats["minv"]["val"]="NA"
         stats["minv"]["host"]="NA"
+        warn=1
     tot=0.0
     try:
         for x in vals:
             tot+=float(vals[x])
         stats["avg"]=tot/totdev
-    except:
+    except Exception as e:
         warn_text+="WARNING: basic stats - " + check['desc'] + "could not compute avg value\n"
+        warn_text+="\t" + str(e) + "\n"
         stats["avg"]="NA"
+        warn=1
     if bool(len(warn_text)):
         print(warn_text[:-1])
     text=print_basic_stats(check['desc'], warn, check['unit'], stats, nodata, dev_skipped, warn_text)
