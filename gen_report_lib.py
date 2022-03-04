@@ -282,7 +282,7 @@ def basic_stats(scan, check):
     warn_text=""
     results = os.listdir(scan)
     results.pop(results.index('report.txt'))
-    totdev=float(len(results))
+    totdev=0
     for result in results:
         try:
             fr=open(scan+"/"+result,'r')
@@ -297,19 +297,37 @@ def basic_stats(scan, check):
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['facts']['info']['hostname'])
             continue
-        vals[res_dict['facts']['info']['hostname']]=float(res_dict[check['cmd']][list(res_dict[check['cmd']].keys())[0]][check['tfield']].strip("%"))
-    sorted_stats = sorted(vals.items(), key=operator.itemgetter(1))
-    sorted_reverse_stats = sorted(vals.items(), key=operator.itemgetter(1), reverse=True)
+        try:
+            vals[res_dict['facts']['info']['hostname']]=float(res_dict[check['cmd']][list(res_dict[check['cmd']].keys())[0]][check['tfield']].strip("%"))
+            tot_dev+=1
+        except Exception as e:
+            warn_text=+"WARNING: basic stats - " + check['desc'] + " - could not extract stats value : " + str(res_dict[check['cmd']][list(res_dict[check['cmd']].keys())[0]][check['tfield']].strip("%")) + " , device : " + res_dict['facts']['info']['hostname'] + "\n"
     stats["maxv"]={}
     stats["minv"]={}
-    stats["maxv"]["val"]=sorted_reverse_stats[0][1]
-    stats["maxv"]["host"]=sorted_reverse_stats[0][0]
-    stats["minv"]["val"]=sorted_stats[0][1]
-    stats["minv"]["host"]=sorted_stats[0][0]
+    try:
+        sorted_reverse_stats = sorted(vals.items(), key=operator.itemgetter(1), reverse=True)
+        stats["maxv"]["val"]=sorted_reverse_stats[0][1]
+        stats["maxv"]["host"]=sorted_reverse_stats[0][0]
+    except:
+        warn_text+="WARNING: basic stats - " + check['desc'] + "could not compute max value\n"
+        stats["maxv"]["val"]="NA"
+        stats["maxv"]["host"]="NA"
+    try:
+        sorted_stats = sorted(vals.items(), key=operator.itemgetter(1))
+        stats["minv"]["val"]=sorted_stats[0][1]
+        stats["minv"]["host"]=sorted_stats[0][0]
+    except:
+        warn_text+="WARNING: basic stats - " + check['desc'] + "could not compute max value\n"
+        stats["minv"]["val"]="NA"
+        stats["minv"]["host"]="NA"
     tot=0.0
-    for x in vals:
-        tot+=float(vals[x])
-    stats["avg"]=tot/totdev
+    try:
+        for x in vals:
+            tot+=float(vals[x])
+        stats["avg"]=tot/totdev
+    except:
+        warn_text+="WARNING: basic stats - " + check['desc'] + "could not compute avg value\n"
+        stats["avg"]="NA"
     if bool(len(warn_text)):
         print(warn_text[:-1])
     text=print_basic_stats(check['desc'], warn, check['unit'], stats, nodata, dev_skipped, warn_text)
