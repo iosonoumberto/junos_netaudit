@@ -33,3 +33,25 @@ def nonstd_single_node(dev, res_dict, command, args=''):
     for field in command['map']:
         res_dict[cmd]['data'][field]=eval('dev.rpc.' + rpc.replace('-','_') + '(' + args + ')').find(command['map'][field]).text
     return 1
+
+def nonstd_table(dev, res_dict, command, args=''):
+    if 'args' in command:
+        args=command['args']
+    rpc=command['rpc']
+    cmd=command['cmd']
+    res_dict[cmd]={}
+
+    xml=eval('dev.rpc.' + rpc.replace('-','_') + '(' + args + ')')
+
+    keys=xml.findall(command['item'] + '/' + command['key'])
+
+    tmp_dict={}
+    for field in command['map']:
+        tmp_dict[field] = xml.xpath(command['item'] + '/' + command['map'][field] + '/text()')
+
+    for k in keys:
+        res_dict[cmd][k]={}
+        for f in tmp_dict:
+            res_dict[cmd][k][f] = tmp_dict[f][0]
+            tmp_dict[f].pop(0)
+    return 1

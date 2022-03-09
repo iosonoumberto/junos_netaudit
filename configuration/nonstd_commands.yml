@@ -16,3 +16,14 @@
     booted : system-booted-time/time-length
     configured: last-configured-time/time-length
   2re: 'all'
+- cmd: 'radius_servers_profile'
+  display_name: 'show network-access aaa radius-servers'
+  rpc: 'get-radius-servers-table'
+  args: 'detail=True'
+  supp_plat: ['opm']
+  function: 'nonstd_table'
+  item: 'aaa-module-profile-radius-servers'
+  key: 'server-address'
+  map:
+    authp: 'authentication-port'
+    state: 'available-status'
