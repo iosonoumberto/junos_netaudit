@@ -57,3 +57,8 @@
   cmd: "chassis_fpc"
   test: "device_distribution"
   tfield: "state"
+- desc: "Number of Established BGP sessions"
+  cmd: "bgp_summary"
+  test: "total_filtered"
+  tfield: "state"
+  val: "Established"

@@ -274,6 +274,40 @@ def total(scan, check):
     text=print_dict(check['desc'], warn, tot_dict, nodata, dev_skipped, warn_text)
     return text
 
+def total_filtered(scan, check):
+    tot_dict={}
+    nodata=[]
+    dev_skipped=[]
+    warn=0
+    warn_text=""
+    results = os.listdir(scan)
+    results.pop(results.index('report.txt'))
+    for result in results:
+        try:
+            fr=open(scan+"/"+result,'r')
+            res_dict=json.load(fr)
+            fr.close()
+        except Exception as e:
+            warn_text+="ERROR: could not load device json output " + result + "\n"
+            warn_text+="ERROR: skipping device.\n"
+            warn_text+="\t" + str(e) + "\n"
+            dev_skipped.append(result)
+            warn=1
+            continue
+        if not res_dict[check['cmd']]:
+            nodata.append(res_dict['facts']['info']['hostname'])
+            continue
+        host=res_dict['facts']['info']['hostname']
+        tot=0
+        for tested in res_dict['cmd']:
+            if str(res_dict['cmd'][tested][check['tfield']])==str(check['val']):
+                tot+=1
+        tot_dict[host]=tot
+    if bool(len(warn_text)):
+        print(warn_text[:-1])
+    text=print_dict(check['desc'], warn, tot_dict, nodata, dev_skipped, warn_text)
+    return text
+
 def basic_stats(scan, check):
     vals={}
     stats={}
