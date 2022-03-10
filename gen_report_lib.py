@@ -280,6 +280,7 @@ def total_filtered(scan, check):
     dev_skipped=[]
     warn=0
     warn_text=""
+    cmd=check['cmd']
     results = os.listdir(scan)
     results.pop(results.index('report.txt'))
     for result in results:
@@ -294,13 +295,13 @@ def total_filtered(scan, check):
             dev_skipped.append(result)
             warn=1
             continue
-        if not res_dict[check['cmd']]:
+        if not res_dict[cmd]:
             nodata.append(res_dict['facts']['info']['hostname'])
             continue
         host=res_dict['facts']['info']['hostname']
         tot=0
         for tested in res_dict['cmd']:
-            if str(res_dict['cmd'][tested][check['tfield']])==str(check['val']):
+            if str(res_dict[cmd][tested][check['tfield']])==str(check['val']):
                 tot+=1
         tot_dict[host]=tot
     if bool(len(warn_text)):
