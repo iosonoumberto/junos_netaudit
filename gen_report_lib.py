@@ -300,7 +300,7 @@ def total_filtered(scan, check):
             continue
         host=res_dict['facts']['info']['hostname']
         tot=0
-        for tested in res_dict['cmd']:
+        for tested in res_dict[cmd]:
             if str(res_dict[cmd][tested][check['tfield']])==str(check['val']):
                 tot+=1
         tot_dict[host]=tot
