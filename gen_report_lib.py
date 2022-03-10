@@ -56,7 +56,7 @@ def validate_checks(checks):
             print("VALIDATION ERROR: check " + check['desc'] + " : cmd " + check['cmd'] + " not found in commands yaml file")
             valid=0
             continue
-        if check['test'] in ["string_equal","device_distribution","global_distribution","basic_stats"]:
+        if check['test'] in ["string_equal","device_distribution","global_distribution","basic_stats","total_filtered"]:
             ftv=open('tableviews/'+check['cmd']+'.yaml', 'r')
             d=yaml.load(ftv, Loader=yaml.FullLoader)
             if check['tfield'] not in d[d[check['cmd']]['view']]['fields'].keys():
