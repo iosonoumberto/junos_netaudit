@@ -27,3 +27,4 @@
   map:
     authp: 'authentication-port'
     state: 'available-status'
+  2re: 'all'
