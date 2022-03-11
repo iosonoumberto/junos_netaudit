@@ -62,3 +62,6 @@
   test: "total_filtered"
   tfield: "state"
   val: "Established"
+- desc: "Core dumps existence"
+  cmd: "core_dump"
+  test: "empty"
