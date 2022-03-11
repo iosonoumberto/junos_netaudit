@@ -2,7 +2,7 @@ core_dump:
  rpc: get-system-core-dumps
  item: file-information
  key: file-name
- view: CoreDumView
+ view: CoreDumpView
 
 CoreDumpView:
  fields:
