@@ -1,6 +1,6 @@
 core_dump:
  rpc: get-system-core-dumps
- item: file-information
+ item: directory/file-information
  key: file-name
  view: CoreDumpView
 
