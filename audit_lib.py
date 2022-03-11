@@ -19,8 +19,12 @@ def exec_command (cmd, dev, res_dict):
     yml = ftv.read()
     ftv.close()
     globals().update(FactoryLoader().load(yaml.load(yml, Loader=yaml.FullLoader)))
-    tmp_dict = eval(cmd+'(dev).get()')
-    res_dict[cmd]=json.loads(tmp_dict.to_json()).copy()
+    try:
+        tmp_dict = eval(cmd+'(dev).get()')
+        res_dict[cmd]=json.loads(tmp_dict.to_json()).copy()
+    except Exception as e:
+        print("\tRPC error")
+        res_dict[cmd]={}
     return 1
 
 def nonstd_single_node(dev, res_dict, command, args=''):
