@@ -24,6 +24,7 @@ def exec_command (cmd, dev, res_dict):
         res_dict[cmd]=json.loads(tmp_dict.to_json()).copy()
     except Exception as e:
         print("\tRPC error")
+        print("\t" + e)
         res_dict[cmd]={}
     return 1
 
@@ -49,6 +50,7 @@ def nonstd_table(dev, res_dict, command, args=''):
         xml=eval('dev.rpc.' + rpc.replace('-','_') + '(' + args + ')')
     except Exception as e:
         print("\tRPC error")
+        print("\t" + e)
         res_dict[cmd]={}
         return 1
 
