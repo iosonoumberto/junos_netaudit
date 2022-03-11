@@ -45,7 +45,12 @@ def nonstd_table(dev, res_dict, command, args=''):
     cmd=command['cmd']
     res_dict[cmd]={}
 
-    xml=eval('dev.rpc.' + rpc.replace('-','_') + '(' + args + ')')
+    try:
+        xml=eval('dev.rpc.' + rpc.replace('-','_') + '(' + args + ')')
+    except Exception as e:
+        print("\tRPC error")
+        res_dict[cmd]={}
+        return 1
 
     keys=xml.findall(command['item'] + '/' + command['key'])
 
