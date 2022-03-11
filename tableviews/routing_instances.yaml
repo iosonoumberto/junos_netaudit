@@ -1,4 +1,4 @@
-routing_instance:
+routing_instances:
   get: routing-instances
   view: RiView
 
