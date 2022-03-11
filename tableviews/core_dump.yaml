@@ -7,4 +7,4 @@ core_dump:
 CoreDumpView:
  fields:
   name : file-name
-  date : string(file-date/@junos:format)
+  date : file-date
