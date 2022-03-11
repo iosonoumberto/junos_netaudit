@@ -1,0 +1,8 @@
+routing_instance:
+  get: routing-instances
+  view: RiView
+
+RiView:
+  fields:
+    name: name
+    type: instance-type
