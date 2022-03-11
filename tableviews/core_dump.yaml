@@ -1,0 +1,10 @@
+core_dump:
+ rpc: get-system-core-dumps
+ item: file-information
+ key: file-name
+ view: CoreDumView
+
+CoreDumpView:
+ fields:
+  name : file-name
+  date : file-date/@junos:format

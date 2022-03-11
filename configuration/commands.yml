@@ -50,3 +50,7 @@
   display_name: "show chassis fpc"
   supp_plat: ["sh", "cgn", "opm", "pe"]
   2re: all
+- name: "core_dump"
+  display_name: "show system core-dump"
+  supp_plat: ["sh", "cgn", "opm", "pe"]
+  2re: all
