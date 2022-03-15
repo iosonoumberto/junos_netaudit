@@ -69,7 +69,7 @@ for router in devices:
 
     #check if device must be considered
     if  router['role']==args.role or args.role=="all":
-        print("DEVICE: " + router['name'])
+        print("* DEVICE: " + router['name'])
 
         #connect to device
         dev = Device(host=router['ip'], user=settings['username'], password=settings['password'])
