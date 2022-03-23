@@ -54,7 +54,7 @@ def nonstd_table(dev, res_dict, command, args=''):
         res_dict[cmd]={}
         return 1
 
-    keys=xml.findall(command['item'] + '/' + command['key'])
+    keys=xml.xpath(command['item'] + '/' + command['key'] + '/text()')
 
     tmp_dict={}
     for field in command['map']:
