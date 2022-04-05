@@ -41,9 +41,15 @@ def validate_checks(checks):
     commands = yaml.load(fs, Loader=yaml.FullLoader)
     fs.close()
 
+    fs=open('configuration/nonstd_commands.yml','r')
+    nonstd_commands = yaml.load(fs, Loader=yaml.FullLoader)
+    fs.close()
+
     cmd_list=[]
     for cmd in commands:
         cmd_list.append(cmd['name'])
+    for cmd in nonstd_commands:
+        cmd_list.append(cmd['cmd'])
 
     for check in checks:
         if check['cmd']=='facts' and check['tfield'] not in facts:
