@@ -1,6 +1,6 @@
 system_licenses:
  rpc: get-license-summary-information
- item: feature-summary
+ item: license-usage-summary/feature-summary
  key: name
  view: LicView
 
