@@ -1,5 +1,5 @@
 - name: MX1_TORINO
-  ip: 10.49.113.80
+  ip: 10.49.123.244
   role: opm
   model: mx10008
 - name: MX2_MILANO
@@ -7,6 +7,6 @@
   role: opm
   model: mx204
 - name: MX3_GENOVA
-  ip: 10.49.119.240
+  ip: 10.49.105.75
   role: opm
   model: mx960
