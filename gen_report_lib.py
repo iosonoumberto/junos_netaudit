@@ -114,6 +114,9 @@ def string_equal(scan, check):
             warn=1
             continue
         flag=1
+        if check['cmd'] not in res_dict:
+            print(check['cmd'] + " not found for this device")
+            continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['facts']['info']['hostname'])
             continue
