@@ -97,6 +97,6 @@
   tfield: "rectot"
 - desc: "snapshot versions"
   cmd: "system_snapshot"
-  test: "string-equal"
+  test: "string_equal"
   val: "19.4R2"
   tfield: "nonrectot"
