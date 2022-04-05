@@ -123,6 +123,9 @@ def string_equal(scan, check):
             continue
         for tested in res_dict[check['cmd']]:
             if isinstance(res_dict[check['cmd']][tested][check['tfield']], list):
+                if len(res_dict[check['cmd']][tested][check['tfield']])==0:
+                    nodata.append(res_dict['facts']['info']['hostname'])
+                    continue
                 try:
                     for listelem in res_dict[check['cmd']][tested][check['tfield']]:
                         if listelem!=check['val']:
