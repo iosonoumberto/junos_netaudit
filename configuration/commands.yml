@@ -62,3 +62,7 @@
   display_name: "show system_licenses"
   supp_plat: ["sh", "cgn", "opm", "pe"]
   2re: all
+- name: "interface_summary_specific"
+  display_name: "show interfaces summary - modules data"
+  supp_plat: ["sh", "cgn", "opm", "pe"]
+  2re: all

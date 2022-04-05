@@ -84,4 +84,4 @@
   cmd: "interface_summary_specific"
   test: "threshold"
   fail: "higher"
-  tfield: "ifl-down"
+  tfield: "ifl_down"
