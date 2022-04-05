@@ -85,6 +85,7 @@ for router in devices:
 
         #find out whther device is single or dual re
         router['2re']=dev.facts['2RE']
+        res_dict['facts']['info']['2RE']=dev.facts['2RE']
 
         #loop over commands
         for command in commands:
