@@ -28,3 +28,9 @@
     authp: 'authentication-port'
     state: 'available-status'
   2re: 'all'
+- cmd: 'system_snapshot'
+  display_name: 'show system snapshot'
+  rpc: 'get-snapshot-information'
+  supp_plat: ['opm']
+  function: 'sys_snap_1re'
+  2re: 'False'

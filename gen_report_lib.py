@@ -122,6 +122,21 @@ def string_equal(scan, check):
             nodata.append(res_dict['facts']['info']['hostname'])
             continue
         for tested in res_dict[check['cmd']]:
+            if isinstance(res_dict[check['cmd']][tested][check['tfield']], list):
+                try:
+                    for listelem in res_dict[check['cmd']][tested][check['tfield']]:
+                        if listelem!=check['val']:
+                            if flag:
+                                failed.append(res_dict['facts']['info']['hostname'])
+                                failed_detail[res_dict['facts']['info']['hostname']]=[]
+                                flag=0
+                                failed_detail[res_dict['facts']['info']['hostname']].append(res_dict[check['cmd']][tested])
+                                break
+                except Exception as e:
+                    warn_text+="WARNING: string_equal - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " - " + tested + " logic failed.\n"
+                    warn_text+="\t" + str(e) + "\n"
+                    warn=1
+                continue
             try:
                 if res_dict[check['cmd']][tested][check['tfield']]!=check['val']:
                     if flag:

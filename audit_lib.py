@@ -10,6 +10,7 @@ import sys
 import yaml
 import json
 import lxml
+import re
 
 #function to execute an arbitrary command
 #tableview definition file must be named consistently with commands configuration file
@@ -65,4 +66,31 @@ def nonstd_table(dev, res_dict, command, args=''):
         for f in tmp_dict:
             res_dict[cmd][k][f] = tmp_dict[f][0]
             tmp_dict[f].pop(0)
+    return 1
+
+def sys_snap_1re(dev, res_dict, command, args=''):
+    if 'args' in command:
+        args=command['args']
+    rpc=command['rpc']
+    cmd=command['cmd']
+    res_dict[cmd]={}
+    res_dict[cmd]['re0']={}
+
+    try:
+        xml=eval('dev.rpc.' + rpc.replace('-','_') + '(' + args + ')')
+    except Exception as e:
+        print("\tRPC error")
+        print("\t" + str(e))
+        res_dict[cmd]={}
+        return 1
+
+    res_dict[cmd]['re0']['versions']=re.findall('Junos version: (.*)\n',res[1])
+    try:
+        res_dict[cmd]['re0']['nonrectot']=re.search('Total non-recovery snapshots: (\d+)\n',res[1]).group(1)
+    except:
+        res_dict[cmd]['re0']['nonrectot']=0
+    try:
+        res_dict[cmd]['re0']['rectot']=re.search('Total recovery snapshots: (\d+)\n',res[1]).group(1)
+    except:
+        res_dict[cmd]['re0']['rectot']=0
     return 1
