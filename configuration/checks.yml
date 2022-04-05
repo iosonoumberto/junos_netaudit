@@ -80,3 +80,8 @@
   test: "string_equal"
   val: "permanent"
   tfield: "valid"
+- desc: "IFLs down"
+  cmd: "interface_summary_specific"
+  test: "threshold"
+  fail: "higher"
+  tfield: "ifl-down"

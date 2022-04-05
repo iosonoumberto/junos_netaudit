@@ -1,0 +1,12 @@
+interface_summary_specific:
+ rpc: get-interfaces-summary
+ item: summary-information/system-specific-information
+ key: module-name
+ view: IfSummSpecView
+
+IfSummSpecView:
+ fields:
+  name: module-name
+  total: ifl-total
+  ifl_up: ifl-up-count
+  ifl_down: ifl-down-count
