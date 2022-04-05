@@ -1,0 +1,13 @@
+system_licenses:
+ rpc: get-license-summary-information
+ item: feature-summary
+ key: name
+ view: LicView
+
+LicView:
+ fields:
+  name: name
+  licensed: licensed
+  used: used
+  needed: needed
+  valid: validity-type

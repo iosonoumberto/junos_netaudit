@@ -75,3 +75,8 @@
   test: "string_equal"
   val: "RE-VMX"
   tfield: "model"
+- desc : "permanent licenses"
+  cmd: "system_licenses"
+  test: "string_equal"
+  val: "permanent"
+  tfield: "valid"

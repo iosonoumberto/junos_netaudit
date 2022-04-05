@@ -58,3 +58,7 @@
   display_name: "show configuration routing-instances"
   supp_plat: ["sh", "cgn", "opm", "pe"]
   2re: all
+- name: "system_licenses"
+  display_name: "show system_licenses"
+  supp_plat: ["sh", "cgn", "opm", "pe"]
+  2re: all
