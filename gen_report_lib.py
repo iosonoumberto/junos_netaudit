@@ -59,18 +59,21 @@ def validate_checks(checks):
             continue
         if check['cmd']=='facts' and check['tfield'] in facts:
             continue
-        if check['cmd'] not in cmd_list and check['cmd'] not in nonstd_cmd_list:
+        if check['cmd'] in nonstd_cmd_list:
+            print("VALIDATION ERROR: check " + check['desc'] + " : cmd " + check['cmd'] + " is a non stadnard command. Full validation skipped.")
+            continue
+        if check['cmd'] not in cmd_list:
             print("VALIDATION ERROR: check " + check['desc'] + " : cmd " + check['cmd'] + " not found in commands yaml file")
             valid=0
             continue
-        if check['test'] in ["string_equal","device_distribution","global_distribution","basic_stats","total_filtered"] and check['cmd'] in cmd_list:
+        if check['test'] in ["string_equal","device_distribution","global_distribution","basic_stats","total_filtered"]:
             ftv=open('tableviews/'+check['cmd']+'.yaml', 'r')
             d=yaml.load(ftv, Loader=yaml.FullLoader)
             if check['tfield'] not in d[d[check['cmd']]['view']]['fields'].keys():
                 print("VALIDATION ERROR: check " + check['desc'] + " : test field " + check['tfield'] + " not found in RPC view")
                 valid=0
             continue
-        if check['test'] in ["threshold"] and check['cmd'] in cmd_list:
+        if check['test'] in ["threshold"]:
             fs=open('configuration/devrole_thresholds.yml','r')
             drthresholds = yaml.load(fs, Loader=yaml.FullLoader)
             fs.close()
