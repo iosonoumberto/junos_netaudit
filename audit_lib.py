@@ -83,7 +83,7 @@ def sys_snap_1re(dev, res_dict, command, args=''):
         print("\t" + str(e))
         res_dict[cmd]={}
         return 1
-    res=xml.xpath('output/text()')
+    res=xml.text
     res_dict[cmd]['re0']['versions']=re.findall('Junos version: (.*)\n',res)
     try:
         res_dict[cmd]['re0']['nonrectot']=re.search('Total non-recovery snapshots: (\d+)\n',res).group(1)
