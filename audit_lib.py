@@ -84,13 +84,13 @@ def sys_snap_1re(dev, res_dict, command, args=''):
         res_dict[cmd]={}
         return 1
     res=xml.xpath('output/text()')
-    res_dict[cmd]['re0']['versions']=re.findall('Junos version: (.*)\n',res[1])
+    res_dict[cmd]['re0']['versions']=re.findall('Junos version: (.*)\n',res)
     try:
-        res_dict[cmd]['re0']['nonrectot']=re.search('Total non-recovery snapshots: (\d+)\n',res[1]).group(1)
+        res_dict[cmd]['re0']['nonrectot']=re.search('Total non-recovery snapshots: (\d+)\n',res).group(1)
     except:
         res_dict[cmd]['re0']['nonrectot']=0
     try:
-        res_dict[cmd]['re0']['rectot']=re.search('Total recovery snapshots: (\d+)\n',res[1]).group(1)
+        res_dict[cmd]['re0']['rectot']=re.search('Total recovery snapshots: (\d+)\n',res).group(1)
     except:
         res_dict[cmd]['re0']['rectot']=0
     return 1
