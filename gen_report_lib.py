@@ -116,7 +116,7 @@ def string_equal(scan, check):
         flag=1
         if check['cmd'] not in res_dict:
             print(check['cmd'] + " not found for this file " + result)
-            nodata.append(res_dict['hostname'])
+            nodata.append(res_dict['facts']['info']['hostname'])
             continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['facts']['info']['hostname'])
@@ -172,7 +172,7 @@ def threshold(scan, check):
             continue
         if check['cmd'] not in res_dict:
             print(check['cmd'] + " not found for this file " + result)
-            nodata.append(res_dict['hostname'])
+            nodata.append(res_dict['facts']['info']['hostname'])
             continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['facts']['info']['hostname'])
@@ -230,7 +230,7 @@ def device_distribution(scan, check):
             continue
         if check['cmd'] not in res_dict:
             print(check['cmd'] + " not found for this file " + result)
-            nodata.append(res_dict['hostname'])
+            nodata.append(res_dict['facts']['info']['hostname'])
             continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['facts']['info']['hostname'])
@@ -277,7 +277,7 @@ def total(scan, check):
             continue
         if check['cmd'] not in res_dict:
             print(check['cmd'] + " not found for this file " + result)
-            nodata.append(res_dict['hostname'])
+            nodata.append(res_dict['facts']['info']['hostname'])
             continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['facts']['info']['hostname'])
@@ -313,7 +313,7 @@ def total_filtered(scan, check):
             continue
         if check['cmd'] not in res_dict:
             print(check['cmd'] + " not found for this file " + result)
-            nodata.append(res_dict['hostname'])
+            nodata.append(res_dict['facts']['info']['hostname'])
             continue
         if not res_dict[cmd]:
             nodata.append(res_dict['facts']['info']['hostname'])
@@ -353,7 +353,7 @@ def basic_stats(scan, check):
             continue
         if check['cmd'] not in res_dict:
             print(check['cmd'] + " not found for this file " + result)
-            nodata.append(res_dict['hostname'])
+            nodata.append(res_dict['facts']['info']['hostname'])
             continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['facts']['info']['hostname'])
@@ -426,7 +426,7 @@ def empty(scan, check):
             continue
         if check['cmd'] not in res_dict:
             print(check['cmd'] + " not found for this file " + result)
-            nodata.append(res_dict['hostname'])
+            nodata.append(res_dict['facts']['info']['hostname'])
             continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['facts']['info']['hostname'])
@@ -462,10 +462,10 @@ def global_distribution(scan, check):
             continue
         if check['cmd'] not in res_dict:
             print(check['cmd'] + " not found for this file " + result)
-            nodata.append(res_dict['hostname'])
+            nodata.append(res_dict['facts']['info']['hostname'])
             continue
         if not res_dict[check['cmd']]:
-            nodata.append(res_dict['hostname'])
+            nodata.append(res_dict['facts']['info']['hostname'])
             continue
         distr_cmd=check['cmd']
         tfield=check['tfield']
