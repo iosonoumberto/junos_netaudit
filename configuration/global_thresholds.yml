@@ -3,3 +3,5 @@ usedperc: 30
 temp: 3
 mem: 60
 ifl_down: 0
+rectot: 1
+nonrectot: 1
