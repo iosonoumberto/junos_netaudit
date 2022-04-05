@@ -115,7 +115,7 @@ def string_equal(scan, check):
             continue
         flag=1
         if check['cmd'] not in res_dict:
-            print(check['cmd'] + " not found for this device")
+            print(check['cmd'] + " not found for this file " + result)
             continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['facts']['info']['hostname'])
@@ -168,6 +168,9 @@ def threshold(scan, check):
             warn_text+="ERROR: skipping device.\n"
             dev_skipped.append(result)
             warn=1
+            continue
+        if check['cmd'] not in res_dict:
+            print(check['cmd'] + " not found for this file " + result)
             continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['facts']['info']['hostname'])
@@ -223,6 +226,9 @@ def device_distribution(scan, check):
             dev_skipped.append(result)
             warn=1
             continue
+        if check['cmd'] not in res_dict:
+            print(check['cmd'] + " not found for this file " + result)
+            continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['facts']['info']['hostname'])
             continue
@@ -266,6 +272,9 @@ def total(scan, check):
             dev_skipped.append(result)
             warn=1
             continue
+        if check['cmd'] not in res_dict:
+            print(check['cmd'] + " not found for this file " + result)
+            continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['facts']['info']['hostname'])
             continue
@@ -297,6 +306,9 @@ def total_filtered(scan, check):
             warn_text+="\t" + str(e) + "\n"
             dev_skipped.append(result)
             warn=1
+            continue
+        if check['cmd'] not in res_dict:
+            print(check['cmd'] + " not found for this file " + result)
             continue
         if not res_dict[cmd]:
             nodata.append(res_dict['facts']['info']['hostname'])
@@ -333,6 +345,9 @@ def basic_stats(scan, check):
             warn_text+="\t" + str(e) + "\n"
             dev_skipped.append(result)
             warn=1
+            continue
+        if check['cmd'] not in res_dict:
+            print(check['cmd'] + " not found for this file " + result)
             continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['facts']['info']['hostname'])
@@ -403,6 +418,9 @@ def empty(scan, check):
             dev_skipped.append(result)
             warn=1
             continue
+        if check['cmd'] not in res_dict:
+            print(check['cmd'] + " not found for this file " + result)
+            continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['facts']['info']['hostname'])
             continue
@@ -434,6 +452,9 @@ def global_distribution(scan, check):
             warn_text+="ERROR: skipping device.\n"
             dev_skipped.append(result)
             warn=1
+            continue
+        if check['cmd'] not in res_dict:
+            print(check['cmd'] + " not found for this file " + result)
             continue
         if not res_dict[check['cmd']]:
             nodata.append(res_dict['hostname'])
