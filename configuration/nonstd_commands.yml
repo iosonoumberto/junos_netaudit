@@ -33,4 +33,4 @@
   rpc: 'get-snapshot-information'
   supp_plat: ['opm']
   function: 'sys_snap_1re'
-  2re: 'False'
+  2re: False
