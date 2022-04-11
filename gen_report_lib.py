@@ -565,7 +565,8 @@ def all_equal_device(scan, check):
         alleq = all(elem == testlist[0] for elem in testlist)
         if not alleq:
             failed.append(res_dict['facts']['info']['hostname'])
-            failed_detail[res_dict['facts']['info']['hostname']]=testlist.copy()
+            failed_detail[res_dict['facts']['info']['hostname']]=[]
+            failed_detail[res_dict['facts']['info']['hostname']].append(res_dict[check['cmd']][tested])
     if bool(len(warn_text)):
         print(warn_text[:-1])
     text=print_failures(check['desc'], warn, failed, failed_detail, nodata, dev_skipped, warn_text)
