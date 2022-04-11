@@ -66,7 +66,7 @@ def validate_checks(checks):
             print("VALIDATION ERROR: check " + check['desc'] + " : cmd " + check['cmd'] + " not found in commands yaml file")
             valid=0
             continue
-        if check['test'] in ["string_equal","device_distribution","global_distribution","basic_stats","total_filtered"]:
+        if check['test'] in ["string_equal","device_distribution","global_distribution","basic_stats","total_filtered", "all_equal_device"]:
             ftv=open('tableviews/'+check['cmd']+'.yaml', 'r')
             d=yaml.load(ftv, Loader=yaml.FullLoader)
             if check['tfield'] not in d[d[check['cmd']]['view']]['fields'].keys():
@@ -511,6 +511,64 @@ def global_distribution(scan, check):
     if bool(len(warn_text)):
         print(warn_text[:-1])
     text=print_dict(check['desc'], warn, distr, nodata, dev_skipped, warn_text)
+    return text
+
+def all_equal_device(scan, check):
+    failed=[]
+    failed_detail={}
+    nodata=[]
+    dev_skipped=[]
+    warn=0
+    warn_text=''
+    results = os.listdir(scan)
+    results.pop(results.index('report.txt'))
+    for result in results:
+        try:
+            fr=open(scan+"/"+result,'r')
+            res_dict=json.load(fr)
+            fr.close()
+        except:
+            warn_text+="ERROR: could not load device json output " + result + "\n"
+            warn_text+="ERROR: skipping device.\n"
+            dev_skipped.append(result)
+            warn=1
+            continue
+        if check['cmd'] not in res_dict:
+            print(check['cmd'] + " not found for this file " + result)
+            nodata.append(res_dict['facts']['info']['hostname'])
+            continue
+        if not res_dict[check['cmd']]:
+            nodata.append(res_dict['facts']['info']['hostname'])
+            continue
+        testlist=[]
+        for tested in res_dict[check['cmd']]:
+            if isinstance(res_dict[check['cmd']][tested][check['tfield']], list):
+                if len(res_dict[check['cmd']][tested][check['tfield']])==0:
+                    continue
+                try:
+                    for listelem in res_dict[check['cmd']][tested][check['tfield']]:
+                        testlist.append(str(testelem))
+                except Exception as e:
+                    warn_text+="WARNING: all_equal_equal - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " - " + tested + " logic failed.\n"
+                    warn_text+="\t" + str(e) + "\n"
+                    warn=1
+                continue
+            try:
+                testlist.append(str(res_dict[check['cmd']][tested][check['tfield']]))
+            except Exception as e:
+                warn_text+="WARNING: string_equal - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " - " + tested + " logic failed.\n"
+                warn_text+="\t" + str(e) + "\n"
+                warn=1
+        if len(testlist)==0:
+            nodata.append(res_dict['facts']['info']['hostname'])
+            continue
+        alleq = all(elem == testlist[0] for elem in testlist)
+        if not alleq:
+            failed.append(res_dict['facts']['info']['hostname'])
+            failed_detail[res_dict['facts']['info']['hostname']]=testelem.copy()
+    if bool(len(warn_text)):
+        print(warn_text[:-1])
+    text=print_failures(check['desc'], warn, failed, failed_detail, nodata, dev_skipped, warn_text)
     return text
 
 ### PRINT FUNCTIONS

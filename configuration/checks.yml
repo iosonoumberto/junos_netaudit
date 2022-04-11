@@ -100,3 +100,7 @@
   test: "string_equal"
   val: "19.4R2"
   tfield: "nonrectot"
+- desc : "All BGP flap count equal"
+  cmd: "bgp_summary"
+  test: "all_equal_device"
+  tfield: "flap"
