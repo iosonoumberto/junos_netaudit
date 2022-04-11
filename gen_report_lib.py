@@ -591,7 +591,6 @@ def print_failures(desc, warn, failed, failed_detail, nodata, dev_skipped, warn_
                         text+="\t" + str(k) + " - " + str(l[k]) + "\n"
                         text+="\t----\n"
     text+="\n"
-    text+="ASDFGHJKL"
     if len(nodata) > 0:
         text+="\n"
         text+="The following devices had no data: " + str(nodata) + "\n"
