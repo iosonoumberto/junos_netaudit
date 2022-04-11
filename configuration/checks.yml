@@ -98,7 +98,7 @@
 - desc: "snapshot versions"
   cmd: "system_snapshot"
   test: "string_equal"
-  val: "19.4R2"
+  val: "18.4R1.8"
   tfield: "nonrectot"
 - desc : "All BGP flap count equal"
   cmd: "bgp_summary"

@@ -565,8 +565,6 @@ def all_equal_device(scan, check):
         alleq = all(elem == testlist[0] for elem in testlist)
         if not alleq:
             failed.append(res_dict['facts']['info']['hostname'])
-            failed_detail[res_dict['facts']['info']['hostname']]=[]
-            failed_detail[res_dict['facts']['info']['hostname']].append(res_dict[check['cmd']][tested])
     if bool(len(warn_text)):
         print(warn_text[:-1])
     text=print_failures(check['desc'], warn, failed, failed_detail, nodata, dev_skipped, warn_text)
@@ -584,6 +582,8 @@ def print_failures(desc, warn, failed, failed_detail, nodata, dev_skipped, warn_
     else:
         text+="The following items failed : " + str(failed) + "\n"
         text+="\n"
+        if len(failed_detail)==0:
+            break
         text+="Details:\n"
         for e in failed_detail:
             text+="  " + e + "\n"
@@ -592,6 +592,7 @@ def print_failures(desc, warn, failed, failed_detail, nodata, dev_skipped, warn_
                     text+="\t" + str(k) + " - " + str(l[k]) + "\n"
                 text+="\t----\n"
     text+="\n"
+    text+="ASDFGHJKL"
     if len(nodata) > 0:
         text+="\n"
         text+="The following devices had no data: " + str(nodata) + "\n"
