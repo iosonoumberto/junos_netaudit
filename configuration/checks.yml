@@ -99,7 +99,7 @@
   cmd: "system_snapshot"
   test: "string_equal"
   val: "18.4R1.8"
-  tfield: "nonrectot"
+  tfield: "versions"
 - desc : "All BGP flap count equal"
   cmd: "bgp_summary"
   test: "all_equal_device"
