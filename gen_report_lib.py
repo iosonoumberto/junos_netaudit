@@ -582,15 +582,14 @@ def print_failures(desc, warn, failed, failed_detail, nodata, dev_skipped, warn_
     else:
         text+="The following items failed : " + str(failed) + "\n"
         text+="\n"
-        if len(failed_detail)==0:
-            break
-        text+="Details:\n"
-        for e in failed_detail:
-            text+="  " + e + "\n"
-            for l in failed_detail[e]:
-                for k in l:
-                    text+="\t" + str(k) + " - " + str(l[k]) + "\n"
-                text+="\t----\n"
+        if len(failed_detail)>0:
+            text+="Details:\n"
+            for e in failed_detail:
+                text+="  " + e + "\n"
+                for l in failed_detail[e]:
+                    for k in l:
+                        text+="\t" + str(k) + " - " + str(l[k]) + "\n"
+                        text+="\t----\n"
     text+="\n"
     text+="ASDFGHJKL"
     if len(nodata) > 0:
