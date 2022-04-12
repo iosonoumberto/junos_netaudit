@@ -107,8 +107,8 @@
 - desc : "Licenses status"
   cmd: "system_licenses"
   test: "good_values"
-  val: "valid"
-  tfield: ['permanent', 'valid']
+  val: ['permanent', 'valid']
+  tfield: "valid"
 - desc : "Snapshots list test good_values OK"
   cmd: "system_snapshot"
   test: "good_values"
