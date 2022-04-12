@@ -65,7 +65,7 @@ def nonstd_table(dev, res_dict, command, args=''):
         res_dict[cmd][k]={}
         for f in tmp_dict:
             res_dict[cmd][k][f] = tmp_dict[f][0]
-            tmp_dict[f].pop(0)
+            tmp_dict[f].pop(0)            
     return 1
 
 def sys_snap_1re(dev, res_dict, command, args=''):

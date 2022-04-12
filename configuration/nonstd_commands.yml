@@ -34,3 +34,18 @@
   supp_plat: ['opm']
   function: 'sys_snap_1re'
   2re: False
+- cmd: 'route_summary'
+  display_name: 'show route summary'
+  rpc: 'get-route-summary-information'
+  item: route-table
+  key: table-name
+  fields:
+      tot: total-route-count
+      act: active-route-count
+      dest: destination-count
+  nested:
+      item: protocols
+      key: protocol-name
+      fields:
+          tot: protocol-route-count
+          act: active-route-count
