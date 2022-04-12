@@ -121,5 +121,5 @@ def nonstd_nested_table(dev, res_dict, command, args=''):
         for si in sub_items:
             sk=si.findtext(command['nested']['key'])
             for sf in command['nested']['fields']:
-                res_dict[cmd][k][sk.lower() + "_" + sf]=si.findtext(command['nested']['fields']['sf'])
+                res_dict[cmd][k][sk.lower() + "_" + sf]=si.findtext(command['nested']['fields'][sf])
     return 1
