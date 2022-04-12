@@ -37,6 +37,9 @@
 - cmd: 'route_summary'
   display_name: 'show route summary'
   rpc: 'get-route-summary-information'
+  supp_plat: ['opm']
+  function: 'nonstd_nested_table'
+  2re: 'all'
   item: route-table
   key: table-name
   fields:
