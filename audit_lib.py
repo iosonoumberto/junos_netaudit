@@ -65,7 +65,7 @@ def nonstd_table(dev, res_dict, command, args=''):
         res_dict[cmd][k]={}
         for f in tmp_dict:
             res_dict[cmd][k][f] = tmp_dict[f][0]
-            tmp_dict[f].pop(0)            
+            tmp_dict[f].pop(0)
     return 1
 
 def sys_snap_1re(dev, res_dict, command, args=''):
@@ -93,4 +93,33 @@ def sys_snap_1re(dev, res_dict, command, args=''):
         res_dict[cmd]['re0']['rectot']=re.search('Total recovery snapshots: (\d+)\n',res).group(1)
     except:
         res_dict[cmd]['re0']['rectot']=0
+    return 1
+
+def nonstd_nested_table(dev, res_dict, command, args=''):
+    if 'args' in command:
+        args=command['args']
+    rpc=command['rpc']
+    cmd=command['cmd']
+    res_dict[cmd]={}
+
+    try:
+        xml=eval('dev.rpc.' + rpc.replace('-','_') + '(' + args + ')')
+    except Exception as e:
+        print("\tRPC error")
+        print("\t" + str(e))
+        res_dict[cmd]={}
+        return 1
+
+    items=xml.xpath(command['item'])
+
+    for i in items:
+        k=i.findtext(command['key'])
+        res_dict[cmd][k]={}
+        for f in command['fields']:
+            res_dict[cmd][k][f]=i.findtext(command['fields'][f])
+        sub_items=i.xpath(command['nested']['item'])
+        for si in sub_items:
+            sk=si.findtext(command['nested']['key'])
+            for sf in command['nested']['fields']:
+                res_dict[cmd][k][sk.lower() + "_" + sf]=si.findtext(command['nested']['fields']['sf'])
     return 1
