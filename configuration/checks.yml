@@ -118,4 +118,4 @@
   cmd: "system_snapshot"
   test: "good_values"
   val: ['18.4R1', '19.4']
-  tfield: "versions""
+  tfield: "versions"
