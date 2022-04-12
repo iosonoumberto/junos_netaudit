@@ -1,5 +1,5 @@
 routing_instances:
-  get: routing-instances
+  get: routing-instances/instance
   view: RiView
 
 RiView:
