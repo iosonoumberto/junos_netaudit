@@ -17,7 +17,7 @@
 - desc: "OSPF interfaces have at least one neighbor"
   cmd: "ospf_iface"
   test: "threshold"
-  fail: "higher"
+  fail: "lower"
   tfield: "ncount"
 - desc: "BGP states distribution"
   cmd: "bgp_summary"
