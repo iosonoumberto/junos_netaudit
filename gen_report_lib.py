@@ -611,6 +611,7 @@ def good_values(scan, check):
                                 failed_detail[res_dict['facts']['info']['hostname']]=[]
                                 flag=0
                                 failed_detail[res_dict['facts']['info']['hostname']].append(res_dict[check['cmd']][tested])
+                                break
                 except Exception as e:
                     warn_text+="WARNING: string_equal - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " - " + tested + " logic failed.\n"
                     warn_text+="\t" + str(e) + "\n"

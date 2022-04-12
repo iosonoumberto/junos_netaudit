@@ -2,7 +2,7 @@
 - desc : "OSPF states not Full"
   cmd: "ospf_neigh"
   test: "string_equal"
-  val: "Full"
+  val: "XXX"
   tfield: "state"
 - desc : "MPLS interfaces not UP"
   cmd: "mpls_iface"
