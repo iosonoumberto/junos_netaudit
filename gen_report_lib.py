@@ -143,8 +143,8 @@ def string_equal(scan, check):
                                 failed.append(res_dict['facts']['info']['hostname'])
                                 failed_detail[res_dict['facts']['info']['hostname']]=[]
                                 flag=0
-                                failed_detail[res_dict['facts']['info']['hostname']].append(res_dict[check['cmd']][tested])
-                                break
+                            failed_detail[res_dict['facts']['info']['hostname']].append(res_dict[check['cmd']][tested])
+                            break
                 except Exception as e:
                     warn_text+="WARNING: string_equal - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " - " + tested + " logic failed.\n"
                     warn_text+="\t" + str(e) + "\n"
@@ -156,7 +156,7 @@ def string_equal(scan, check):
                         failed.append(res_dict['facts']['info']['hostname'])
                         failed_detail[res_dict['facts']['info']['hostname']]=[]
                         flag=0
-                        failed_detail[res_dict['facts']['info']['hostname']].append(res_dict[check['cmd']][tested])
+                    failed_detail[res_dict['facts']['info']['hostname']].append(res_dict[check['cmd']][tested])
             except Exception as e:
                 warn_text+="WARNING: string_equal - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " - " + tested + " logic failed.\n"
                 warn_text+="\t" + str(e) + "\n"
@@ -610,8 +610,8 @@ def good_values(scan, check):
                                 failed.append(res_dict['facts']['info']['hostname'])
                                 failed_detail[res_dict['facts']['info']['hostname']]=[]
                                 flag=0
-                                failed_detail[res_dict['facts']['info']['hostname']].append(res_dict[check['cmd']][tested])
-                                break
+                            failed_detail[res_dict['facts']['info']['hostname']].append(res_dict[check['cmd']][tested])
+                            break
                 except Exception as e:
                     warn_text+="WARNING: string_equal - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " - " + tested + " logic failed.\n"
                     warn_text+="\t" + str(e) + "\n"
@@ -623,7 +623,7 @@ def good_values(scan, check):
                         failed.append(res_dict['facts']['info']['hostname'])
                         failed_detail[res_dict['facts']['info']['hostname']]=[]
                         flag=0
-                        failed_detail[res_dict['facts']['info']['hostname']].append(res_dict[check['cmd']][tested])
+                    failed_detail[res_dict['facts']['info']['hostname']].append(res_dict[check['cmd']][tested])
             except Exception as e:
                 warn_text+="WARNING: string_equal - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " - " + tested + " logic failed.\n"
                 warn_text+="\t" + str(e) + "\n"
