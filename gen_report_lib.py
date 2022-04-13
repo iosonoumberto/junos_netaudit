@@ -568,6 +568,9 @@ def all_equal_device(scan, check):
             continue
         testlist=[]
         for tested in res_dict[check['cmd']]:
+            if check['tfield'] not in res_dict[check['cmd']][tested]:
+                warn_text+="WARNING: all_equal_device - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " - " + tested + " tfield not found " + str(check['tfield']) + ".\n"
+                continue
             if isinstance(res_dict[check['cmd']][tested][check['tfield']], list):
                 if len(res_dict[check['cmd']][tested][check['tfield']])==0:
                     continue
