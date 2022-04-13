@@ -148,3 +148,7 @@
   test: "basic_stats"
   tfield: "ldp_act2"
   unit: ""
+- desc: "route summary global distribution finds missing tfield"
+  cmd: "route_summary"
+  test: "global_distribution"
+  tfield: "ldp_act"
