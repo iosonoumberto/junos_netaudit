@@ -133,3 +133,8 @@
   cmd: "route_summary"
   test: "device_distribution"
   tfield: "ldp_act"
+- desc: "route summary total filtered finds missing tfield"
+  cmd: "route_summary"
+  test: "total_filtered"
+  tfield: "ldp_act"
+  val: "4"
