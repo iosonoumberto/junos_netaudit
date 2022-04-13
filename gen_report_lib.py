@@ -132,6 +132,9 @@ def string_equal(scan, check):
             nodata.append(res_dict['facts']['info']['hostname'])
             continue
         for tested in res_dict[check['cmd']]:
+            if check['tfield'] not in res_dict[check['cmd']][tested]:
+                warn_text+="WARNING: string_equal - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " - " + tested + " tfield not found " + str(check['tfield']) + ".\n"
+                continue
             if isinstance(res_dict[check['cmd']][tested][check['tfield']], list):
                 if len(res_dict[check['cmd']][tested][check['tfield']])==0:
                     nodata.append(res_dict['facts']['info']['hostname'])

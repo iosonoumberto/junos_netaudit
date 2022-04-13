@@ -119,3 +119,8 @@
   test: "good_values"
   val: ['18.4R1', '19.4']
   tfield: "versions"
+- desc : "route summary string equal finds missing tfield"
+  cmd: "route_summary"
+  test: "string_equal"
+  val: "0"
+  tfield: "ldp_act"
