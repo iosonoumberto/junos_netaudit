@@ -399,7 +399,8 @@ def basic_stats(scan, check):
             nodata.append(res_dict['facts']['info']['hostname'])
             continue
         if check['tfield'] not in res_dict[check['cmd']][list(res_dict[check['cmd']].keys())[0]]:
-                warn_text+="WARNING: basic_stats - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " - " + tested + " tfield not found " + str(check['tfield']) + ".\n"
+                warn_text+="WARNING: basic_stats - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " -  tfield not found " + str(check['tfield']) + ".\n"
+                nodata.append(res_dict['facts']['info']['hostname'])
                 continue
         try:
             vals[res_dict['facts']['info']['hostname']]=float(res_dict[check['cmd']][list(res_dict[check['cmd']].keys())[0]][check['tfield']].strip("%"))
