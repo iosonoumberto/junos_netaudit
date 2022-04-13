@@ -129,3 +129,7 @@
   test: "threshold"
   fail: "higher"
   tfield: "ldp_act"
+- desc: "route summary device distribution finds missing tfield"
+  cmd: "route_summary"
+  test: "device_distribution"
+  tfield: "ldp_act"
