@@ -413,7 +413,9 @@ def basic_stats(scan, check):
         warn_text+="WARNING: basic stats - " + check['desc'] + " - no values to compute stats\n"
         if bool(len(warn_text)):
             print(warn_text[:-1])
-        return "No values to compute stats\n"
+        text=">>> CHECK RESULT FOR " + check['desc'] + "\n\n"
+        text+= "No values to compute stats\n"
+        return text
     stats["maxv"]={}
     stats["minv"]={}
     try:
