@@ -655,7 +655,7 @@ def print_failures(desc, warn, failed, failed_detail, nodata, dev_skipped, warn_
                 for l in failed_detail[e]:
                     for k in l:
                         text+="\t" + str(k) + " - " + str(l[k]) + "\n"
-                        text+="\t----\n"
+                    text+="\t----\n"
     text+="\n"
     if len(nodata) > 0:
         text+="\n"
