@@ -409,6 +409,11 @@ def basic_stats(scan, check):
             warn_text+="WARNING: basic stats - " + check['desc'] + " - could not extract stats value : " + str(res_dict[check['cmd']][list(res_dict[check['cmd']].keys())[0]][check['tfield']].strip("%")) + " , device : " + res_dict['facts']['info']['hostname'] + "\n"
             warn_text+="\t" + str(e) + "\n"
             warn=1
+    if len(vals)==0:
+        warn_text+="WARNING: basic stats - " + check['desc'] + " - no values to compute stats\n"
+        if bool(len(warn_text)):
+            print(warn_text[:-1])
+        return "No values to compute stats\n"
     stats["maxv"]={}
     stats["minv"]={}
     try:
