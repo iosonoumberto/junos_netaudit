@@ -215,6 +215,9 @@ def threshold(scan, check):
             threshold=float(gthresholds[check['tfield']])
         flag=1
         for tested in res_dict[check['cmd']]:
+            if check['tfield'] not in res_dict[check['cmd']][tested]:
+                warn_text+="WARNING: threshold - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " - " + tested + " tfield not found " + str(check['tfield']) + ".\n"
+                continue
             if 'interest' in check:
                 if tested not in check['interest']:
                     continue

@@ -124,3 +124,8 @@
   test: "string_equal"
   val: "0"
   tfield: "ldp_act"
+- desc: "route summary threshold finds missing tfield"
+  cmd: "route_summary"
+  test: "threshold"
+  fail: "higher"
+  tfield: "ldp_act"
