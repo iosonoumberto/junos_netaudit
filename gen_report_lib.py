@@ -275,7 +275,7 @@ def device_distribution(scan, check):
         tfield=check['tfield']
         for tested in res_dict[distr_cmd]:
             if check['tfield'] not in res_dict[check['cmd']][tested]:
-                warn_text+="WARNING: string_equal - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " - " + tested + " tfield not found " + str(check['tfield']) + ".\n"
+                warn_text+="WARNING: device_distribution - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " - " + tested + " tfield not found " + str(check['tfield']) + ".\n"
                 continue
             try:
                 if res_dict[distr_cmd][tested][tfield] not in distr[host]:
