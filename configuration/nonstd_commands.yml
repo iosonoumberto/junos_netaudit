@@ -43,6 +43,7 @@
   item: route-table
   key: table-name
   fields:
+      name: table-name
       tot: total-route-count
       act: active-route-count
       dest: destination-count
