@@ -78,7 +78,9 @@ for router in devices:
         #save release, model and hostname
         res_dict['facts']={}
         res_dict['facts']['info']={}
-        res_dict['facts']['info']['release']=dev.facts['junos_info']['re0']['text']
+        res_dict['facts']['info']['release_re0']=dev.facts['junos_info']['re0']['text']
+        if dev.facts['2RE']:
+            res_dict['facts']['info']['release_re1']=dev.facts['junos_info']['re1']['text']
         res_dict['facts']['info']['hostname']=dev.facts['hostname']
         res_dict['facts']['info']['model']=router['model']
         res_dict['facts']['info']['role']=router['role']
