@@ -57,7 +57,7 @@ def exec_confcheck(check, conf, fo):
             if 'node' in i and 'value' not in i:
                 for item in items:
                     xpathstr=".//" + i['node']
-                    if not item.xpath(xptahstr):
+                    if not item.xpath(xpathstr):
                         if wrng:
                             fo.write("One item failed. Please check device.\n")
                         if not wrng:
@@ -69,7 +69,7 @@ def exec_confcheck(check, conf, fo):
             if 'node' in i and 'value' in i:
                 for item in items:
                     xpathstr=".//" + i['node'] + "/text()='" + i['value'] + "'"
-                    if not item.xpath(xptahstr):
+                    if not item.xpath(xpathstr):
                         if wrng:
                             fo.write("One item failed. Please check device.\n")
                         if not wrng:
