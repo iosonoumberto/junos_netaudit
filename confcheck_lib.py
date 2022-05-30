@@ -33,4 +33,5 @@ def exec_confcheck(check, conf, fo):
             fo.write("\t PASS\n")
         else:
             fo.write("\t FAIL\n")
-    fo.write("\n")
+
+    fo.write("xxx\n")
