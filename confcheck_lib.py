@@ -37,6 +37,9 @@ def exec_confcheck(check, conf, fo):
                 flag=(str(item.text)==str(check['eq']))
                 if not flag:
                     fo.write("\t FAIL\n")
-                    break            
+                    break
+
+        if flag:
+            fo.write("\t PASS\n")         
 
     fo.write("\n")
