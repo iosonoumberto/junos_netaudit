@@ -29,14 +29,14 @@ def exec_confcheck(check, conf, fo):
     if 'eq' in check:
         fo.write("Check if all the nodes have value " + str(check['eq']) + "\n")
         flag=items[0].text is not None
+        if not flag:
+            fo.write("\t FAIL [specified node path has no text]\n")
+
         for item in items:
             if item.text is not None:
                 flag=(str(item.text)==str(check['eq']))
                 if not flag:
-                    break
-        if flag:
-            fo.write("\t PASS\n")
-        else:
-            fo.write("\t FAIL\n")
+                    fo.write("\t FAIL\n")
+                    break            
 
     fo.write("\n")
