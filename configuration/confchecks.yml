@@ -22,3 +22,4 @@
   inspect:
     - node: "filter-name"
       value: "ok"
+    - node: "mpls"
