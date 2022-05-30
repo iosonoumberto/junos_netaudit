@@ -28,7 +28,7 @@ def exec_confcheck(check, conf, fo):
 
     if 'eq' in check:
         fo.write("Check if all the nodes have value " + str(check['eq']) + "\n")
-        flag=True
+        flag=items[0].text is not None
         for item in items:
             if item.text is not None:
                 flag=(str(item.text)==str(check['eq']))
