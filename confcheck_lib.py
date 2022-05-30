@@ -23,7 +23,7 @@ def exec_confcheck(check, conf, fo):
 
     #if nothing found check is over
     if len(items)==0:
-        fo.write("\t FAIL\n")
+        fo.write("\t FAIL\n\n")
         return
 
     if 'eq' in check:
