@@ -16,7 +16,7 @@ def exec_confcheck(check, conf, fo):
     fo.write("VERIFY: " + check['desc'] + "\n")
     #extract xpath
     items=conf.xpath(check['path'])
-    fo.write("Found patterns: " + str(len(items)))
+    fo.write("Found patterns: " + str(len(items)) + "\n")
 
     #if nothing found check is over
     if len(items)==0:
@@ -34,4 +34,4 @@ def exec_confcheck(check, conf, fo):
         else:
             fo.write("\t FAIL\n")
 
-    fo.write("xxx\n")
+    fo.write("\n")
