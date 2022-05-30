@@ -35,7 +35,7 @@ confchecks = yaml.load(fs, Loader=yaml.FullLoader)
 fs.close()
 
 #create output folder
-foldername= "conf_sanity_check_" + args.role + "_" + time.ctime().replace(' ','_').replace(':','_')
+foldername= "sanity_conf_check_" + args.role + "_" + time.ctime().replace(' ','_').replace(':','_')
 os.mkdir(foldername)
 
 #loop over devices
