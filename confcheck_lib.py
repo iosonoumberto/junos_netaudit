@@ -69,6 +69,7 @@ def exec_confcheck(check, conf, fo):
             if 'node' in i and 'value' in i:
                 for item in items:
                     xpathstr=".//" + i['node'] + "/text()='" + i['value'] + "'"
+                    print(xpathstr)
                     if not item.xpath(xpathstr):
                         if wrng:
                             fo.write("One item failed. Please check device.\n")
