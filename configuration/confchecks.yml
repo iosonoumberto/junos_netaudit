@@ -17,8 +17,8 @@
 - desc: "Filter configured with name ok"
   path: "interfaces/interface/unit"
   failid:
-    - name
     - ../name
+    - name
   inspect:
     - node: "filter-name"
     - value: "ok"
