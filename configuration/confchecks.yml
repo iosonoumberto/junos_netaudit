@@ -1,0 +1,5 @@
+- desc: "Router ID configured"
+  path: "routing-options/router-id"
+- desc: "OSPF interface-type p2p where configured"
+  path: "protocols/ospf/area/interface/interface-type"
+  eq: "p2p"
