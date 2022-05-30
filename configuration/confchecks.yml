@@ -21,4 +21,4 @@
     - name
   inspect:
     - node: "filter-name"
-    - value: "ok"
+      value: "ok"
