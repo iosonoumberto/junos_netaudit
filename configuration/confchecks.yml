@@ -9,4 +9,4 @@
   path: "interfaces/interface"
   eq: "aaa"
 - desc: "Filter configured with name ok"
-  path: "interfaces/interface/family/inet/filter/input/filter-name"
+  path: "interfaces/interface/unit/family/inet/filter/input/filter-name"

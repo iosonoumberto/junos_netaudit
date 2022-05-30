@@ -20,8 +20,6 @@ def exec_confcheck(check, conf, fo):
 
     if len(check)==2 and len(items)>0:
         fo.write("\t PASS\n")
-    if len(check)==2 and len(items)==0:
-        fo.write("\t FAIL\n")
 
     #if nothing found check is over
     if len(items)==0:
