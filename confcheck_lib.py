@@ -58,9 +58,11 @@ def exec_confcheck(check, conf, fo):
         for i in check['inspect']:
             if 'node' in i and 'value' not in i:
                 fo.write("\tNode: " + i['node'] + "\n")
+                flag=True
                 for item in items:
                     xpathstr=".//" + i['node']
                     if not item.xpath(xpathstr):
+                        flag=False
                         if wrng:
                             fo.write("\t\tOne item failed. Please check device.\n")
                         if not wrng:
@@ -71,9 +73,11 @@ def exec_confcheck(check, conf, fo):
                             fo.write("\t\t" + fail_str + " failed.\n")
             if 'node' in i and 'value' in i:
                 fo.write("\tNode: " + i['node'] + " , value: " + i['value'] + "\n")
+                flag=True
                 for item in items:
                     xpathstr=".//" + i['node'] + "/text()='" + i['value'] + "'"
                     if not item.xpath(xpathstr):
+                        flag=False
                         if wrng:
                             fo.write("\t\tOne item failed. Please check device.\n")
                         if not wrng:
@@ -82,5 +86,9 @@ def exec_confcheck(check, conf, fo):
                                 fail_l.append(item.findtext(key))
                             fail_str=' - '.join(fail_l)
                             fo.write("\t\t" + fail_str + " failed.\n")
+            if flag:
+                fo.write("\t\tPASS\n")
+            else:
+                fo.write("\t\tFAIL\n")
 
     fo.write("\n")
