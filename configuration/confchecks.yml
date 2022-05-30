@@ -16,6 +16,7 @@
   tot: 3
 - desc: "Logical interfaces inspection"
   path: "interfaces/interface/unit"
+  tot: 5
   failid:
     - ../name
     - name
