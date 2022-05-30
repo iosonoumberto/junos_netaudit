@@ -16,7 +16,7 @@ def exec_confcheck(check, conf, fo):
     fo.write("VERIFY: " + check['desc'] + "\n")
     #extract xpath
     items=conf.xpath(check['path'])
-    fo.write("Found patterns: " + str(len(items)) + "\n")
+    fo.write("Matches: " + str(len(items)) + "\n")
 
     if len(check)==2 and len(items)>0:
         fo.write("\t PASS\n")
@@ -41,5 +41,11 @@ def exec_confcheck(check, conf, fo):
 
         if flag:
             fo.write("\t PASS\n")
+
+    if 'tot' in check:
+        if len(items)==int(check['tot']):
+            fo.write("\t PASS\n")
+        else:
+            fo.write("\t FAIL [expected matches: " + str(check['tot']) + " ]\n")
 
     fo.write("\n")
