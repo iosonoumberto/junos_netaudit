@@ -48,4 +48,35 @@ def exec_confcheck(check, conf, fo):
         else:
             fo.write("\t FAIL [expected matches: " + str(check['tot']) + " ]\n")
 
+    if 'inspect' in check:
+        wrng=False
+        if 'failid' not in check:
+            fo.write("WRNG: failure identifier not found. Please define it.\n")
+            wrng=True
+        for i in check['inspect']:
+            if 'node' in i and 'value' not in i:
+                for item in items:
+                    xpathstr=".//" + i['node']
+                    if not item.xpath(xptahstr):
+                        if wrng:
+                            fo.write("One item failed. Please check device.\n")
+                        if not wrng:
+                            fail_l=[]
+                            for key in check['failid']:
+                                fail_l.append(item.findtext(key))
+                            fail_str=' - '.join(fail_l)
+                            fo.write(fail_str + " failed.\n")
+            if 'node' in i and 'value' in i:
+                for item in items:
+                    xpathstr=".//" + i['node'] + "/text()='" + i['value'] + "'"
+                    if not item.xpath(xptahstr):
+                        if wrng:
+                            fo.write("One item failed. Please check device.\n")
+                        if not wrng:
+                            fail_l=[]
+                            for key in check['failid']:
+                                fail_l.append(item.findtext(key))
+                            fail_str=' - '.join(fail_l)
+                            fo.write(fail_str + " failed.\n")
+
     fo.write("\n")
