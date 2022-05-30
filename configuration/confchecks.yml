@@ -14,7 +14,7 @@
 - desc: "Expected number of BGP neighbors"
   path: "protocols/bgp/group/neighbor/name"
   tot: 3
-- desc: "Filter configured with name ok"
+- desc: "Logical interfaces inspection"
   path: "interfaces/interface/unit"
   failid:
     - ../name
