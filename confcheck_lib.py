@@ -79,8 +79,8 @@ def exec_confcheck(check, conf, fo):
                         if not wrng:
                             fail_l=[]
                             for key in check['failid']:
-                                fail_l.append("\t\t" + item.findtext(key))
+                                fail_l.append(item.findtext(key))
                             fail_str=' - '.join(fail_l)
-                            fo.write(fail_str + " failed.\n")
+                            fo.write("\t\t" + fail_str + " failed.\n")
 
     fo.write("\n")
