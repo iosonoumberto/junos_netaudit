@@ -42,7 +42,7 @@ def nonstd_single_node(dev, res_dict, command, args=''):
 
 def nonstd_table(dev, res_dict, command, args=', dev_timeout=180'):
     if 'args' in command:
-        args=command['args'] + ', dev_timeout=55'
+        args=command['args'] + ', dev_timeout=180'
     rpc=command['rpc']
     cmd=command['cmd']
     res_dict[cmd]={}
