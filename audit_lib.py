@@ -40,9 +40,9 @@ def nonstd_single_node(dev, res_dict, command, args=''):
         res_dict[cmd]['data'][field]=eval('dev.rpc.' + rpc.replace('-','_') + '(' + args + ')').find(command['map'][field]).text
     return 1
 
-def nonstd_table(dev, res_dict, command, args=''):
+def nonstd_table(dev, res_dict, command, args=', dev_timeout=180'):
     if 'args' in command:
-        args=command['args']
+        args=command['args'] + ', dev_timeout=55'
     rpc=command['rpc']
     cmd=command['cmd']
     res_dict[cmd]={}
