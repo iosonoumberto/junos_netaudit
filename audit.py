@@ -110,7 +110,7 @@ for router in devices:
 
         #print collected data in json format
         json_out = json.dumps(res_dict, indent = 4)
-        fout_name=router['name']+"_"+time.ctime().replace(' ','_').replace(':','_')+".json"
+        fout_name=router['name']+"_audit_"+time.ctime().replace(' ','_').replace(':','_')+".json"
         fo=open(foldername+"/"+fout_name,'w')
         fo.write(json_out)
         fo.close()
