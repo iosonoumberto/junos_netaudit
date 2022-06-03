@@ -73,6 +73,7 @@ def simple_line_multi(jplot, historic, foldername):
                 else:
                     plots_data[l2]['y'].append(float(dev_data[str(l1)][l2][str(l3)]))
                     plots_data[l2]['x'].append(scan.split("/")[1].split("_audit_")[1].replace("_"," ")[:-5])
+        print(plots_data)
         for draw in plots_data:
             if len(plots_data[draw]['x'])<1:
                 print(str(device) + ", " + l2 + " NO DATA TO PLOT ERROR: " + str(e))
