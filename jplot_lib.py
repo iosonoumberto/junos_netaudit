@@ -60,10 +60,6 @@ def simple_line_multi(jplot, historic, foldername):
             l3=jplot['data'].split("->")[1]
             for l2 in dev_data[str(l1)]:
                 try:
-                    print(l1)
-                    print(l2)
-                    print(l3)
-                    print("***")
                     float_verify=float(dev_data[str(l1)][l2][str(l3)])
                 except Exception as e:
                     print(str(device) + " SCAN: " + str(scan) + ", DATA EXTRACT ERROR: " + str(e))
@@ -81,7 +77,7 @@ def simple_line_multi(jplot, historic, foldername):
             if len(plots_data[draw]['x'])<1:
                 print(str(device) + ", " + l2 + " NO DATA TO PLOT ERROR: " + str(e))
                 continue
-            plt.plt(plots_data[draw]['x'], plots_data[draw]['y'], label=l2)
+            plt.plot(plots_data[draw]['x'], plots_data[draw]['y'], label=l2)
         plt.grid()
         plt.title(jplot['desc'])
         plt.ylabel(jplot['ylabel'])
