@@ -3,3 +3,4 @@
   devices: ['MX1_TORINO']
   data: "re_1re->0->mem"
   test: "simple_line_specific"
+  ylabel: "RE memory %"

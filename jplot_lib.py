@@ -34,4 +34,8 @@ def simple_line_specific(jplot, historic, foldername):
         fig, ax = plt.subplots()
         ax.plot(x,y)
         ax.grid()
+        ax.title(jplot['desc'])
+        ax.ylabel(jplot['ylabel'])
+        ax.xlabel("scans")
+        .xticks(rotation=60)
         fig.savefig(foldername + "/" + device + "_" + jplot['img_name'] + ".png")
