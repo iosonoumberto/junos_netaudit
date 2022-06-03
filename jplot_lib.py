@@ -60,6 +60,10 @@ def simple_line_multi(jplot, historic, foldername):
             l3=jplot['data'].split("->")[1]
             for l2 in dev_data[str(l1)]:
                 try:
+                    print(l1)
+                    print(l2)
+                    print(l3)
+                    print("***")
                     float_verify=float(dev_data[str(l1)][l2][str(l3)])
                 except Exception as e:
                     print(str(device) + " SCAN: " + str(scan) + ", DATA EXTRACT ERROR: " + str(e))
