@@ -1,0 +1,5 @@
+- desc: "RE0 memory"
+  img_name: "re0_mem"
+  devices: ['MX1_TORINO']
+  data: "re1_re->0->mem"
+  test: "simple_line_specific"
