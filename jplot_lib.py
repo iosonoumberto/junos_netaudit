@@ -31,11 +31,10 @@ def simple_line_specific(jplot, historic, foldername):
         if len(x)<1:
             print(str(device) + ", NO DATA TO PLOT ERROR: " + str(e))
             return
-        fig, ax = plt.subplots()
-        ax.plot(x,y)
-        ax.grid()
-        ax.title(jplot['desc'])
-        ax.ylabel(jplot['ylabel'])
-        ax.xlabel("scans")
-        ax.xticks(rotation=60)
-        fig.savefig(foldername + "/" + device + "_" + jplot['img_name'] + ".png")
+        plt.plot(x,y)
+        plt.grid()
+        plt.title(jplot['desc'])
+        plt.ylabel(jplot['ylabel'])
+        plt.xlabel("scans")
+        plt.xticks(rotation=60)
+        plt.savefig(foldername + "/" + device + "_" + jplot['img_name'] + ".png")
