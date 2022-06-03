@@ -36,6 +36,6 @@ def simple_line_specific(jplot, historic, foldername):
         plt.title(jplot['desc'])
         plt.ylabel(jplot['ylabel'])
         plt.xlabel("scans")
-        plt.xticks(rotation=60)
+        plt.xticks(rotation=80)
         plt.tight_layout()
         plt.savefig(foldername + "/" + device + "_" + jplot['img_name'] + ".png", bbox_inches = "tight")
