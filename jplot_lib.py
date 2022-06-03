@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import yaml
 
-def simple_line(jplot, historic, foldername):
+def simple_line_specific(jplot, historic, foldername):
     dev_list=[]
     if devices in jplot:
         dev_list = jplot['devices'].copy()
