@@ -39,6 +39,7 @@ def simple_line_specific(jplot, historic, foldername):
         plt.xticks(rotation=80)
         plt.tight_layout()
         plt.savefig(foldername + "/" + device + "_" + jplot['img_name'] + ".png", bbox_inches = "tight")
+        plt.clf()
 
 def simple_line_multi(jplot, historic, foldername):
     dev_list=[]
@@ -88,3 +89,4 @@ def simple_line_multi(jplot, historic, foldername):
         plt.legend()
         plt.tight_layout()
         plt.savefig(foldername + "/" + device + "_" + jplot['img_name'] + ".png", bbox_inches = "tight")
+        plt.clf()
