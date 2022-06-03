@@ -30,5 +30,5 @@ os.mkdir(foldername)
 
 #loop over devices
 for jplot in jplots:
-    print("\plotting -> "+jplot['desc'])
+    print("plotting -> "+jplot['desc'])
     eval('jplot_lib.'+jplot['test']+'(jplot, historic, foldername)')
