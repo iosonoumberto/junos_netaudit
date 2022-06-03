@@ -7,6 +7,6 @@
 - desc: "system storage use"
   img_name: "sys_stor_use"
   devices: ['MX1_TORINO']
-  data: "system_storage->used_perc"
+  data: "system_storage->usedperc"
   test: "simple_line_multi"
   ylabel: "used %"
