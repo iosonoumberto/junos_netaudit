@@ -2,7 +2,7 @@ from jnpr.junos import Device
 from jnpr.junos.exception import *
 from jnpr.junos.factory.factory_loader import FactoryLoader
 
-import audit_lib
+import jplot_lib
 
 import time
 import argparse
