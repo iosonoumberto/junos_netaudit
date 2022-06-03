@@ -78,7 +78,8 @@ def simple_line_multi(jplot, historic, foldername):
             if len(plots_data[draw]['x'])<1:
                 print(str(device) + ", " + l2 + " NO DATA TO PLOT ERROR: " + str(e))
                 continue
-            plt.plot(plots_data[draw]['x'], plots_data[draw]['y'], label=l2)
+            plt.plot(plots_data[draw]['x'], plots_data[draw]['y'], label=draw)
+            print("PLOTTED")
         plt.grid()
         plt.title(jplot['desc'])
         plt.ylabel(jplot['ylabel'])
