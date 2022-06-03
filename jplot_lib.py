@@ -3,7 +3,7 @@ import yaml
 
 def simple_line_specific(jplot, historic, foldername):
     dev_list=[]
-    if devices in jplot:
+    if 'devices' in jplot:
         dev_list = jplot['devices'].copy()
     else:
         dev_list = historic.keys().copy()
