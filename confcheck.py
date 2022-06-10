@@ -45,7 +45,7 @@ for router in devices:
         print("* DEVICE: " + router['name'])
 
         #connect to device
-        dev = Device(host=router['ip'], user=settings['username'], password=settings['password'])
+        dev = Device(host=router['ip'], user=settings['username'], password=settings['password'], port=int(settings['ncport']))
         dev.open()
         conf=dev.rpc.get_config()
         dev.close()
