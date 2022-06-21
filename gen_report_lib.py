@@ -157,6 +157,9 @@ def string_equal(scan, check):
                     warn=1
                 continue
             try:
+                if 'ignore' in check:
+                    if res_dict[check['cmd']][tested][check['tfield']] in check['ignore']:
+                        continue
                 if res_dict[check['cmd']][tested][check['tfield']]!=check['val']:
                     if flag:
                         failed.append(res_dict['facts']['info']['hostname'])

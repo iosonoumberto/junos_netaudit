@@ -164,3 +164,9 @@
   val: "18.3"
   ignore: ['18.4R1']
   tfield: "versions"
+- desc: "IGNORE, string_equal, fpc state, ignore empty"
+  cmd: "chassis_fpc"
+  test: "string_equal"
+  val: "Online"
+  ignore: ['Empty']
+  tfield: "state"
