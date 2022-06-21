@@ -198,3 +198,12 @@
   test: "device_distribution"
   tfield: "state"
   ignore: ['Idle', 'Active']
+- desc : "FPC state all_equal"
+  cmd: "chassis_fpc"
+  test: "all_equal_device"
+  tfield: "state"
+- desc : "FPC state all_equal, IGNORE"
+  cmd: "chassis_fpc"
+  test: "all_equal_device"
+  tfield: "state"
+  ignore: ['Empty']

@@ -588,6 +588,9 @@ def all_equal_device(scan, check):
                     continue
                 try:
                     for listelem in res_dict[check['cmd']][tested][check['tfield']]:
+                        if 'ignore'in check:
+                            if listelem in check['ignore']:
+                                continue
                         testlist.append(str(testelem))
                 except Exception as e:
                     warn_text+="WARNING: all_equal_equal - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " - " + tested + " logic failed.\n"
@@ -595,6 +598,9 @@ def all_equal_device(scan, check):
                     warn=1
                 continue
             try:
+                if 'ignore' in check:
+                    if str(res_dict[check['cmd']][tested][check['tfield']]) in check['ignore']:
+                        continue
                 testlist.append(str(res_dict[check['cmd']][tested][check['tfield']]))
             except Exception as e:
                 warn_text+="WARNING: string_equal - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " - " + tested + " logic failed.\n"
