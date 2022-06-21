@@ -170,3 +170,31 @@
   val: "Online"
   ignore: ['Empty']
   tfield: "state"
+- desc: "BGP states distribution"
+  cmd: "bgp_summary"
+  test: "device_distribution"
+  tfield: "state"
+- desc: "BGP states distribution"
+  cmd: "bgp_summary"
+  test: "global_distribution"
+  tfield: "state"
+- desc: "IGNORE, ignore Active, idle ok, BGP states distribution"
+  cmd: "bgp_summary"
+  test: "device_distribution"
+  tfield: "state"
+  ignore: ['Active']
+- desc: "IGNORE glob distr, ignore Idle, active ok, BGP states distribution"
+  cmd: "bgp_summary"
+  test: "global_distribution"
+  tfield: "state"
+  ignore: ['Idle']
+- desc: "IGNORE glob distr, only est, BGP states distribution"
+  cmd: "bgp_summary"
+  test: "global_distribution"
+  tfield: "state"
+  ignore: ['Idle', 'Active']
+- desc: "IGNORE dev distr, only est, BGP states distribution"
+  cmd: "bgp_summary"
+  test: "device_distribution"
+  tfield: "state"
+  ignore: ['Idle', 'Active']
