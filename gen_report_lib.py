@@ -141,6 +141,9 @@ def string_equal(scan, check):
                     continue
                 try:
                     for listelem in res_dict[check['cmd']][tested][check['tfield']]:
+                        if 'ignore' in check:
+                            if listelem in check['ignore']:
+                                continue
                         if listelem!=check['val']:
                             if flag:
                                 failed.append(res_dict['facts']['info']['hostname'])
