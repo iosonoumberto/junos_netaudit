@@ -207,3 +207,9 @@
   test: "all_equal_device"
   tfield: "state"
   ignore: ['Empty']
+- desc : "BGP summ state, good values, IGNORE Idle"
+  cmd: "bgp_summary"
+  test: "good_values"
+  val: ['Active', 'Established']
+  tfield: "state"
+  ignore: ['Idle']

@@ -655,6 +655,9 @@ def good_values(scan, check):
                     continue
                 try:
                     for listelem in res_dict[check['cmd']][tested][check['tfield']]:
+                        if 'ignore' in check:
+                            if listelem in check['ignore']:
+                                continue
                         if listelem not in check['val']:
                             if flag:
                                 failed.append(res_dict['facts']['info']['hostname'])
@@ -668,6 +671,9 @@ def good_values(scan, check):
                     warn=1
                 continue
             try:
+                if 'ignore' in check:
+                    if res_dict[check['cmd']][tested][check['tfield']] in check['ignore']:
+                        continue
                 if res_dict[check['cmd']][tested][check['tfield']] not in check['val']:
                     if flag:
                         failed.append(res_dict['facts']['info']['hostname'])
