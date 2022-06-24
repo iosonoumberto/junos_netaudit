@@ -16,6 +16,15 @@
     booted : system-booted-time/time-length
     configured: last-configured-time/time-length
   2re: 'all'
+- cmd: 'pfe_trfstats'
+  display_name: 'show pfe statistics traffic'
+  rpc: 'get-pfe-statistics'
+  supp_plat: ['opm']
+  function: 'nonstd_single_node'
+  map:
+    ipps : input-pps
+    opps: output-pps
+  2re: 'all'
 - cmd: 'radius_servers_profile'
   display_name: 'show network-access aaa radius-servers'
   rpc: 'get-radius-servers-table'
