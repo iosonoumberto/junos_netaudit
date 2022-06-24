@@ -66,3 +66,7 @@
   display_name: "show interfaces summary - modules data"
   supp_plat: ["sh", "cgn", "opm", "pe"]
   2re: all
+- name: "pfe_trfstat"
+  display_name: "show pfe statistics traffic"
+  supp_plat: ["sh", "cgn", "opm", "pe"]
+  2re: all
