@@ -100,7 +100,6 @@ def compare_devices_specific(jplot, historic, foldername):
         x=[]
         y=[]
         for scan in historic[device]:
-            print(scan)
             try:
                 fi=open(scan,'r')
                 dev_data = yaml.load(fi, Loader=yaml.FullLoader)
@@ -114,6 +113,8 @@ def compare_devices_specific(jplot, historic, foldername):
                 float_verify=float(dev_data[str(l1)][str(l2)][str(l3)])
             except Exception as e:
                 print(str(device) + " SCAN: " + str(scan) + ", DATA EXTRACT ERROR: " + str(e))
+                x.append(scan.split('/')[0][scan.split('/')[0].index('_')+1:].replace('_',' ' ))
+                y.append(None)
                 continue
             x.append(scan.split('/')[0][scan.split('/')[0].index('_')+1:].replace('_',' ' ))
             y.append(float(dev_data[str(l1)][str(l2)][str(l3)]))
