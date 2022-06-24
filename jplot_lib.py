@@ -121,6 +121,7 @@ def compare_devices_specific(jplot, historic, foldername):
         if len(x)<1:
             print(str(device) + ", NO DATA TO PLOT ERROR: " + str(e))
             return
+        print(x)
         plt.plot(x,y, linestyle='-', marker='o', label=device)
     plt.grid()
     plt.title(jplot['desc'])
