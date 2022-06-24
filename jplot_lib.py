@@ -139,7 +139,7 @@ def compare_devices_specific(jplot, historic, foldername):
     plt.clf()
 
 def create_timeline(timeline,historic):
-    tmtl=[]
+    tmptl=[]
     for device in historic:
         for scan in historic[device]:
             strdate = " ".join(scan.split("/")[0].split("_")[1:])
