@@ -94,7 +94,7 @@ def compare_devices_specific(jplot, historic, foldername):
     if 'devices' in jplot:
         dev_list = jplot['devices'].copy()
     else:
-        dev_list = historic.keys().copy()
+        dev_list = list(historic.keys()).copy()
 
     for device in dev_list:
         x=[]
