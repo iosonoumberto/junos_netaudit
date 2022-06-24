@@ -1,0 +1,10 @@
+pfe_trfstat:
+ rpc: get-pfe-statistics
+ item: pfe-traffic-statistics
+ key: 'data'
+ view: PfeTrfstatView
+
+PfeTrfstatView:
+ fields:
+  ipps: input-pps
+  opps: outputpps
