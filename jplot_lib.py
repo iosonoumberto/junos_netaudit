@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import yaml
+from datetime import datetime
 
 def simple_line_specific(jplot, historic, foldername):
     dev_list=[]
@@ -96,6 +97,10 @@ def compare_devices_specific(jplot, historic, foldername):
     else:
         dev_list = list(historic.keys()).copy()
 
+    timeline=[]
+    create_timeline(timeline,historic)
+    print(timeline)
+
     for device in dev_list:
         x=[]
         y=[]
@@ -132,3 +137,15 @@ def compare_devices_specific(jplot, historic, foldername):
     plt.tight_layout()
     plt.savefig(foldername + "/" + jplot['img_name'] + ".png", bbox_inches = "tight")
     plt.clf()
+
+def create_timeline(timeline,historic):
+    tmtl=[]
+    for device in historic:
+        for scan in historic[device]:
+            strdate = " ".join(scan.split("/")[0].split("_")[1:])
+            ts = datetime.strptime(strdate, '%a %b %d %H %M %S %Y').timestamp()
+            if ts not in tmptl:
+                tmptl.append(ts)
+    tmptl.sort()
+    for elem in tmptl:
+        timeline.append(datetime.fromtimestamp(elem).strftime('%a %b %d %H %M %S %Y'))
