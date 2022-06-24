@@ -105,7 +105,6 @@ def compare_devices_specific(jplot, historic, foldername):
         x=[]
         y=[]
         for scan in historic[device]:
-            print(scan)
             try:
                 fi=open(scan,'r')
                 dev_data = yaml.load(fi, Loader=yaml.FullLoader)
