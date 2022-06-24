@@ -12,6 +12,6 @@
   ylabel: "used %"
 - desc: "pfe traffic statistics output-pps"
   img_name: "pfe_traffic_stats_outpps"
-  data: "pfe_trfstats->opps"
+  data: "pfe_trfstats->data->opps"
   test: "compare_devices_specific"
   ylabel: "PPS"
