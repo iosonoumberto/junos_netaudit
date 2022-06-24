@@ -22,8 +22,8 @@
   supp_plat: ['opm']
   function: 'nonstd_single_node'
   map:
-    ipps : input-pps
-    opps: output-pps
+    ipps : pfe-traffic-statistics/input-pps
+    opps: pfe-traffic-statistics/output-pps
   2re: 'all'
 - cmd: 'radius_servers_profile'
   display_name: 'show network-access aaa radius-servers'
