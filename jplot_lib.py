@@ -125,6 +125,7 @@ def compare_devices_specific(jplot, historic, foldername):
     plt.ylabel(jplot['ylabel'])
     plt.xlabel("scans")
     plt.xticks(rotation=80)
+    plt.legend()
     plt.tight_layout()
     plt.savefig(foldername + "/" + jplot['img_name'] + ".png", bbox_inches = "tight")
     plt.clf()
