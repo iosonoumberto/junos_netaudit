@@ -1,12 +1,12 @@
 - desc: "RE0 memory"
   img_name: "re0_mem"
-  devices: ['MX1_TORINO']
+  devices: ['MX1_TORINO', MX3_GENOVA]
   data: "re_1re->0->mem"
   test: "simple_line_specific"
   ylabel: "RE memory %"
 - desc: "system storage use"
   img_name: "sys_stor_use"
-  devices: ['MX1_TORINO']
+  devices: ['MX1_TORINO', 'MX3_GENOVA']
   data: "system_storage->usedperc"
   test: "simple_line_multi"
   ylabel: "used %"
