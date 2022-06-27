@@ -145,7 +145,7 @@ def compare_devices_specific(jplot, historic, foldername):
         print("Y")
         print(yseries)
         #plt.plot(xseries[xmask],yseries[xmask], linestyle='-', marker='o', label=device)
-        yserie = panda.Series(y, index=x)
+        yserie = pandas.Series(y, index=x)
         plt.plot(yserie.dropna(), linestyle='-', marker='o', label=device)
     plt.grid()
     plt.title(jplot['desc'])
