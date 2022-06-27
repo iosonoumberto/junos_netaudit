@@ -105,6 +105,7 @@ def compare_devices_specific(jplot, historic, foldername):
         tmp_tl=timeline.copy()
         x=[]
         y=[]
+        print("1")
         for scan in historic[device]:
             try:
                 fi=open(scan,'r')
@@ -112,12 +113,15 @@ def compare_devices_specific(jplot, historic, foldername):
             except Exception as e:
                 print(str(device) + " SCAN: " + str(scan) + ", LOAD SCAN FILE ERROR: " + str(e))
                 return
+            print("2")
             scandate = " ".join(scan.split("/")[0].split("_")[1:])
             while scandate != tmp_tl[0]:
+                print("3")
                 x.append(tmp_tl[0])
                 y.append(None)
                 tmp_tl.pop(0)
             try:
+                print("4")
                 l1=jplot['data'].split("->")[0]
                 l2=jplot['data'].split("->")[1]
                 l3=jplot['data'].split("->")[2]
@@ -127,6 +131,7 @@ def compare_devices_specific(jplot, historic, foldername):
                 x.append(scan.split('/')[0][scan.split('/')[0].index('_')+1:].replace('_',' ' ))
                 y.append(None)
                 continue
+            print("5")
             x.append(scan.split('/')[0][scan.split('/')[0].index('_')+1:].replace('_',' ' ))
             y.append(float(dev_data[str(l1)][str(l2)][str(l3)]))
             tmp_tl.pop(0)
