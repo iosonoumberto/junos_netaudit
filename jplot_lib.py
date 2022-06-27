@@ -91,52 +91,59 @@ def simple_line_multi(jplot, historic, foldername):
         plt.savefig(foldername + "/" + device + "_" + jplot['img_name'] + ".png", bbox_inches = "tight")
         plt.clf()
 
-#def compare_devices_specific(jplot, historic, foldername):
-#    dev_list=[]
-#    if 'devices' in jplot:
-#        dev_list = jplot['devices'].copy()
-#        dev_list = list(historic.keys()).copy()
-#
-#    timeline=[]
-#    create_timeline(timeline,historic)
-#    print(timeline)
-#
-#    for device in dev_list:
-#        x=[]
-#        y=[]
-#        for scan in historic[device]:
-#            try:
-#                fi=open(scan,'r')
-#                dev_data = yaml.load(fi, Loader=yaml.FullLoader)
-#            except Exception as e:
-#                print(str(device) + " SCAN: " + str(scan) + ", LOAD SCAN FILE ERROR: " + str(e))
-#                return
-#            try:
-#                l1=jplot['data'].split("->")[0]
-#                l2=jplot['data'].split("->")[1]
-#                l3=jplot['data'].split("->")[2]
-#                float_verify=float(dev_data[str(l1)][str(l2)][str(l3)])
-#            except Exception as e:
-#                print(str(device) + " SCAN: " + str(scan) + ", DATA EXTRACT ERROR: " + str(e))
-#                x.append(datetime.strptime(scan.split('/')[0][scan.split('/')[0].index('_')+1:].replace('_',' ' ), '%a %b %d %H %M %S %Y'))
-#                y.append(None)
-#                continue
-#            x.append(datetime.strptime(scan.split('/')[0][scan.split('/')[0].index('_')+1:].replace('_',' ' ), '%a %b %d %H %M %S %Y'))
-#            y.append(float(dev_data[str(l1)][str(l2)][str(l3)]))
-#        if len(x)<1:
-#            print(str(device) + ", NO DATA TO PLOT ERROR: " + str(e))
-#            return
-#        print(x)
-#        plt.plot(x,y, linestyle='-', marker='o', label=device)
-#    plt.grid()
-#    plt.title(jplot['desc'])
-#    plt.ylabel(jplot['ylabel'])
-#    plt.xlabel("scans")
-#    plt.xticks(rotation=80)
-#    plt.legend()
-#    plt.tight_layout()
-#    plt.savefig(foldername + "/" + jplot['img_name'] + ".png", bbox_inches = "tight")
-#    plt.clf()
+def compare_devices_specific(jplot, historic, foldername):
+    dev_list=[]
+    if 'devices' in jplot:
+        dev_list = jplot['devices'].copy()
+        dev_list = list(historic.keys()).copy()
+
+    timeline=[]
+    create_timeline(timeline,historic)
+    print(timeline)
+
+    for device in dev_list:
+        tmp_tl=timeline.copy()
+        x=[]
+        y=[]
+        for scan in historic[device]:
+            try:
+                fi=open(scan,'r')
+                dev_data = yaml.load(fi, Loader=yaml.FullLoader)
+            except Exception as e:
+                print(str(device) + " SCAN: " + str(scan) + ", LOAD SCAN FILE ERROR: " + str(e))
+                return
+            scandate = " ".join(scan.split("/")[0].split("_")[1:])
+            while scandate != tmp_tl[0]:
+                x.append(tmp_tl[0])
+                y.append(None)
+                tmp_tl.pop(0)
+            try:
+                l1=jplot['data'].split("->")[0]
+                l2=jplot['data'].split("->")[1]
+                l3=jplot['data'].split("->")[2]
+                float_verify=float(dev_data[str(l1)][str(l2)][str(l3)])
+            except Exception as e:
+                print(str(device) + " SCAN: " + str(scan) + ", DATA EXTRACT ERROR: " + str(e))
+                x.append(datetime.strptime(scan.split('/')[0][scan.split('/')[0].index('_')+1:].replace('_',' ' ), '%a %b %d %H %M %S %Y'))
+                y.append(None)
+                continue
+            x.append(datetime.strptime(scan.split('/')[0][scan.split('/')[0].index('_')+1:].replace('_',' ' ), '%a %b %d %H %M %S %Y'))
+            y.append(float(dev_data[str(l1)][str(l2)][str(l3)]))
+            tmp_tl.pop(0)
+        if len(x)<1:
+            print(str(device) + ", NO DATA TO PLOT ERROR FOR DEVICE: " + device)
+            continue
+        print(x)
+        plt.plot(x,y, linestyle='-', marker='o', label=device)
+    plt.grid()
+    plt.title(jplot['desc'])
+    plt.ylabel(jplot['ylabel'])
+    plt.xlabel("scans")
+    plt.xticks(rotation=80)
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(foldername + "/" + jplot['img_name'] + ".png", bbox_inches = "tight")
+    plt.clf()
 
 def create_timeline(timeline,historic):
     tmptl=[]
@@ -149,53 +156,3 @@ def create_timeline(timeline,historic):
     tmptl.sort()
     for elem in tmptl:
         timeline.append(datetime.fromtimestamp(elem).strftime('%a %b %d %H %M %S %Y'))
-
-def compare_devices_specific(jplot, historic, foldername):
-    dev_list=[]
-    if 'devices' in jplot:
-        dev_list = jplot['devices'].copy()
-    else:
-        dev_list = list(historic.keys()).copy()
-
-    timeline=[]
-    create_timeline(timeline,historic)
-    print(timeline)
-
-    for device in dev_list:
-        x=[]
-        y=[]
-        for scan in historic[device]:
-            try:
-                fi=open(scan,'r')
-                dev_data = yaml.load(fi, Loader=yaml.FullLoader)
-            except Exception as e:
-                print(str(device) + " SCAN: " + str(scan) + ", LOAD SCAN FILE ERROR: " + str(e))
-                return
-            try:
-                l1=jplot['data'].split("->")[0]
-                l2=jplot['data'].split("->")[1]
-                l3=jplot['data'].split("->")[2]
-                float_verify=float(dev_data[str(l1)][str(l2)][str(l3)])
-            except Exception as e:
-                print(str(device) + " SCAN: " + str(scan) + ", DATA EXTRACT ERROR: " + str(e))
-                x.append(datetime.strptime(scan.split('/')[0][scan.split('/')[0].index('_')+1:].replace('_',' ' ), '%a %b %d %H %M %S %Y').timestamp())
-                y.append(None)
-                continue
-            x.append(datetime.strptime(scan.split('/')[0][scan.split('/')[0].index('_')+1:].replace('_',' ' ), '%a %b %d %H %M %S %Y').timestamp())
-            y.append(float(dev_data[str(l1)][str(l2)][str(l3)]))
-        if len(x)<1:
-            print(str(device) + ", NO DATA TO PLOT ERROR: " + str(e))
-            return
-        print(x)
-        plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%a %b %d %H %M %S %Y'))
-        plt.gca().xaxis.set_major_locator(mdates.DayLocator())
-        plt.plot(x,y, linestyle='-', marker='o', label=device)
-    plt.grid()
-    plt.title(jplot['desc'])
-    plt.ylabel(jplot['ylabel'])
-    plt.xlabel("scans")
-    plt.xticks(rotation=80)
-    plt.legend()
-    plt.tight_layout()
-    plt.savefig(foldername + "/" + jplot['img_name'] + ".png", bbox_inches = "tight")
-    plt.clf()
