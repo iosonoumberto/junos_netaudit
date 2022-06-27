@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import yaml
 from datetime import datetime
 import matplotlib.dates as mdates
+import numpy as np
 
 def simple_line_specific(jplot, historic, foldername):
     dev_list=[]
