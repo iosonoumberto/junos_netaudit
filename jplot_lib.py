@@ -58,8 +58,8 @@ def simple_line_multi(jplot, historic, foldername):
         dev_list = historic.keys().copy()
 
     for device in dev_list:
-        x=[]
-        y=[]
+        x={}
+        y={}
         for scan in historic[device]:
             try:
                 fi=open(scan,'r')
@@ -70,24 +70,27 @@ def simple_line_multi(jplot, historic, foldername):
             l1=jplot['data'].split("->")[0]
             l3=jplot['data'].split("->")[1]
             for l2 in dev_data[str(l1)]:
+                if l2 not in x:
+                    x[l2]=[]
+                    y[l2]=[]
                 try:
                     float_verify=float(dev_data[str(l1)][l2][str(l3)])
                 except Exception as e:
                     print(str(device) + " SCAN: " + str(scan) + ", DATA EXTRACT ERROR: " + str(e))
-                    x.append(None)
-                    y.append(scan.split("/")[1].split("_audit_")[1].replace("_"," ")[:-5])
+                    x[l2].append(None)
+                    y[l2].append(scan.split("/")[1].split("_audit_")[1].replace("_"," ")[:-5])
                     continue
-                y.append(float(dev_data[str(l1)][l2][str(l3)]))
-                x.append(scan.split("/")[1].split("_audit_")[1].replace("_"," ")[:-5])
-
-        if len(x)<1:
-            print(str(device) + ", " + l2 + " NO DATA TO PLOT ERROR: " + device)
+                y[l2].append(float(dev_data[str(l1)][l2][str(l3)]))
+                x[l2].append(scan.split("/")[1].split("_audit_")[1].replace("_"," ")[:-5])
+        if len(x[l2])<1:
+            print(str(device) + ", " + l2 + " NO DATA TO PLOT ERROR")
             continue
-        xseries=numpy.array(x).astype(numpy.str)
-        yseries = numpy.array(y).astype(numpy.double)
-        mask = numpy.isfinite(yseries)
-        ypanda = pandas.Series(yseries, index=xseries)
-        plt.plot(ypanda.interpolate(), linestyle='-', marker='o', label=device, markevery=mask)
+        for elem in x:
+            xseries=numpy.array(x[elem]).astype(numpy.str)
+            yseries = numpy.array(y[elem]).astype(numpy.double)
+            mask = numpy.isfinite(yseries)
+            ypanda = pandas.Series(yseries, index=xseries)
+            plt.plot(ypanda.interpolate(), linestyle='-', marker='o', label=device, markevery=mask)
     plt.grid()
     plt.title(jplot['desc'])
     plt.ylabel(jplot['ylabel'])
