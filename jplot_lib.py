@@ -118,14 +118,15 @@ def compare_devices_specific(jplot, historic, foldername):
                 float_verify=float(dev_data[str(l1)][str(l2)][str(l3)])
             except Exception as e:
                 print(str(device) + " SCAN: " + str(scan) + ", DATA EXTRACT ERROR: " + str(e))
-                x.append(scan.split('/')[0][scan.split('/')[0].index('_')+1:].replace('_',' ' ))
+                x.append(datetime.strptime(scan.split('/')[0][scan.split('/')[0].index('_')+1:].replace('_',' ' ), '%a %b %d %H %M %S %Y'))
                 y.append(None)
                 continue
-            x.append(scan.split('/')[0][scan.split('/')[0].index('_')+1:].replace('_',' ' ))
+            x.append(datetime.strptime(scan.split('/')[0][scan.split('/')[0].index('_')+1:].replace('_',' ' ), '%a %b %d %H %M %S %Y'))
             y.append(float(dev_data[str(l1)][str(l2)][str(l3)]))
         if len(x)<1:
             print(str(device) + ", NO DATA TO PLOT ERROR: " + str(e))
             return
+        print(x)
         plt.plot(x,y, linestyle='-', marker='o', label=device)
     plt.grid()
     plt.title(jplot['desc'])
