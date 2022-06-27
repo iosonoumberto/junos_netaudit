@@ -90,7 +90,7 @@ def simple_line_multi(jplot, historic, foldername):
             yseries = numpy.array(y[elem]).astype(numpy.double)
             mask = numpy.isfinite(yseries)
             ypanda = pandas.Series(yseries, index=xseries)
-            plt.plot(ypanda.interpolate(), linestyle='-', marker='o', label=device, markevery=mask)
+            plt.plot(ypanda.interpolate(), linestyle='-', marker='o', label=elem, markevery=mask)
     plt.grid()
     plt.title(jplot['desc'])
     plt.ylabel(jplot['ylabel'])
