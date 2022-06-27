@@ -77,8 +77,8 @@ def simple_line_multi(jplot, historic, foldername):
                     x.append(None)
                     y.append(scan.split("/")[1].split("_audit_")[1].replace("_"," ")[:-5])
                     continue
-                    y.append(float(dev_data[str(l1)][l2][str(l3)]))
-                    x.append(scan.split("/")[1].split("_audit_")[1].replace("_"," ")[:-5])
+                y.append(float(dev_data[str(l1)][l2][str(l3)]))
+                x.append(scan.split("/")[1].split("_audit_")[1].replace("_"," ")[:-5])
 
         if len(x)<1:
             print(str(device) + ", " + l2 + " NO DATA TO PLOT ERROR: " + device)
