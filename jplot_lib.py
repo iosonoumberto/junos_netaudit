@@ -141,7 +141,7 @@ def compare_devices_specific(jplot, historic, foldername):
         print("Y")
         print(y)
         xrange=np.arange(len(timeline))
-        xseries = np.array(x).astype(np.double)
+        xseries = np.array(x).astype(np.str)
         xmask = np.isfinite(xseries)
         plt.plot(xrange[xmask],xseries[xmask], linestyle='-', marker='o', label=device)
     plt.grid()
