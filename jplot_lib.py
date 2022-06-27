@@ -102,7 +102,6 @@ def compare_devices_specific(jplot, historic, foldername):
 
     timeline=[]
     create_timeline(timeline,historic)
-    print(timeline)
 
     for device in dev_list:
         tmp_tl=timeline.copy()
@@ -140,10 +139,6 @@ def compare_devices_specific(jplot, historic, foldername):
         xseries=numpy.array(x).astype(numpy.str)
         yseries = numpy.array(y).astype(numpy.double)
         mask = numpy.isfinite(yseries)
-        print("X")
-        print(xseries)
-        print("Y")
-        print(yseries)
         #plt.plot(xseries[xmask],yseries[xmask], linestyle='-', marker='o', label=device)
         ypanda = pandas.Series(yseries, index=xseries)
         print(ypanda)
