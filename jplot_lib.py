@@ -2,7 +2,8 @@ import matplotlib.pyplot as plt
 import yaml
 from datetime import datetime
 import matplotlib.dates as mdates
-import numpy as np
+import numpy
+import panda
 
 def simple_line_specific(jplot, historic, foldername):
     dev_list=[]
@@ -136,14 +137,16 @@ def compare_devices_specific(jplot, historic, foldername):
         if len(x)<1:
             print(str(device) + ", NO DATA TO PLOT ERROR FOR DEVICE: " + device)
             continue
-        xseries=np.array(x).astype(np.str)
-        yseries = np.array(y).astype(np.double)
-        xmask = np.isfinite(yseries)
+        xseries=numpy.array(x).astype(numpy.str)
+        yseries = numpy.array(y).astype(numpy.double)
+        xmask = numpy.isfinite(yseries)
         print("X")
         print(xseries)
         print("Y")
         print(yseries)
-        plt.plot(xseries[xmask],yseries[xmask], linestyle='-', marker='o', label=device)
+        #plt.plot(xseries[xmask],yseries[xmask], linestyle='-', marker='o', label=device)
+        yserie = panda.Series(y, index=x)
+        plt.plot(yserie.dropna(), linestyle='-', marker='o', label=device)
     plt.grid()
     plt.title(jplot['desc'])
     plt.ylabel(jplot['ylabel'])
