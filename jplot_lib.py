@@ -140,6 +140,7 @@ def compare_devices_specific(jplot, historic, foldername):
             continue
         print(x)
         plt.plot(x,y, linestyle='-', marker='o', label=device)
+    print("6")
     plt.grid()
     plt.title(jplot['desc'])
     plt.ylabel(jplot['ylabel'])
