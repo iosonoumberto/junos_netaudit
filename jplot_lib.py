@@ -136,13 +136,13 @@ def compare_devices_specific(jplot, historic, foldername):
         if len(x)<1:
             print(str(device) + ", NO DATA TO PLOT ERROR FOR DEVICE: " + device)
             continue
-        print("X")
-        print(x)
-        print("Y")
-        print(y)
         xseries=np.array(x).astype(np.str)
         yseries = np.array(y).astype(np.double)
         xmask = np.isfinite(yseries)
+        print("X")
+        print(xrange)
+        print("Y")
+        print(yrange)
         plt.plot(xseries[xmask],yseries[xmask], linestyle='-', marker='o', label=device)
     plt.grid()
     plt.title(jplot['desc'])
