@@ -3,7 +3,7 @@ import yaml
 from datetime import datetime
 import matplotlib.dates as mdates
 import numpy
-import panda
+import pandas
 
 def simple_line_specific(jplot, historic, foldername):
     dev_list=[]
