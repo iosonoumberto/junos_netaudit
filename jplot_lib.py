@@ -127,6 +127,7 @@ def compare_devices_specific(jplot, historic, foldername):
                 print(str(device) + " SCAN: " + str(scan) + ", DATA EXTRACT ERROR: " + str(e))
                 x.append(scan.split('/')[0][scan.split('/')[0].index('_')+1:].replace('_',' ' ))
                 y.append(None)
+                tmp_tl.pop(0)
                 continue
             x.append(scan.split('/')[0][scan.split('/')[0].index('_')+1:].replace('_',' ' ))
             y.append(float(dev_data[str(l1)][str(l2)][str(l3)]))
