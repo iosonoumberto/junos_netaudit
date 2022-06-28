@@ -151,8 +151,8 @@ def compare_devices_specific(jplot, historic, foldername):
         plt.plot(ypanda.interpolate(), linestyle='-', marker='o', label=device, markevery=mask)
     if 'threshold' in jplot:
         thr = float(jplot['threshold'])
-        thr_x=[thr]* len(timeline)
-        plt.plot(thr_x, timeline, linestyle='dotted')
+        thr_y=[thr]* len(timeline)
+        plt.plot(timeline, thr_y, linestyle='dotted')
     plt.grid()
     plt.title(jplot['desc'])
     plt.ylabel(jplot['ylabel'])
