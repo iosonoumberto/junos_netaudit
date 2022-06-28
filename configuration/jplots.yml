@@ -15,3 +15,4 @@
   data: "pfe_trfstats->data->opps"
   test: "compare_devices_specific"
   ylabel: "PPS"
+  threshold: 8
