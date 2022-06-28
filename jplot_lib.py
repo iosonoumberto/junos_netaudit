@@ -152,7 +152,7 @@ def compare_devices_specific(jplot, historic, foldername):
     if 'threshold' in jplot:
         thr = float(jplot['threshold'])
         thr_x=[thr]* len(timeline)
-        plt.plot(thr_x, y, linestyle='dotted')
+        plt.plot(thr_x, timeline, linestyle='dotted')
     plt.grid()
     plt.title(jplot['desc'])
     plt.ylabel(jplot['ylabel'])
