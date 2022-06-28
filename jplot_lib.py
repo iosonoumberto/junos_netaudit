@@ -150,7 +150,7 @@ def compare_devices_specific(jplot, historic, foldername):
         ypanda = pandas.Series(yseries, index=xseries)
         plt.plot(ypanda.interpolate(), linestyle='-', marker='o', label=device, markevery=mask)
     if 'threshold' in jplot:
-        thr = float(jfloat['threshold'])
+        thr = float(float['threshold'])
         thr_x=[thr]* len(timeline)
         plt.plot(thr_x, y, linestyle='dotted')
     plt.grid()
