@@ -725,7 +725,7 @@ def sum_metric(scan, check):
             try:
                 tot+=float(res_dict[check['cmd']][tested]['tfield'])
             except Exception a e:
-                warn_text+="WARNING: basic stats - " + check['desc'] + " - could not extract value : " + str(res_dict[check['cmd']][tested]['tfield']) + " , device : " + res_dict['facts']['info']['hostname'] + "\n"
+                warn_text+="WARNING: sum metric - " + check['desc'] + " - could not extract value : " + str(res_dict[check['cmd']][tested]['tfield']) + " , device : " + res_dict['facts']['info']['hostname'] + "\n"
                 warn_text+="\t" + str(e) + "\n"
                 warn=1
         tot_dict[host]=tot
