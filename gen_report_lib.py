@@ -66,7 +66,7 @@ def validate_checks(checks):
             print("VALIDATION ERROR: check " + check['desc'] + " : cmd " + check['cmd'] + " not found in commands yaml file")
             valid=0
             continue
-        if check['test'] in ["string_equal","device_distribution","global_distribution","basic_stats","total_filtered", "all_equal_device", "good_values"]:
+        if check['test'] in ["string_equal","device_distribution","global_distribution","basic_stats","total_filtered", "all_equal_device", "good_values", "sum_metric"]:
             ftv=open('tableviews/'+check['cmd']+'.yaml', 'r')
             d=yaml.load(ftv, Loader=yaml.FullLoader)
             if check['tfield'] not in d[d[check['cmd']]['view']]['fields'].keys():
@@ -687,6 +687,51 @@ def good_values(scan, check):
     if bool(len(warn_text)):
         print(warn_text[:-1])
     text=print_failures(check['desc'], warn, failed, failed_detail, nodata, dev_skipped, warn_text)
+    return text
+
+def sum_metric(scan, check):
+    tot_dict={}
+    nodata=[]
+    dev_skipped=[]
+    warn=0
+    warn_text=""
+    results = os.listdir(scan)
+    results.pop(results.index('report.txt'))
+    for result in results:
+        try:
+            fr=open(scan+"/"+result,'r')
+            res_dict=json.load(fr)
+            fr.close()
+        except Exception as e:
+            warn_text+="ERROR: could not load device json output " + result + "\n"
+            warn_text+="ERROR: skipping device.\n"
+            warn_text+="\t" + str(e) + "\n"
+            dev_skipped.append(result)
+            warn=1
+            continue
+        if check['cmd'] not in res_dict:
+            print(check['cmd'] + " not found for this file " + result)
+            nodata.append(res_dict['facts']['info']['hostname'])
+            continue
+        if not res_dict[check['cmd']]:
+            nodata.append(res_dict['facts']['info']['hostname'])
+            continue
+        host=res_dict['facts']['info']['hostname']
+        tot=0
+        for tested in res_dict['cmd']:
+            if check['tfield'] not in res_dict[check['cmd']][tested]:
+                warn_text+="WARNING: total_filtered - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " - " + tested + " tfield not found " + str(check['tfield']) + ".\n"
+                continue
+            try:
+                tot+=float(res_dict[check['cmd']][tested]['tfield'])
+            except Exception a e:
+                warn_text+="WARNING: basic stats - " + check['desc'] + " - could not extract value : " + str(res_dict[check['cmd']][tested]['tfield']) + " , device : " + res_dict['facts']['info']['hostname'] + "\n"
+                warn_text+="\t" + str(e) + "\n"
+                warn=1
+        tot_dict[host]=tot
+    if bool(len(warn_text)):
+        print(warn_text[:-1])
+    text=print_dict(check['desc'], warn, tot_dict, nodata, dev_skipped, warn_text)
     return text
 
 ### PRINT FUNCTIONS
