@@ -718,13 +718,13 @@ def sum_metric(scan, check):
             continue
         host=res_dict['facts']['info']['hostname']
         tot=0
-        for tested in res_dict['cmd']:
+        for tested in res_dict[check['cmd']]:
             if check['tfield'] not in res_dict[check['cmd']][tested]:
                 warn_text+="WARNING: total_filtered - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " - " + tested + " tfield not found " + str(check['tfield']) + ".\n"
                 continue
             try:
                 tot+=float(res_dict[check['cmd']][tested]['tfield'])
-            except Exception a e:
+            except Exception as e:
                 warn_text+="WARNING: sum metric - " + check['desc'] + " - could not extract value : " + str(res_dict[check['cmd']][tested]['tfield']) + " , device : " + res_dict['facts']['info']['hostname'] + "\n"
                 warn_text+="\t" + str(e) + "\n"
                 warn=1
