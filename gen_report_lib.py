@@ -723,9 +723,9 @@ def sum_metric(scan, check):
                 warn_text+="WARNING: total_filtered - " + check['desc'] + " - " + res_dict['facts']['info']['hostname'] + " - " + tested + " tfield not found " + str(check['tfield']) + ".\n"
                 continue
             try:
-                tot+=float(res_dict[check['cmd']][tested]['tfield'])
+                tot+=float(res_dict[check['cmd']][tested][check['tfield']])
             except Exception as e:
-                warn_text+="WARNING: sum metric - " + check['desc'] + " - could not extract value : " + str(res_dict[check['cmd']][tested]['tfield']) + " , device : " + res_dict['facts']['info']['hostname'] + "\n"
+                warn_text+="WARNING: sum metric - " + check['desc'] + " - could not extract value : " + str(res_dict[check['cmd']][tested][check['tfield']]) + " , device : " + res_dict['facts']['info']['hostname'] + "\n"
                 warn_text+="\t" + str(e) + "\n"
                 warn=1
         tot_dict[host]=tot
